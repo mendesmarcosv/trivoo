@@ -439,7 +439,43 @@ html, body {
 .section-header h3 { font-size: 22px; font-weight: 600; color: var(--ink-800); }
 .see-all { color: var(--brand-500); font-size: 14px; font-weight: 600; text-decoration: none; }
 
+/* Documento sem scroll lateral */
+html, body { overflow-x: hidden; }
+
+/* Carrossel - container e navegação */
+.carousel { position: relative; }
+.carousel .viewport { position: relative; }
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px; height: 40px;
+  border-radius: 9999px;
+  border: none;
+  background: rgba(28,28,28,0.6);
+  color: #fff;
+  display: grid; place-items: center;
+  cursor: pointer;
+  z-index: 5;
+  transition: opacity .2s ease;
+}
+.carousel-btn:hover { opacity: .9; }
+.carousel-btn.prev { left: -12px; }
+.carousel-btn.next { right: -12px; }
+
+/* Ocultar barras de rolagem nos tracks */
+.cards-row,
+.teacher-grid,
+.event-row { scrollbar-width: none; -ms-overflow-style: none; }
+.cards-row::-webkit-scrollbar,
+.teacher-grid::-webkit-scrollbar,
+.event-row::-webkit-scrollbar { display: none; }
+
+/* Tracks horizontais */
 .cards-row { display: grid; grid-auto-flow: column; grid-auto-columns: 260px; gap: 24px; overflow-x: auto; padding-bottom: 6px; }
+.teacher-grid { display: grid; grid-auto-flow: column; grid-auto-columns: 199px; gap: 16px; overflow-x: auto; padding-bottom: 6px; }
+.event-row { display: grid; grid-auto-flow: column; grid-auto-columns: 239px; gap: 16px; overflow-x: auto; padding-bottom: 6px; }
+
 .club-card { position: relative; height: 196px; border-radius: 16px; overflow: hidden; padding: 16px; display: flex; flex-direction: column; justify-content: flex-end; }
 .card-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; top: -14px; }
 .overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0) 47%, black 100%); }
@@ -449,7 +485,6 @@ html, body {
 .card-body h4 { color: #fff; font-size: 16px; font-weight: 600; letter-spacing: 0.08px; }
 
 /* Teachers */
-.teacher-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(199px, 1fr)); gap: 16px; }
 .teacher-card { background: var(--panel); border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 16px; }
 .teacher-head { display: flex; flex-direction: column; gap: 12px; }
 .profile { display: flex; align-items: center; justify-content: space-between; }
@@ -462,7 +497,6 @@ html, body {
 .teacher-footer i { color: var(--ink-600); }
 
 /* Events */
-.event-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(239px, 1fr)); gap: 16px; }
 .event-card { display: flex; flex-direction: column; gap: 8px; }
 .thumb { height: 134px; border-radius: 12px; overflow: hidden; background: #5E5E5E; }
 .thumb img { width: 100%; height: 100%; object-fit: cover; }
