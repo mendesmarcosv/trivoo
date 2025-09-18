@@ -1,112 +1,497 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trivoo - Sua Plataforma</title>
-    <link rel="stylesheet" href="assets/css/styles.css">
-    <link rel="stylesheet" href="assets/css/responsive.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trivoo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="stylesheet" href="assets/css/responsive.css">
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <nav class="navbar">
-            <div class="nav-brand">
-                <h1>Trivoo</h1>
-            </div>
-            <ul class="nav-menu">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">Sobre</a></li>
-                <li><a href="#features">Funcionalidades</a></li>
-                <li><a href="#contact">Contato</a></li>
-            </ul>
-            <div class="nav-actions">
-                <button class="btn btn-secondary" id="loginBtn">Entrar</button>
-                <button class="btn btn-primary" id="signupBtn">Cadastrar</button>
-            </div>
-        </nav>
-    </header>
+  <div class="layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-inner">
+        <div class="sidebar-top">
+          <div class="brand">
+            <span class="brand-logo">Trivoo</span>
+          </div>
 
-    <!-- Main Content -->
-    <main>
-        <!-- Hero Section -->
-        <section id="home" class="hero">
-            <div class="hero-content">
-                <h1 class="hero-title">Bem-vindo ao Trivoo</h1>
-                <p class="hero-subtitle">Sua plataforma completa para gerenciamento e organização</p>
-                <div class="hero-actions">
-                    <button class="btn btn-primary btn-lg">Começar Agora</button>
-                    <button class="btn btn-secondary btn-lg">Saiba Mais</button>
-                </div>
-            </div>
-        </section>
-
-        <!-- About Section -->
-        <section id="about" class="about">
-            <div class="container">
-                <h2>Sobre Nós</h2>
-                <p>Descrição do projeto e suas funcionalidades principais.</p>
-            </div>
-        </section>
-
-        <!-- Features Section -->
-        <section id="features" class="features">
-            <div class="container">
-                <h2>Funcionalidades</h2>
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <i class="fas fa-rocket"></i>
-                        <h3>Rápido</h3>
-                        <p>Desempenho otimizado para máxima velocidade.</p>
-                    </div>
-                    <div class="feature-card">
-                        <i class="fas fa-shield-alt"></i>
-                        <h3>Seguro</h3>
-                        <p>Seus dados sempre protegidos e seguros.</p>
-                    </div>
-                    <div class="feature-card">
-                        <i class="fas fa-mobile-alt"></i>
-                        <h3>Responsivo</h3>
-                        <p>Funciona perfeitamente em todos os dispositivos.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Contact Section -->
-        <section id="contact" class="contact">
-            <div class="container">
-                <h2>Entre em Contato</h2>
-                <form class="contact-form" id="contactForm">
-                    <div class="form-group">
-                        <input type="text" id="name" placeholder="Seu Nome" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="email" id="email" placeholder="Seu Email" required>
-                    </div>
-                    <div class="form-group">
-                        <textarea id="message" placeholder="Sua Mensagem" required></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Enviar Mensagem</button>
-                </form>
-            </div>
-        </section>
-    </main>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2024 Trivoo. Todos os direitos reservados.</p>
+          <nav class="menu">
+            <a class="menu-item is-active" href="#">
+              <i class="fa-solid fa-house"></i>
+              <span>Home</span>
+              <span class="active-pill" aria-hidden="true"></span>
+            </a>
+            <a class="menu-item" href="#explorar">
+              <i class="fa-regular fa-compass"></i>
+              <span>Explorar</span>
+            </a>
+            <a class="menu-item" href="#mapa">
+              <i class="fa-regular fa-map"></i>
+              <span>Mapa</span>
+            </a>
+            <a class="menu-item" href="#perfil">
+              <i class="fa-regular fa-user"></i>
+              <span>Meu Perfil</span>
+            </a>
+            <a class="menu-item" href="#assistente">
+              <i class="fa-solid fa-robot"></i>
+              <span>Assistente IA</span>
+            </a>
+          </nav>
         </div>
-    </footer>
 
-    <!-- Scripts -->
-    <script src="https://js.supabase.com/v1/supabase.js"></script>
-    <script src="assets/js/config.js"></script>
-    <script src="assets/js/app.js"></script>
-    <script src="assets/js/auth.js"></script>
-    <script src="assets/js/forms.js"></script>
+        <div class="sidebar-bottom">
+          <div class="divider"></div>
+          <button class="menu-item signout" type="button">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>Sair</span>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Content -->
+    <main class="content">
+      <!-- Location chip -->
+      <div class="toolbar">
+        <button class="chip chip-filled" type="button">
+          <span class="chip-icon"><i class="fa-solid fa-location-dot"></i></span>
+          <span class="chip-text">Niterói</span>
+          <i class="fa-solid fa-chevron-down chevron"></i>
+        </button>
+      </div>
+
+      <!-- Greeting + Promo -->
+      <section class="greeting-and-promo">
+        <div class="greeting">
+          <div class="hello">
+            <div class="avatar">
+              <img src="https://placehold.co/96x96" alt="Avatar" />
+            </div>
+            <h1 class="hello-title">Olá, {{user}}!</h1>
+          </div>
+
+          <div class="interests">
+            <div class="interests-title">
+              <span>Esportes de interesse</span>
+              <button class="icon-btn" type="button" aria-label="editar interesses">
+                <i class="fa-regular fa-pen-to-square"></i>
+              </button>
+            </div>
+            <div class="chips">
+              <span class="chip">Escalada indoor</span>
+              <span class="chip">Orientação</span>
+              <span class="chip">Biribol</span>
+              <span class="chip">Ultimate Frisbee</span>
+            </div>
+          </div>
+        </div>
+
+        <aside class="promo-card">
+          <h2>Seu próximo esporte<br>está a um swipe</h2>
+          <p>Faça o teste e descubra um novo esporte<br>que combine com você</p>
+          <img class="promo-figure" src="https://placehold.co/244x244" alt="Ilustração" />
+        </aside>
+      </section>
+
+      <!-- Clubs & Training Centers -->
+      <section class="section">
+        <div class="section-header">
+          <h3>Clubes & Centros de Treinamentos</h3>
+          <a href="#" class="see-all">Ver todos</a>
+        </div>
+
+        <div class="cards-row">
+          <!-- Card item -->
+          <article class="club-card">
+            <img class="card-bg" src="https://placehold.co/260x260" alt="Centro Horizonte" />
+            <div class="overlay"></div>
+            <div class="card-top">
+              <span class="chip glass">~9 km</span>
+            </div>
+            <div class="card-body">
+              <h4>Centro Horizonte</h4>
+              <div class="chips">
+                <span class="chip glass">Goalball</span>
+                <span class="chip glass">Bocha paralímpica</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="club-card">
+            <img class="card-bg" src="https://placehold.co/262x262" alt="Boulder Lab" />
+            <div class="overlay"></div>
+            <div class="card-top">
+              <span class="chip glass">~11 km</span>
+            </div>
+            <div class="card-body">
+              <h4>Boulder Lab</h4>
+              <div class="chips">
+                <span class="chip glass">Escalada indoor</span>
+                <span class="chip glass">Slackline</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="club-card">
+            <img class="card-bg" src="https://placehold.co/286x286" alt="KinBall & Floorball Hub" />
+            <div class="overlay"></div>
+            <div class="card-top">
+              <span class="chip glass">~4 km</span>
+            </div>
+            <div class="card-body">
+              <h4>KinBall & Floorball Hub</h4>
+              <div class="chips">
+                <span class="chip glass">Kin-Ball</span>
+                <span class="chip glass">Floorball</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="club-card">
+            <img class="card-bg" src="https://placehold.co/260x260" alt="Campo Verde Footgolf" />
+            <div class="overlay"></div>
+            <div class="card-top">
+              <span class="chip glass">~28 km</span>
+            </div>
+            <div class="card-body">
+              <h4>Campo Verde Footgolf</h4>
+              <div class="chips">
+                <span class="chip glass">Footgolf</span>
+                <span class="chip glass">Ultimate Frisbee</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="club-card">
+            <img class="card-bg" src="https://placehold.co/260x260" alt="Biribol & Natação" />
+            <div class="overlay tint"></div>
+            <div class="card-top">
+              <span class="chip glass">~15 km</span>
+            </div>
+            <div class="card-body">
+              <h4>Biribol & Natação Adaptada São Francisco</h4>
+              <div class="chips">
+                <span class="chip glass">Biribol</span>
+                <span class="chip glass">Natação Adaptada</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="club-card">
+            <img class="card-bg" src="https://placehold.co/260x260" alt="Tamboréu Praia Clube" />
+            <div class="overlay tint"></div>
+            <div class="card-top">
+              <span class="chip glass">~16 km</span>
+            </div>
+            <div class="card-body">
+              <h4>Tamboréu Praia Clube</h4>
+              <div class="chips">
+                <span class="chip glass">Tamboréu</span>
+                <span class="chip glass">Beach Ultimate</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="club-card">
+            <img class="card-bg" src="https://placehold.co/260x260" alt="Hangar 101" />
+            <div class="overlay tint"></div>
+            <div class="card-top">
+              <span class="chip glass">~24 km</span>
+            </div>
+            <div class="card-body">
+              <h4>Hangar 101</h4>
+              <div class="chips">
+                <span class="chip glass">Corrida de Drone</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Professores recomendados -->
+      <section class="section">
+        <div class="section-header">
+          <h3>Professores recomendados</h3>
+          <a href="#" class="see-all">Ver todos</a>
+        </div>
+
+        <div class="teacher-grid">
+          <!-- Card professor (exemplo) -->
+          <article class="teacher-card">
+            <header class="teacher-head">
+              <div class="profile">
+                <img class="avatar-sm" src="https://placehold.co/32x32" alt="Victor" />
+                <div class="rating"><strong>4.9</strong><span>/5</span><i class="fa-solid fa-star"></i></div>
+              </div>
+              <h4>Victor Nascimento</h4>
+              <span class="chip chip-grey">Tamboréu</span>
+            </header>
+            <footer class="teacher-footer">
+              <i class="fa-solid fa-location-dot"></i>
+              <span>Praia de Charitas</span>
+            </footer>
+          </article>
+
+          <article class="teacher-card">
+            <header class="teacher-head">
+              <div class="profile">
+                <img class="avatar-sm" src="https://placehold.co/32x32" alt="Helena" />
+                <div class="rating"><strong>4.7</strong><span>/5</span><i class="fa-solid fa-star"></i></div>
+              </div>
+              <h4>Helena Moraes</h4>
+              <span class="chip chip-grey">Tamboréu</span>
+            </header>
+            <footer class="teacher-footer">
+              <i class="fa-solid fa-location-dot"></i>
+              <span>Sala de Esgrima São Domingos</span>
+            </footer>
+          </article>
+
+          <article class="teacher-card">
+            <header class="teacher-head">
+              <div class="profile">
+                <img class="avatar-sm" src="https://placehold.co/32x32" alt="Lucas" />
+                <div class="rating"><strong>4.4</strong><span>/5</span><i class="fa-solid fa-star"></i></div>
+              </div>
+              <h4>Lucas Prado</h4>
+              <span class="chip chip-grey">Tamboréu</span>
+            </header>
+            <footer class="teacher-footer">
+              <i class="fa-solid fa-location-dot"></i>
+              <span>Escadarias do Ingá</span>
+            </footer>
+          </article>
+
+          <article class="teacher-card">
+            <header class="teacher-head">
+              <div class="profile">
+                <img class="avatar-sm" src="https://placehold.co/32x32" alt="Ana" />
+                <div class="rating"><strong>4.6</strong><span>/5</span><i class="fa-solid fa-star"></i></div>
+              </div>
+              <h4>Ana Bechara</h4>
+              <span class="chip chip-grey">Tamboréu</span>
+            </header>
+            <footer class="teacher-footer">
+              <i class="fa-solid fa-location-dot"></i>
+              <span>Orla da Boa Viagem</span>
+            </footer>
+          </article>
+
+          <article class="teacher-card">
+            <header class="teacher-head">
+              <div class="profile">
+                <img class="avatar-sm" src="https://placehold.co/32x32" alt="Mateus" />
+                <div class="rating"><strong>4.5</strong><span>/5</span><i class="fa-solid fa-star"></i></div>
+              </div>
+              <h4>Mateus Furlan</h4>
+              <span class="chip chip-grey">Tamboréu</span>
+            </header>
+            <footer class="teacher-footer">
+              <i class="fa-solid fa-location-dot"></i>
+              <span>Complexo Aquático Pendotiba</span>
+            </footer>
+          </article>
+
+          <article class="teacher-card">
+            <header class="teacher-head">
+              <div class="profile">
+                <img class="avatar-sm" src="https://placehold.co/32x32" alt="Clarice" />
+                <div class="rating"><strong>4.8</strong><span>/5</span><i class="fa-solid fa-star"></i></div>
+              </div>
+              <h4>Clarice Neri</h4>
+              <span class="chip chip-grey">Tamboréu</span>
+            </header>
+            <footer class="teacher-footer">
+              <i class="fa-solid fa-location-dot"></i>
+              <span>Arena de Squash Santa Rosa</span>
+            </footer>
+          </article>
+
+          <article class="teacher-card">
+            <header class="teacher-head">
+              <div class="profile">
+                <img class="avatar-sm" src="https://placehold.co/32x32" alt="Rogério" />
+                <div class="rating"><strong>4.3</strong><span>/5</span><i class="fa-solid fa-star"></i></div>
+              </div>
+              <h4>Rogério Saito</h4>
+              <span class="chip">Tamboréu</span>
+            </header>
+            <footer class="teacher-footer">
+              <i class="fa-solid fa-location-dot"></i>
+              <span>Centro de Treino Várzea das Moças</span>
+            </footer>
+          </article>
+
+          <article class="teacher-card">
+            <header class="teacher-head">
+              <div class="profile">
+                <img class="avatar-sm" src="https://placehold.co/32x32" alt="Naomi" />
+                <div class="rating"><strong>4.9</strong><span>/5</span><i class="fa-solid fa-star"></i></div>
+              </div>
+              <h4>Naomi Tanaka</h4>
+              <span class="chip">Tamboréu</span>
+            </header>
+            <footer class="teacher-footer">
+              <i class="fa-solid fa-location-dot"></i>
+              <span>Ginásio São Domingos</span>
+            </footer>
+          </article>
+
+          <article class="teacher-card">
+            <header class="teacher-head">
+              <div class="profile">
+                <img class="avatar-sm" src="https://placehold.co/32x32" alt="Gabriel" />
+                <div class="rating"><strong>4.2</strong><span>/5</span><i class="fa-solid fa-star"></i></div>
+              </div>
+              <h4>Gabriel Mitter</h4>
+              <span class="chip">Tamboréu</span>
+            </header>
+            <footer class="teacher-footer">
+              <i class="fa-solid fa-location-dot"></i>
+              <span>Campo Caio Martins</span>
+            </footer>
+          </article>
+
+          <article class="teacher-card">
+            <header class="teacher-head">
+              <div class="profile">
+                <img class="avatar-sm" src="https://placehold.co/32x32" alt="Yara" />
+                <div class="rating"><strong>4.5</strong><span>/5</span><i class="fa-solid fa-star"></i></div>
+              </div>
+              <h4>Yara Potiguara</h4>
+              <span class="chip">Tamboréu</span>
+            </header>
+            <footer class="teacher-footer">
+              <i class="fa-solid fa-location-dot"></i>
+              <span>Área Verde Maria Paula</span>
+            </footer>
+          </article>
+
+          <article class="teacher-card">
+            <header class="teacher-head">
+              <div class="profile">
+                <img class="avatar-sm" src="https://placehold.co/32x32" alt="Bruno" />
+                <div class="rating"><strong>4.6</strong><span>/5</span><i class="fa-solid fa-star"></i></div>
+              </div>
+              <h4>Bruno Dantas</h4>
+              <span class="chip">Tamboréu</span>
+            </header>
+            <footer class="teacher-footer">
+              <i class="fa-solid fa-location-dot"></i>
+              <span>Climb House Pendotiba</span>
+            </footer>
+          </article>
+        </div>
+      </section>
+
+      <!-- Eventos por perto -->
+      <section class="section">
+        <div class="section-header">
+          <h3>Eventos por perto</h3>
+          <a href="#" class="see-all">Ver todos</a>
+        </div>
+
+        <div class="event-row">
+          <article class="event-card">
+            <div class="thumb"><img src="https://placehold.co/239x135" alt="Evento" /></div>
+            <div class="event-body">
+              <h4>Trilha de Orientação Camboinhas</h4>
+              <div class="event-meta"><i class="fa-solid fa-location-dot"></i><span>Parque Estadual da Serra da Tiririca (acesso Camboinhas)</span></div>
+              <div class="event-meta"><i class="fa-regular fa-calendar"></i><span>Sábado, 14 de Out às 08:30</span></div>
+            </div>
+          </article>
+
+          <article class="event-card">
+            <div class="thumb"><img src="https://placehold.co/239x135" alt="Evento" /></div>
+            <div class="event-body">
+              <h4>Night Parkour Meetup</h4>
+              <div class="event-meta"><i class="fa-solid fa-location-dot"></i><span>Esplanada do Caminho Niemeyer</span></div>
+              <div class="event-meta"><i class="fa-regular fa-calendar"></i><span>Quinta, 09 de Out às 19:00</span></div>
+            </div>
+          </article>
+
+          <article class="event-card">
+            <div class="thumb"><img src="https://placehold.co/239x135" alt="Evento" /></div>
+            <div class="event-body">
+              <h4>Korfebol Aberto da Baía</h4>
+              <div class="event-meta"><i class="fa-solid fa-location-dot"></i><span>Quadra Poliesportiva São Lourenço</span></div>
+              <div class="event-meta"><i class="fa-regular fa-calendar"></i><span>Sábado, 18 de Out às 09:00</span></div>
+            </div>
+          </article>
+
+          <article class="event-card">
+            <div class="thumb"><img src="https://placehold.co/239x135" alt="Evento" /></div>
+            <div class="event-body">
+              <h4>Circuito Inclusivo - Bocha na Praça</h4>
+              <div class="event-meta"><i class="fa-solid fa-location-dot"></i><span>Praça Estephânia de Carvalho</span></div>
+              <div class="event-meta"><i class="fa-regular fa-calendar"></i><span>Terça, 25 de Out às 15:00</span></div>
+            </div>
+          </article>
+
+          <article class="event-card">
+            <div class="thumb"><img src="https://placehold.co/239x135" alt="Evento" /></div>
+            <div class="event-body">
+              <h4>Open de Esgrima — Iniciação & Amistoso</h4>
+              <div class="event-meta"><i class="fa-solid fa-location-dot"></i><span>Sala de Esgrima São Domingos</span></div>
+              <div class="event-meta"><i class="fa-regular fa-calendar"></i><span>Sábado, 01 de Nov às 20:00</span></div>
+            </div>
+          </article>
+
+          <article class="event-card">
+            <div class="thumb"><img src="https://placehold.co/239x135" alt="Evento" /></div>
+            <div class="event-body">
+              <h4>Slackline Festival  - Lagoa de Piratininga</h4>
+              <div class="event-meta"><i class="fa-solid fa-location-dot"></i><span>Gramado central da Lagoa de Piratininga</span></div>
+              <div class="event-meta"><i class="fa-regular fa-calendar"></i><span>Sábado, 08 de Nov às 08:30</span></div>
+            </div>
+          </article>
+
+          <article class="event-card">
+            <div class="thumb"><img src="https://placehold.co/239x135" alt="Evento" /></div>
+            <div class="event-body">
+              <h4>Patins Street Jam — Neves</h4>
+              <div class="event-meta"><i class="fa-solid fa-location-dot"></i><span>Praça do Skate em Neves</span></div>
+              <div class="event-meta"><i class="fa-regular fa-calendar"></i><span>Domingo, 16 de Nov às 09:30</span></div>
+            </div>
+          </article>
+
+          <article class="event-card">
+            <div class="thumb"><img src="https://placehold.co/239x135" alt="Evento" /></div>
+            <div class="event-body">
+              <h4>Clínica de Polo Aquático — Iniciantes</h4>
+              <div class="event-meta"><i class="fa-solid fa-location-dot"></i><span>Parque Aquático Santa Rosa</span></div>
+              <div class="event-meta"><i class="fa-regular fa-calendar"></i><span>Sábado, 22 de Nov às 09:30</span></div>
+            </div>
+          </article>
+
+          <article class="event-card">
+            <div class="thumb"><img src="https://placehold.co/239x135" alt="Evento" /></div>
+            <div class="event-body">
+              <h4>Lacrosse Day — Amistoso Misto</h4>
+              <div class="event-meta"><i class="fa-solid fa-location-dot"></i><span>Campo do Clube Ponta D’Areia</span></div>
+              <div class="event-meta"><i class="fa-regular fa-calendar"></i><span>Sábado, 29 de Nov às 09:30</span></div>
+            </div>
+          </article>
+
+          <article class="event-card">
+            <div class="thumb"><img src="https://placehold.co/239x135" alt="Evento" /></div>
+            <div class="event-body">
+              <h4>Footgolf Aberto da Restinga</h4>
+              <div class="event-meta"><i class="fa-solid fa-location-dot"></i><span>Área de Lazer de Itaipuaçu</span></div>
+              <div class="event-meta"><i class="fa-regular fa-calendar"></i><span>Sábado, 06 de Dez às 08:00</span></div>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Scripts opcionais do projeto -->
+  <script src="assets/js/app.js"></script>
 </body>
 </html>
