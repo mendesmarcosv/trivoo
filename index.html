@@ -6,6 +6,49 @@
   <title>Trivoo</title>
   <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <!-- Tailwind (CDN) configurado para não aplicar Preflight e usar nosso tema -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      corePlugins: { preflight: false },
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Raleway', 'ui-sans-serif', 'system-ui'] },
+          colors: {
+            bg: '#F7F7F7',
+            panel: '#ECECEC',
+            white: '#FCFCFC',
+            ink: {
+              900: '#1D1D1D',
+              800: '#3B3B3B',
+              700: '#5F5F5F',
+              600: '#8B8B8B'
+            },
+            brand: {
+              600: '#4C5E18',
+              500: '#758A25'
+            },
+            lime: { accent: '#D5FB43' }
+          },
+          borderRadius: { lg: '16px', md: '12px' },
+          boxShadow: { card: '0 10px 30px rgba(0,0,0,0.10)' }
+        }
+      }
+    }
+  </script>
+  <style type="text/tailwindcss">
+    @layer base {
+      body { @apply font-sans bg-[color:var(--bg)] text-[color:var(--ink-800)]; }
+    }
+    /* Utilidades compatíveis com as classes existentes (não altera o visual atual) */
+    @layer components {
+      .chip { @apply inline-flex items-center rounded-md text-xs font-medium gap-2; }
+      .chip-filled { @apply rounded-xl; }
+      .teacher-card { @apply rounded-2xl; }
+      .club-card { @apply rounded-2xl; }
+      .event-card .thumb { @apply rounded-xl; }
+    }
+  </style>
   <link rel="stylesheet" href="assets/css/styles.css">
   <link rel="stylesheet" href="assets/css/responsive.css">
 </head>
