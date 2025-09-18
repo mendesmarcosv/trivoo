@@ -143,7 +143,7 @@ body {
 
 /* Seções */
 section {
-    padding: 80px 0;
+    padding: 0;
 }
 
 .about, .features, .contact {
@@ -400,11 +400,30 @@ html, body {
 }
 .sidebar-bottom { padding: 0 24px; display: flex; flex-direction: column; gap: 24px; }
 .divider { height: 1px; background: #E0E0E0; width: 100%; }
-.menu-item.signout { color: #5F5F5F; width: 100%; text-align: left; }
-.menu-item.signout i { color: #5F5F5F; }
+
+/* Reset do botão Sair para parecer com itens do menu */
+.menu-item.signout {
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 0 0px;
+  height: 40px;
+  display: grid;
+  grid-template-columns: 24px 1fr auto;
+  align-items: center;
+  gap: 8px;
+  color: #5F5F5F;
+  width: 100%;
+  text-align: left;
+  border-radius: 0;
+  box-shadow: none;
+}
+.menu-item.signout:focus { outline: none; box-shadow: none; }
+.menu-item.signout:hover { background: transparent; color: #4C5E18; }
+.menu-item.signout i { color: currentColor; }
 
 /* Content */
-.content { padding: 56px 40px; display: flex; flex-direction: column; gap: 40px; }
+.content { padding: 56px 0; display: flex; flex-direction: column; gap: 64px; }
 .toolbar { display: flex; }
 
 /* Chips */
@@ -440,43 +459,43 @@ html, body {
 .see-all { color: var(--brand-500); font-size: 14px; font-weight: 600; text-decoration: none; }
 
 /* Documento sem scroll lateral */
-html, body { overflow-x: hidden; }
+html, body { overflow-x: visible; }
 
-/* Carrossel - container e navegação */
-.carousel { position: relative; }
-.carousel .viewport { position: relative; }
-.carousel-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 40px; height: 40px;
-  border-radius: 9999px;
-  border: none;
-  background: rgba(28,28,28,0.6);
-  color: #fff;
-  display: grid; place-items: center;
-  cursor: pointer;
-  z-index: 5;
-  transition: opacity .2s ease;
+/* Swiper customização */
+.swiper { position: relative; width: 100%; padding: 0; }
+.swiper-slide { width: auto !important; }
+
+/* Normalize Swiper container alignment */
+.swiper { margin-left: 0 !important; }
+
+/* Botões de navegação customizados */
+.swiper-button-next,
+.swiper-button-prev {
+  width: 40px !important;
+  height: 40px !important;
+  margin-top: -20px !important;
+  background: rgba(28,28,28,0.7) !important;
+  border-radius: 50% !important;
+  color: white !important;
+  font-size: 16px !important;
+  transition: all 0.2s ease !important;
+  z-index: 20 !important;
 }
-.carousel-btn:hover { opacity: .9; }
-.carousel-btn.prev { left: -12px; }
-.carousel-btn.next { right: -12px; }
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  background: rgba(28,28,28,0.9) !important;
+}
+.swiper-button-next::after,
+.swiper-button-prev::after { display: none !important; }
+.swiper-button-next { right: 8px !important; }
+.swiper-button-prev { left: 8px !important; }
 
-/* Ocultar barras de rolagem nos tracks */
-.cards-row,
-.teacher-grid,
-.event-row { scrollbar-width: none; -ms-overflow-style: none; }
-.cards-row::-webkit-scrollbar,
-.teacher-grid::-webkit-scrollbar,
-.event-row::-webkit-scrollbar { display: none; }
+/* Slides fixos */
+.clubs-swiper .swiper-slide { width: 260px !important; }
+.teachers-swiper .swiper-slide { width: 199px !important; }
+.events-swiper .swiper-slide { width: 239px !important; }
 
-/* Tracks horizontais */
-.cards-row { display: grid; grid-auto-flow: column; grid-auto-columns: 260px; gap: 24px; overflow-x: auto; padding-bottom: 6px; }
-.teacher-grid { display: grid; grid-auto-flow: column; grid-auto-columns: 199px; gap: 16px; overflow-x: auto; padding-bottom: 6px; }
-.event-row { display: grid; grid-auto-flow: column; grid-auto-columns: 239px; gap: 16px; overflow-x: auto; padding-bottom: 6px; }
-
-.club-card { position: relative; height: 196px; border-radius: 16px; overflow: hidden; padding: 16px; display: flex; flex-direction: column; justify-content: flex-end; }
+.club-card { position: relative; height: 196px; border-radius: 16px; overflow: hidden; padding: 16px; display: flex; flex-direction: column; justify-content: space-between; }
 .card-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; top: -14px; }
 .overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0) 47%, black 100%); }
 .overlay.tint { background: linear-gradient(180deg, rgba(0,0,0,0) 0%, #465800 100%); }
@@ -485,13 +504,13 @@ html, body { overflow-x: hidden; }
 .card-body h4 { color: #fff; font-size: 16px; font-weight: 600; letter-spacing: 0.08px; }
 
 /* Teachers */
-.teacher-card { background: var(--panel); border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 16px; }
+.teacher-card { background: var(--panel); border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 24px; }
 .teacher-head { display: flex; flex-direction: column; gap: 12px; }
 .profile { display: flex; align-items: center; justify-content: space-between; }
-.avatar-sm { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; }
+.avatar-sm { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
 .rating { display: inline-flex; align-items: center; gap: 4px; color: var(--ink-800); font-size: 12px; font-weight: 600; }
 .rating span { color: var(--ink-600); }
-.rating i { color: #FFD400; font-size: 12px; }
+.rating i { color: #FFD400; font-size: 16px; }
 .teacher-card h4 { font-size: 16px; font-weight: 500; color: var(--ink-800); }
 .teacher-footer { display: flex; align-items: center; gap: 6px; color: var(--ink-700); font-size: 12px; }
 .teacher-footer i { color: var(--ink-600); }
@@ -501,9 +520,9 @@ html, body { overflow-x: hidden; }
 .thumb { height: 134px; border-radius: 12px; overflow: hidden; background: #5E5E5E; }
 .thumb img { width: 100%; height: 100%; object-fit: cover; }
 .event-body { display: flex; flex-direction: column; gap: 6px; padding: 12px 0 16px; }
-.event-body h4 { font-size: 16px; font-weight: 500; color: var(--ink-800); }
-.event-meta { display: flex; align-items: center; gap: 6px; color: var(--ink-700); font-size: 12px; }
-.event-meta i { color: var(--ink-600); }
+.event-body h4 { font-size: 16px; font-weight: 500; color: var(--ink-800); margin-bottom: 6px; }
+.event-meta { display: flex; align-items: top; gap: 6px; color: var(--ink-700); font-size: 12px; }
+.event-meta i { color: var(--ink-600); margin-top: 2px; }
 
 /* Responsive tweaks */
 @media (max-width: 1200px) {
@@ -515,3 +534,104 @@ html, body { overflow-x: hidden; }
   .layout { grid-template-columns: 1fr; }
   .sidebar { position: relative; height: auto; }
 }
+
+/* Conter overflow horizontal apenas no conteúdo */
+.content { overflow-x: hidden; }
+
+/* Swiper navegação: espaço para setas dentro do container */
+.section .swiper { padding-right: 56px; }
+
+/* Evitar que slides forcem largura além do container */
+.clubs-swiper .swiper-wrapper,
+.teachers-swiper .swiper-wrapper,
+.events-swiper .swiper-wrapper { box-sizing: border-box; }
+
+/* Promo banner fix */
+.promo-card { max-width: 100%; }
+.promo-card .promo-figure { max-width: 244px; width: 244px; }
+
+:root { --fade-edge: 56px; --card-h: 220px; }
+
+/* Fade nas bordas cobrindo toda a tela (por trás da sidebar) */
+.section { position: relative; }
+.section::after {
+  content: "";
+  position: absolute;
+  top: 0; bottom: 0;
+  left: calc((100% - 100vw) / 2);
+  width: 100vw;
+  pointer-events: none;
+  background: linear-gradient(to right, var(--bg) 0, rgba(247,247,247,0) var(--fade-edge), rgba(247,247,247,0) calc(100% - var(--fade-edge)), var(--bg) 100%);
+  z-index: 1;
+}
+.section .swiper { position: relative; z-index: 2; }
+
+/* Remover mask anterior */
+.section .swiper { -webkit-mask-image: none; mask-image: none; padding-left: 0; padding-right: 56px; }
+
+/* Alinhamento do endereço (linha inferior do card) */
+.teacher-footer { align-items: flex-start; }
+.teacher-footer i { margin-top: 2px; }
+
+/* Evitar corte de texto nos eventos */
+.event-body { overflow: visible; }
+.event-body h4 { overflow: visible; white-space: normal; }
+
+/* Alturas unificadas dos cards nos carrosséis */
+.clubs-swiper .swiper-slide > .club-card,
+.teachers-swiper .swiper-slide > .teacher-card,
+.events-swiper .swiper-slide > .event-card { height: var(--card-h); display: flex; flex-direction: column; }
+
+/* Ajuste específico: teacher-card e event-card têm conteúdos internos variáveis */
+.teacher-card { height: var(--card-h); }
+.event-card { height: var(--card-h); }
+
+/* Garantir que o conteúdo interno ocupe o espaço */
+.event-card .thumb { flex: 0 0 134px; }
+.event-card .event-body { flex: 1 1 auto; padding-right: 8px; overflow: visible; }
+.event-card .thumb img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+/* Content sem padding lateral; top/bottom mantidos */
+.content { padding: 56px 0; }
+
+/* Padding lateral só nos elementos internos (carrossel fica sem) */
+.toolbar, .greeting-and-promo, .section-header { padding-left: 40px; padding-right: 40px; }
+
+/* Melhorar quebra de texto nos eventos */
+.event-body h4 { overflow: visible; white-space: normal; line-height: 1.25; overflow-wrap: anywhere; hyphens: auto; }
+
+/* Eventos: permitir crescimento vertical sem cortar texto */
+.event-card { min-height: var(--card-h); height: auto; }
+.events-swiper .swiper-slide > .event-card { height: auto; }
+
+/* Sidebar ajustes solicitados */
+.sidebar { padding: 24px 0 24px 24px; background: var(--bg); z-index: 1; }
+
+/* Gradiente da seção fica atrás da sidebar */
+.section::after { z-index: 0; }
+
+/* Alinhar primeiro card com o padding interno (40px) */
+.section .swiper .swiper-wrapper > .swiper-slide:first-child { margin-left: 40px; }
+
+/* Posicionar setas do carrossel de eventos ao centro das imagens (134px) */
+.events-swiper .swiper-button-next,
+.events-swiper .swiper-button-prev {
+  top: 67px !important; /* 134 / 2 */
+  transform: none !important;
+  margin-top: 0 !important;
+}
+
+/* Tamanho padrão maior para ícones Phosphor */
+[class^="ph"], [class*=" ph"] { font-size: 18px; }
+.rating .ph { font-size: 14px; }
+
+/* Avatar dos professores 40x40 */
+.avatar-sm { width: 40px; height: 40px; }
+
+/* Tamanhos de fonte solicitados */
+.teacher-footer { font-size: 14px; }
+.event-meta { font-size: 14px; }
+.rating { font-size: 14px; }
+.chip { font-size: 14px; }
+/* Aumentar estrela na nota */
+.rating .ph { font-size: 18px; }
