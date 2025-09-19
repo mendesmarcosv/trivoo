@@ -1,150 +1,171 @@
-# Trivoo - Plataforma Web
+# Trivoo - Plataforma de Esportes
 
-Uma aplicação web moderna construída com HTML, CSS e JavaScript puro, integrada com Supabase como backend.
+Uma plataforma web moderna para descoberta e reserva de aulas de esportes, construída com Next.js, React e TypeScript.
 
 ## 🚀 Funcionalidades
 
-- ✅ Design responsivo e moderno
-- ✅ Sistema de autenticação completo
-- ✅ Formulários com validação em tempo real
-- ✅ Integração com Supabase
-- ✅ Animações e efeitos visuais
-- ✅ Interface mobile-friendly
+- **Descoberta de Esportes**: Explore diferentes modalidades esportivas
+- **Clubes e Centros**: Encontre centros de treinamento próximos
+- **Professores**: Conecte-se com instrutores qualificados
+- **Eventos**: Participe de eventos esportivos na sua região
+- **Autenticação**: Sistema completo de login/cadastro com Supabase
+- **Interface Responsiva**: Design moderno e mobile-first
 
-## 📋 Pré-requisitos
+## 🛠️ Tecnologias Utilizadas
 
-- Navegador web moderno
-- Conta no [Supabase](https://supabase.com)
+- **Next.js 14** - Framework React com App Router
+- **React 18** - Biblioteca para interfaces
+- **TypeScript** - Tipagem estática
+- **Tailwind CSS** - Framework CSS utilitário
+- **Supabase** - Backend como serviço (autenticação e banco de dados)
+- **Swiper.js** - Carrosséis responsivos
+- **Phosphor Icons** - Biblioteca de ícones
 
-## 🛠️ Configuração
-
-### 1. Clone o repositório
-```bash
-git clone https://github.com/mendesmarcosv/trivoo.git
-cd trivoo
-```
-
-### 2. Configure o Supabase
-
-1. Acesse [supabase.com](https://supabase.com) e crie um novo projeto
-2. Vá para Settings > API
-3. Copie a **URL do projeto** e a **chave anônima**
-4. Abra o arquivo `assets/js/config.js`
-5. Substitua os valores:
-```javascript
-const SUPABASE_URL = 'SUA_URL_DO_SUPABASE';
-const SUPABASE_ANON_KEY = 'SUA_CHAVE_ANONIMA';
-```
-
-### 3. Configure as tabelas no Supabase
-
-Execute estes comandos SQL no SQL Editor do Supabase:
-
-```sql
--- Tabela para contatos
-CREATE TABLE contacts (
-    id SERIAL PRIMARY KEY,
-    name TEXT NOT NULL,
-    email TEXT NOT NULL,
-    message TEXT NOT NULL,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-);
-
--- Tabela para usuários (já criada automaticamente pelo auth)
--- Você pode adicionar campos customizados se necessário
-```
-
-### 4. Execute o projeto
-
-Abra o arquivo `index.html` no seu navegador ou use um servidor local:
-
-```bash
-# Usando Python
-python -m http.server 8000
-
-# Usando Node.js
-npx serve .
-
-# Usando PHP
-php -S localhost:8000
-```
-
-Acesse: `http://localhost:8000`
-
-## 📱 Estrutura do Projeto
+## 📁 Estrutura do Projeto
 
 ```
 trivoo/
-├── index.html              # Página principal
-├── assets/
-│   ├── css/
-│   │   ├── styles.css      # Estilos principais
-│   │   └── responsive.css  # Estilos responsivos
-│   └── js/
-│       ├── config.js       # Configuração do Supabase
-│       ├── app.js          # Aplicação principal
-│       ├── auth.js         # Sistema de autenticação
-│       └── forms.js        # Gerenciamento de formulários
-├── pages/                  # Páginas adicionais
-├── components/             # Componentes reutilizáveis
-└── README.md              # Este arquivo
+├── src/
+│   ├── app/
+│   │   ├── layout.tsx      # Layout raiz da aplicação
+│   │   └── page.tsx        # Página inicial
+│   ├── components/         # Componentes React
+│   │   ├── Sidebar.tsx
+│   │   ├── GreetingSection.tsx
+│   │   ├── ClubsSection.tsx
+│   │   ├── TeachersSection.tsx
+│   │   ├── EventsSection.tsx
+│   │   └── AuthModal.tsx
+│   ├── lib/
+│   │   ├── supabase.ts     # Configuração Supabase
+│   │   └── hooks/          # Hooks customizados
+│   │       ├── useAuth.ts
+│   │       ├── useForm.ts
+│   │       └── useSwiper.ts
+│   └── styles/
+│       ├── globals.css     # Estilos globais
+│       ├── styles.css      # Estilos customizados
+│       └── responsive.css  # Estilos responsivos
+├── backup-original/        # Arquivos do projeto original
+└── public/                 # Arquivos estáticos
 ```
 
-## 🎨 Personalização
+## 🚀 Como Executar
 
-### Cores
-As cores principais estão definidas no arquivo `assets/css/styles.css`. Para alterar:
+1. **Clone o repositório**
+   ```bash
+   git clone <url-do-repositorio>
+   cd trivoo
+   ```
 
-```css
-/* Gradiente principal */
-background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+2. **Instale as dependências**
+   ```bash
+   npm install
+   ```
 
-/* Cores secundárias */
-.btn-primary {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-}
+3. **Configure as variáveis de ambiente**
+
+   Copie o arquivo de exemplo e configure suas credenciais do Supabase:
+   ```bash
+   cp env.example .env.local
+   ```
+
+   Edite o `.env.local`:
+   ```
+   NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+   ```
+
+4. **Execute o servidor de desenvolvimento**
+   ```bash
+   npm run dev
+   ```
+
+5. **Acesse no navegador**
+   ```
+   http://localhost:3000
+   ```
+
+## 📦 Scripts Disponíveis
+
+- `npm run dev` - Inicia o servidor de desenvolvimento
+- `npm run build` - Build para produção
+- `npm run start` - Inicia o servidor de produção
+- `npm run lint` - Executa o linter
+
+## 🔧 Configuração do Supabase
+
+### 1. Criar/Configurar Projeto
+1. Acesse [supabase.com](https://supabase.com) e faça login
+2. Selecione seu projeto existente ou crie um novo
+
+### 2. Configurar Variáveis de Ambiente
+No arquivo `.env.local`, substitua pelas suas credenciais reais:
+
+```env
+# Supabase
+NEXT_PUBLIC_SUPABASE_URL=https://xxxxx.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 ```
 
-### Tipografia
-O projeto usa Google Fonts (Inter). Para alterar, modifique o link no `index.html`:
+### 3. Obter as Credenciais
+1. No painel do Supabase, vá para **Settings** → **API**
+2. Copie o **Project URL** → `NEXT_PUBLIC_SUPABASE_URL`
+3. Copie o **anon/public key** → `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 
-```html
-<link href="https://fonts.googleapis.com/css2?family=SUA_FONTE:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+### 4. Configurar Autenticação (Opcional)
+No painel do Supabase:
+1. Vá para **Authentication** → **Settings**
+2. Configure:
+   - **Site URL**: `http://localhost:3000` (para desenvolvimento)
+   - **Redirect URLs**: Adicione as URLs permitidas
+   - **Enable email confirmations** (opcional)
+
+### 5. Testar a Conexão
+Após configurar, execute:
+```bash
+npm run dev
 ```
 
-## 🔧 Desenvolvimento
+Se aparecer erro sobre variáveis de ambiente, verifique se o arquivo `.env.local` está correto.
 
-### Adicionando novas funcionalidades
+### Tabelas Necessárias
 
-1. **Nova página**: Crie um arquivo HTML em `pages/` e adicione ao menu
-2. **Novo componente**: Crie arquivos em `components/` e importe no HTML
-3. **Nova funcionalidade**: Adicione código aos arquivos JS correspondentes
+O projeto utiliza as seguintes tabelas no Supabase:
 
-### Estrutura dos módulos JavaScript
+- `contacts` - Para formulários de contato
+- `profiles` - Para perfis de usuário (criada automaticamente pela autenticação)
 
-- `config.js`: Configurações globais e Supabase
-- `app.js`: Lógica principal da aplicação
-- `auth.js`: Gerenciamento de autenticação
-- `forms.js`: Validação e manipulação de formulários
+## 🎨 Estilos
 
-## 🌐 Deploy
+O projeto utiliza uma combinação de:
+- **Tailwind CSS** para utilitários
+- **CSS Customizado** para componentes específicos
+- **Variáveis CSS** para tema consistente
 
-### GitHub Pages
-1. Vá para Settings > Pages no seu repositório
-2. Selecione "main" como branch
-3. Selecione "/ (root)" como folder
-4. Salve e aguarde o deploy
+## 📱 Responsividade
 
-### Outras opções
-- Vercel
-- Netlify
-- Firebase Hosting
-- AWS S3 + CloudFront
+O layout é totalmente responsivo e otimizado para:
+- Desktop (1024px+)
+- Tablet (640px - 1023px)
+- Mobile (320px - 639px)
 
-## 📞 Suporte
+## 🔒 Autenticação
 
-Para dúvidas ou sugestões, abra uma issue no GitHub ou entre em contato através do formulário na aplicação.
+Sistema completo de autenticação incluindo:
+- Login/cadastro com email e senha
+- Recuperação de senha
+- Gerenciamento de sessão
+- Proteção de rotas
+
+## 🤝 Contribuição
+
+1. Fork o projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/nova-feature`)
+3. Commit suas mudanças (`git commit -m 'Adiciona nova feature'`)
+4. Push para a branch (`git push origin feature/nova-feature`)
+5. Abra um Pull Request
 
 ## 📄 Licença
 
-Este projeto está sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.
+Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.

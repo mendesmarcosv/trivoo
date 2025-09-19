@@ -1,0 +1,63 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap');
+@import url('https://unpkg.com/@phosphor-icons/web');
+
+@import './styles.css';
+@import './responsive.css';
+
+/* Utilidades compatíveis com as classes existentes (não altera o visual atual) */
+@layer components {
+  .chip { @apply inline-flex items-center rounded-md text-xs font-medium gap-2; }
+  .chip-filled { @apply rounded-xl; }
+  .teacher-card { @apply rounded-2xl; }
+  .club-card { @apply rounded-2xl; }
+  .event-card .thumb { @apply rounded-xl; }
+}
+
+/* Base styles */
+html, body {
+  font-family: 'Raleway', system-ui, -apple-system, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', Arial, sans-serif !important;
+  background: var(--bg);
+  color: var(--ink-800);
+}
+
+/* Smooth transitions for better UX */
+* {
+  transition: opacity 0.15s ease-in-out;
+}
+
+/* Animações */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Page transitions */
+.layout {
+  transition: all 0.15s ease-in-out;
+}
+
+/* Sidebar transitions */
+.sidebar {
+  transition: none; /* Remove transitions from sidebar to prevent flickering */
+}
+
+.sidebar .menu-item {
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+/* Remove default browser styles */
+input, button, textarea, select {
+  outline: none;
+  border: none;
+  box-shadow: none;
+}
+
+input:focus, button:focus, textarea:focus, select:focus {
+  outline: none;
+  border: none;
+  box-shadow: none;
+}
+
