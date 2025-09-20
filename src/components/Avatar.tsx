@@ -31,7 +31,7 @@ export default function Avatar({ name, email, size = 'md', className = '' }: Ava
     <div className={`
       ${sizeClasses[size]}
       rounded-full 
-      bg-[#95B02F] 
+      bg-green-700 
       flex 
       items-center 
       justify-center 

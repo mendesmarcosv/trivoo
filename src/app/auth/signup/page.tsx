@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { useAuth } from '@/lib/hooks/useAuth'
 import { useForm } from '@/lib/hooks/useForm'
 import Link from 'next/link'
+import Button from '@/components/Button'
 
 export default function SignupPage() {
   const router = useRouter()
@@ -43,8 +44,8 @@ export default function SignupPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#F7F7F7] flex items-center justify-center">
-        <div className="w-8 h-8 border-4 border-[#4C5E18] border-t-transparent rounded-full animate-spin"></div>
+      <div className="min-h-screen bg-neutral-100 flex items-center justify-center">
+        <div className="w-8 h-8 border-4 border-green-900 border-t-transparent rounded-full animate-spin"></div>
       </div>
     )
   }
@@ -54,38 +55,21 @@ export default function SignupPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F7F7F7]">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <Link href="/" className="flex items-center">
-              <span className="text-2xl font-bold text-[#4C5E18]">Trivoo</span>
-            </Link>
-            <div className="flex items-center space-x-4">
-              <span className="text-gray-600">Já tem conta?</span>
-              <Link
-                href="/auth/login"
-                className="px-4 py-2 text-[#758A25] border border-[#758A25] rounded-xl hover:bg-[#758A25] hover:text-white transition-colors"
-              >
-                Fazer login
-              </Link>
-            </div>
-          </div>
-        </div>
-      </header>
+    <div className="min-h-screen bg-neutral-100 flex flex-col items-center justify-center px-4 py-8">
+      <div className="mb-8">
+        <img src="/images/logo-trivoo-dark.svg" alt="Trivoo" className="h-10" />
+      </div>
 
-      {/* Main Content */}
-      <main className="max-w-md mx-auto mt-16 px-4">
+      <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Crie sua conta</h1>
-          <p className="text-gray-600">Junte-se à comunidade esportiva</p>
+          <h1 className="text-3xl font-bold text-neutral-900 mb-2">Crie sua conta</h1>
+          <p className="text-neutral-600">Junte-se à comunidade esportiva</p>
         </div>
 
-        <div className="bg-white rounded-2xl p-8">
+        <div className="bg-white rounded-2xl p-8 mb-6">
           <form onSubmit={form.handleSubmit} className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-neutral-700 mb-2">
                 Nome completo
               </label>
               <input
@@ -97,7 +81,7 @@ export default function SignupPage() {
                 className={`w-full px-4 py-3 border rounded-xl transition-colors focus:outline-none focus:ring-2 ${
                   form.errors.name
                     ? 'border-red-500 focus:ring-red-200'
-                    : 'border-gray-300 focus:ring-blue-200 focus:border-blue-500'
+                    : 'border-neutral-300 focus:ring-green-200 focus:border-green-500'
                 }`}
                 required
               />
@@ -107,7 +91,7 @@ export default function SignupPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-neutral-700 mb-2">
                 Email
               </label>
               <input
@@ -119,7 +103,7 @@ export default function SignupPage() {
                 className={`w-full px-4 py-3 border rounded-xl transition-colors focus:outline-none focus:ring-2 ${
                   form.errors.email
                     ? 'border-red-500 focus:ring-red-200'
-                    : 'border-gray-300 focus:ring-blue-200 focus:border-blue-500'
+                    : 'border-neutral-300 focus:ring-green-200 focus:border-green-500'
                 }`}
                 required
               />
@@ -129,7 +113,7 @@ export default function SignupPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-neutral-700 mb-2">
                 Telefone
               </label>
               <input
@@ -141,7 +125,7 @@ export default function SignupPage() {
                 className={`w-full px-4 py-3 border rounded-xl transition-colors focus:outline-none focus:ring-2 ${
                   form.errors.phone
                     ? 'border-red-500 focus:ring-red-200'
-                    : 'border-gray-300 focus:ring-blue-200 focus:border-blue-500'
+                    : 'border-neutral-300 focus:ring-green-200 focus:border-green-500'
                 }`}
                 required
               />
@@ -151,7 +135,7 @@ export default function SignupPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-neutral-700 mb-2">
                 Senha
               </label>
               <input
@@ -163,7 +147,7 @@ export default function SignupPage() {
                 className={`w-full px-4 py-3 border rounded-xl transition-colors focus:outline-none focus:ring-2 ${
                   form.errors.password
                     ? 'border-red-500 focus:ring-red-200'
-                    : 'border-gray-300 focus:ring-blue-200 focus:border-blue-500'
+                    : 'border-neutral-300 focus:ring-green-200 focus:border-green-500'
                 }`}
                 required
               />
@@ -173,7 +157,7 @@ export default function SignupPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-neutral-700 mb-2">
                 Confirmar senha
               </label>
               <input
@@ -185,7 +169,7 @@ export default function SignupPage() {
                 className={`w-full px-4 py-3 border rounded-xl transition-colors focus:outline-none focus:ring-2 ${
                   form.errors.confirmPassword
                     ? 'border-red-500 focus:ring-red-200'
-                    : 'border-gray-300 focus:ring-blue-200 focus:border-blue-500'
+                    : 'border-neutral-300 focus:ring-green-200 focus:border-green-500'
                 }`}
                 required
               />
@@ -200,42 +184,40 @@ export default function SignupPage() {
               </div>
             )}
 
-            <button
+            <Button
               type="submit"
               disabled={form.isSubmitting}
-              className="w-full bg-[#4C5E18] text-white py-3 px-6 rounded-xl font-medium hover:bg-[#3d4d14] disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+              className="w-full"
             >
-              {form.isSubmitting ? (
-                <div className="flex items-center justify-center">
-                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
-                  Criando conta...
-                </div>
-              ) : (
-                <div className="flex items-center justify-center">
-                  <i className="ph ph-user-plus mr-2"></i>
-                  Criar conta
-                </div>
-              )}
-            </button>
+              {form.isSubmitting ? 'Criando conta...' : 'Criar conta'}
+            </Button>
           </form>
 
-          <div className="mt-6 text-center text-sm text-gray-600">
+          <div className="mt-6 text-center text-sm text-neutral-600">
             Ao criar uma conta, você concorda com nossos{' '}
-            <Link href="/terms" className="text-[#758A25] hover:text-[#4C5E18] transition-colors">
+            <Link href="/terms" className="text-green-700 hover:text-green-900 transition-colors">
               Termos de Uso
             </Link>{' '}
             e{' '}
-            <Link href="/privacy" className="text-[#758A25] hover:text-[#4C5E18] transition-colors">
+            <Link href="/privacy" className="text-green-700 hover:text-green-900 transition-colors">
               Política de Privacidade
             </Link>
           </div>
         </div>
-
-        {/* Footer */}
-        <div className="text-center mt-8 text-gray-500 text-sm">
-          <p>&copy; 2024 Trivoo. Todos os direitos reservados.</p>
+        <div className="text-center mt-4">
+          <span className="text-neutral-600">Já tem conta? </span>
+          <Link
+            href="/auth/login"
+            className="text-green-700 hover:text-green-900 transition-colors font-medium no-underline"
+          >
+            Fazer login
+          </Link>
         </div>
-      </main>
+      </div>
+
+      <div className="text-center mt-8 text-neutral-500 text-sm">
+        <p>&copy; 2025 Trivoo. Todos os direitos reservados.</p>
+      </div>
     </div>
   )
 }

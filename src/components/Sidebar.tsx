@@ -25,7 +25,7 @@ export default function Sidebar({ onAuthClick }: SidebarProps) {
       <div className="sidebar-inner">
         <div className="sidebar-top">
           <div className="brand">
-            <span className="brand-logo">Trivoo</span>
+            <img src="/images/logo-trivoo-dark.svg" alt="Trivoo" className="h-8" />
           </div>
 
           <nav className="menu">

@@ -19,7 +19,7 @@ const banners: Banner[] = [
     subtitle: "está a um swipe",
     description: "Faça o teste e descubra um novo esporte que combine com você",
     imageUrl: "/images/banners/banner-1.jpg",
-    backgroundColor: "#D5FB43"
+    backgroundColor: "var(--green-500)"
   },
   {
     id: 2,
@@ -27,7 +27,7 @@ const banners: Banner[] = [
     subtitle: "comunidade esportiva",
     description: "Conecte-se com pessoas que compartilham sua paixão pelos esportes",
     imageUrl: "/images/banners/banner-2.jpg",
-    backgroundColor: "#4C5E18"
+    backgroundColor: "var(--green-900)"
   },
   {
     id: 3,
@@ -35,7 +35,7 @@ const banners: Banner[] = [
     subtitle: "horizontes",
     description: "Descubra esportes únicos e aventuras que você nunca imaginou",
     imageUrl: "/images/banners/banner-3.jpg",
-    backgroundColor: "#758A25"
+    backgroundColor: "var(--green-800)"
   },
   {
     id: 4,
@@ -43,7 +43,7 @@ const banners: Banner[] = [
     subtitle: "rotina diária",
     description: "Adicione movimento e diversão ao seu dia a dia",
     imageUrl: "/images/banners/banner-4.jpg",
-    backgroundColor: "#95B02F"
+    backgroundColor: "var(--green-700)"
   }
 ]
 
@@ -154,10 +154,10 @@ export default function BannerCarousel() {
             >
               <aside className="promo-card" style={{ maxWidth: '100%', backgroundColor: banner.backgroundColor, height: '220px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '32px', userSelect: 'none', WebkitUserSelect: 'none', MozUserSelect: 'none', msUserSelect: 'none' }}>
                 <div style={{ maxWidth: '60%' }}>
-                  <h2 style={{ color: banner.backgroundColor === '#D5FB43' ? '#0E0E0E' : '#fff', lineHeight: '1.2', fontSize: '28px' }}>
+                  <h2 style={{ color: banner.backgroundColor === 'var(--green-500)' ? 'var(--neutral-950)' : '#fff', lineHeight: '1.2', fontSize: '28px' }}>
                     {banner.title}<br />{banner.subtitle}
                   </h2>
-                  <p style={{ color: banner.backgroundColor === '#D5FB43' ? '#163300' : '#fff', marginTop: '8px' }}>
+                  <p style={{ color: banner.backgroundColor === 'var(--green-500)' ? 'var(--primary-dark-green)' : '#fff', marginTop: '8px' }}>
                     {banner.description}
                   </p>
                 </div>
@@ -176,8 +176,8 @@ export default function BannerCarousel() {
             onClick={() => goToSlide(index)}
             className={`w-3 h-3 rounded-full transition-all duration-300 ${
               index === currentIndex 
-                ? 'bg-[#4C5E18] scale-125' 
-                : 'bg-gray-300 hover:bg-gray-400'
+                ? 'bg-green-900 scale-125' 
+                : 'bg-neutral-300 hover:bg-neutral-400'
             }`}
             aria-label={`Ir para banner ${index + 1}`}
           />

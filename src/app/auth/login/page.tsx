@@ -34,8 +34,8 @@ export default function LoginPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#F7F7F7] flex items-center justify-center">
-        <div className="w-8 h-8 border-4 border-[#4C5E18] border-t-transparent rounded-full animate-spin"></div>
+      <div className="min-h-screen bg-neutral-100 flex items-center justify-center">
+        <div className="w-8 h-8 border-4 border-green-900 border-t-transparent rounded-full animate-spin"></div>
       </div>
     )
   }
@@ -45,23 +45,23 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F7F7F7] flex flex-col items-center justify-center px-4">
+    <div className="min-h-screen bg-neutral-100 flex flex-col items-center justify-center px-4 py-8">
       {/* Logo */}
       <div className="mb-8">
-        <span className="text-3xl font-bold text-[#4C5E18]">Trivoo</span>
+        <img src="/images/logo-trivoo-dark.svg" alt="Trivoo" className="h-10" />
       </div>
 
       {/* Main Content */}
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Bem-vindo de volta!</h1>
-          <p className="text-gray-600">Entre na sua conta para continuar</p>
+          <h1 className="text-3xl font-bold text-neutral-900 mb-2">Bem-vindo de volta!</h1>
+          <p className="text-neutral-600">Entre na sua conta para continuar</p>
         </div>
 
         <div className="bg-white rounded-2xl p-8 mb-6">
           <form onSubmit={form.handleSubmit} className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-neutral-700 mb-2">
                 Email
               </label>
               <input
@@ -73,7 +73,7 @@ export default function LoginPage() {
                 className={`w-full px-4 py-3 border-0 rounded-xl transition-colors focus:outline-none focus:ring-2 text-sm placeholder:text-sm ${
                   form.errors.email
                     ? 'bg-red-50 focus:ring-red-200'
-                    : 'bg-gray-100 focus:ring-[#95B02F] focus:bg-white'
+                    : 'bg-neutral-100 focus:ring-green-700 focus:bg-white'
                 }`}
                 required
               />
@@ -83,7 +83,7 @@ export default function LoginPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-neutral-700 mb-2">
                 Senha
               </label>
               <input
@@ -95,7 +95,7 @@ export default function LoginPage() {
                 className={`w-full px-4 py-3 border-0 rounded-xl transition-colors focus:outline-none focus:ring-2 text-sm placeholder:text-sm ${
                   form.errors.password
                     ? 'bg-red-50 focus:ring-red-200'
-                    : 'bg-gray-100 focus:ring-[#95B02F] focus:bg-white'
+                    : 'bg-neutral-100 focus:ring-green-700 focus:bg-white'
                 }`}
                 required
               />
@@ -122,7 +122,7 @@ export default function LoginPage() {
           <div className="mt-6 text-center">
             <Link
               href="/auth/forgot-password"
-              className="text-[#758A25] hover:text-[#4C5E18] transition-colors no-underline"
+              className="text-green-700 hover:text-green-900 transition-colors no-underline"
             >
               Esqueceu sua senha?
             </Link>
@@ -131,10 +131,10 @@ export default function LoginPage() {
 
         {/* Create Account Link */}
         <div className="text-center">
-          <span className="text-gray-600">Não tem conta? </span>
+          <span className="text-neutral-600">Não tem conta? </span>
           <Link
             href="/auth/signup"
-            className="text-[#758A25] hover:text-[#4C5E18] transition-colors font-medium no-underline"
+            className="text-green-700 hover:text-green-900 transition-colors font-medium no-underline"
           >
             Criar conta
           </Link>
@@ -142,7 +142,7 @@ export default function LoginPage() {
       </div>
 
       {/* Footer */}
-      <div className="text-center mt-8 text-gray-500 text-sm">
+      <div className="text-center mt-8 text-neutral-500 text-sm">
         <p>&copy; 2025 Trivoo. Todos os direitos reservados.</p>
       </div>
     </div>

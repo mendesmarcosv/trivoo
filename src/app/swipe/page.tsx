@@ -155,14 +155,14 @@ export default function SwipePage() {
       .filter(item => !!item.q) as { q: Question; offset: number }[]
 
     return (
-      <div style={{ position: 'relative', width: 380, height: 560, maxWidth: '92%' }}>
+      <div style={{ position: 'relative', width: 320, height: 480, maxWidth: '90%' }}>
         {stack
           .reverse() // renderiza do fundo para frente
           .map(({ q, offset }) => {
             const isTop = offset === 0
             const baseRotate = isTop ? dragX / 30 : offset === 1 ? 4 : -3
-            const baseTranslateY = isTop ? 0 : offset * 14
-            const baseScale = isTop ? 1 : offset === 1 ? 0.98 : 0.96
+            const baseTranslateY = isTop ? 0 : offset * 10
+            const baseScale = isTop ? 0.98 : offset === 1 ? 0.96 : 0.94
             const zIndex = isTop ? 3 : offset === 1 ? 2 : 1
 
             return (
@@ -176,8 +176,8 @@ export default function SwipePage() {
                   inset: 0,
                   margin: '0 auto',
                   background: q.color,
-                  borderRadius: 24,
-                  padding: 28,
+                  borderRadius: 20,
+                  padding: 22,
                   transform: `translateY(${baseTranslateY}px) scale(${baseScale}) rotate(${baseRotate}deg) translateX(${isTop ? dragX : 0}px)`,
                   transition: dragStartX === null ? 'transform 240ms cubic-bezier(.22,.61,.36,1)' : 'none',
                   cursor: isTop ? 'grab' : 'default',
@@ -216,7 +216,7 @@ export default function SwipePage() {
                   <div style={{ marginBottom: 10 }}>
                     <span style={{ color: 'var(--ink-900)', fontWeight: 700, fontSize: 13 }}>Pergunta {index + offset + 1} de {QUESTIONS.length}</span>
                   </div>
-                  <h2 style={{ fontSize: 26, lineHeight: '34px', color: 'var(--ink-900)' }}>{q.text}</h2>
+                  <h2 style={{ fontSize: 22, lineHeight: '30px', color: 'var(--ink-900)' }}>{q.text}</h2>
                 </div>
               </div>
             )
@@ -233,7 +233,7 @@ export default function SwipePage() {
       <Sidebar />
       <main className="content" style={{ background: 'transparent' }}>
         <div className="toolbar" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <h1 style={{ fontSize: '30px', fontWeight: 600, color: 'var(--ink-800)', margin: '0 auto' }}>Swipe</h1>
+          <h1 style={{ fontSize: '32px', fontWeight: 800, letterSpacing: 0.6, color: 'var(--ink-800)', margin: '0 auto', textTransform: 'uppercase' }}>Responda e descubra seu esporte</h1>
         </div>
 
         <section className="greeting-and-promo" style={{ minHeight: 560, display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%' }}>

@@ -22,7 +22,38 @@ module.exports = {
           600: '#4C5E18',
           500: '#758A25'
         },
-        lime: { accent: '#D5FB43' }
+        lime: { accent: '#D5FB43' },
+        /* Novas cores mapeadas às CSS vars */
+        primary: {
+          green: 'var(--primary-green)',
+          'dark-green': 'var(--primary-dark-green)'
+        },
+        green: {
+          50: 'var(--green-50)',
+          100: 'var(--green-100)',
+          200: 'var(--green-200)',
+          300: 'var(--green-300)',
+          400: 'var(--green-400)',
+          500: 'var(--green-500)',
+          600: 'var(--green-600)',
+          700: 'var(--green-700)',
+          800: 'var(--green-800)',
+          900: 'var(--green-900)',
+          950: 'var(--green-950)'
+        },
+        neutral: {
+          50: 'var(--neutral-50)',
+          100: 'var(--neutral-100)',
+          200: 'var(--neutral-200)',
+          300: 'var(--neutral-300)',
+          400: 'var(--neutral-400)',
+          500: 'var(--neutral-500)',
+          600: 'var(--neutral-600)',
+          700: 'var(--neutral-700)',
+          800: 'var(--neutral-800)',
+          900: 'var(--neutral-900)',
+          950: 'var(--neutral-950)'
+        }
       },
       borderRadius: { lg: '16px', md: '12px' },
       boxShadow: { card: '0 10px 30px rgba(0,0,0,0.10)' }

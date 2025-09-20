@@ -102,8 +102,8 @@ export default function ProfilePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#F7F7F7] flex items-center justify-center">
-        <div className="w-8 h-8 border-4 border-[#4C5E18] border-t-transparent rounded-full animate-spin"></div>
+      <div className="min-h-screen bg-neutral-100 flex items-center justify-center">
+        <div className="w-8 h-8 border-4 border-green-900 border-t-transparent rounded-full animate-spin"></div>
       </div>
     )
   }
@@ -201,7 +201,7 @@ export default function ProfilePage() {
           {!isEditing && (
             <Button 
               onClick={() => setIsEditing(true)}
-              className="bg-[#4C5E18] hover:bg-[#3d4d14]"
+              className="bg-green-900 hover:bg-green-950"
             >
               Editar perfil
             </Button>
@@ -249,7 +249,7 @@ export default function ProfilePage() {
                     padding: '12px 16px',
                     borderRadius: '12px',
                     border: 'none',
-                    backgroundColor: isEditing ? 'white' : '#F7F7F7',
+                    backgroundColor: isEditing ? 'white' : 'var(--neutral-100)',
                     fontSize: '14px',
                     color: 'var(--ink-800)'
                   }}
@@ -269,7 +269,7 @@ export default function ProfilePage() {
                     padding: '12px 16px',
                     borderRadius: '12px',
                     border: 'none',
-                    backgroundColor: '#F7F7F7',
+                    backgroundColor: 'var(--neutral-100)',
                     fontSize: '14px',
                     color: 'var(--ink-600)',
                     cursor: 'not-allowed'
@@ -292,7 +292,7 @@ export default function ProfilePage() {
                     padding: '12px 16px',
                     borderRadius: '12px',
                     border: 'none',
-                    backgroundColor: isEditing ? 'white' : '#F7F7F7',
+                    backgroundColor: isEditing ? 'white' : 'var(--neutral-100)',
                     fontSize: '14px',
                     color: 'var(--ink-800)'
                   }}
@@ -329,12 +329,12 @@ export default function ProfilePage() {
                 </label>
                 <div style={{ 
                   padding: '16px',
-                  backgroundColor: '#F7F7F7',
+                  backgroundColor: 'var(--neutral-100)',
                   borderRadius: '12px'
                 }}>
                   {isLoadingSports ? (
                     <div className="flex items-center justify-center py-4">
-                      <div className="w-6 h-6 border-3 border-[#4C5E18] border-t-transparent rounded-full animate-spin"></div>
+                      <div className="w-6 h-6 border-3 border-green-900 border-t-transparent rounded-full animate-spin"></div>
                     </div>
                   ) : (
                     <>
@@ -345,7 +345,7 @@ export default function ProfilePage() {
                               key={sport.id} 
                               className="chip"
                               style={{
-                                backgroundColor: '#95B02F',
+                                backgroundColor: 'var(--green-700)',
                                 color: 'white',
                                 padding: '6px 12px',
                                 borderRadius: '20px',
@@ -369,14 +369,14 @@ export default function ProfilePage() {
                           gap: '8px',
                           padding: '8px 16px',
                           backgroundColor: 'white',
-                          border: '1px solid #E5E5E5',
+                          border: '1px solid var(--neutral-300)',
                           borderRadius: '8px',
                           color: 'var(--ink-700)',
                           fontSize: '14px',
                           cursor: 'pointer',
                           transition: 'all 0.2s'
                         }}
-                        onMouseEnter={e => e.currentTarget.style.backgroundColor = '#FAFAFA'}
+                        onMouseEnter={e => e.currentTarget.style.backgroundColor = 'var(--neutral-50)'}
                         onMouseLeave={e => e.currentTarget.style.backgroundColor = 'white'}
                       >
                         <Plus size={16} />
@@ -392,7 +392,7 @@ export default function ProfilePage() {
                 <div style={{ display: 'flex', gap: '12px', marginTop: '20px' }}>
                   <Button
                     onClick={() => setIsEditing(false)}
-                    className="flex-1 bg-gray-200 text-gray-800 hover:bg-gray-300"
+                    className="flex-1 bg-neutral-200 text-neutral-800 hover:bg-neutral-300"
                   >
                     Cancelar
                   </Button>
@@ -407,7 +407,7 @@ export default function ProfilePage() {
           {/* Right Column - Stats/Info */}
           <div style={{ width: '400px' }}>
             <aside className="promo-card" style={{ 
-              backgroundColor: '#95B02F', 
+              backgroundColor: 'var(--green-700)', 
               height: 'auto',
               padding: '32px'
             }}>
@@ -550,10 +550,10 @@ export default function ProfilePage() {
                             padding: '8px 16px',
                             borderRadius: '20px',
                             border: selectedSports.includes(sport.id)
-                              ? '2px solid #95B02F'
-                              : '1px solid #E5E5E5',
+                              ? '2px solid var(--green-700)'
+                              : '1px solid var(--neutral-300)',
                             backgroundColor: selectedSports.includes(sport.id)
-                              ? '#95B02F'
+                              ? 'var(--green-700)'
                               : 'white',
                             color: selectedSports.includes(sport.id)
                               ? 'white'
@@ -576,20 +576,20 @@ export default function ProfilePage() {
                 display: 'flex',
                 gap: '12px',
                 paddingTop: '24px',
-                borderTop: '1px solid #E5E5E5'
+                borderTop: '1px solid var(--neutral-300)'
               }}>
                 <Button
                   onClick={() => {
                     setShowSportsModal(false)
                     setSelectedSports(userSports.map(s => s.id))
                   }}
-                  className="flex-1 bg-gray-200 text-gray-800 hover:bg-gray-300"
+                  className="flex-1 bg-neutral-200 text-neutral-800 hover:bg-neutral-300"
                 >
                   Cancelar
                 </Button>
                 <Button
                   onClick={handleSaveSports}
-                  className="flex-1 bg-[#4C5E18] hover:bg-[#3d4d14]"
+                  className="flex-1 bg-green-900 hover:bg-green-950"
                 >
                   Salvar {selectedSports.length > 0 && `(${selectedSports.length})`}
                 </Button>

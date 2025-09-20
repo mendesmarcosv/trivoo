@@ -53,7 +53,7 @@ export default function LogoutModal({ isOpen, onClose }: LogoutModalProps) {
             <Button
               onClick={onClose}
               disabled={isLoading}
-              className="flex-1 bg-gray-200 text-gray-800 hover:bg-gray-300"
+              className="flex-1 bg-neutral-200 text-neutral-800 hover:bg-neutral-300"
             >
               Cancelar
             </Button>

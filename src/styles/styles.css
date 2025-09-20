@@ -387,7 +387,8 @@ html {
 }
 .menu-item i { color: currentColor; }
 .menu-item span { font-weight: 400; }
-.menu-item.is-active { color: var(--brand-600); font-weight: 600; position: relative; }
+.menu-item.is-active { color: var(--brand-600); font-weight: 700; position: relative; }
+.menu-item.is-active span { font-weight: 700; }
 .active-pill {
   position: absolute;
   left: 0; top: 8px; bottom: 8px;
