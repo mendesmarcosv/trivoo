@@ -1,0 +1,71 @@
+[
+    {
+        "id": 1,
+        "title": "Centro Horizonte",
+        "distance": "9 km",
+        "image": "/images/clubs/Centro Horizonte.png",
+        "chips": [
+            "Goalball",
+            "Bocha paralímpica"
+        ]
+    },
+    {
+        "id": 2,
+        "title": "Boulder Lab",
+        "distance": "11 km",
+        "image": "/images/clubs/Boulder Lab.png",
+        "chips": [
+            "Escalada indoor",
+            "Slackline"
+        ]
+    },
+    {
+        "id": 3,
+        "title": "KinBall & Floorball Hub",
+        "distance": "4 km",
+        "image": "/images/clubs/KinBall & Floorball Hub.png",
+        "chips": [
+            "Kin-Ball",
+            "Floorball"
+        ]
+    },
+    {
+        "id": 4,
+        "title": "Campo Verde Footgolf",
+        "distance": "28 km",
+        "image": "/images/clubs/Campo Verde Footgolf.png",
+        "chips": [
+            "Footgolf",
+            "Ultimate Frisbee"
+        ]
+    },
+    {
+        "id": 5,
+        "title": "Biribol & Natação Adaptada São Francisco",
+        "distance": "15 km",
+        "image": "/images/clubs/Biribol & Natação Adaptada São Francisco.png",
+        "chips": [
+            "Biribol",
+            "Natação Adaptada"
+        ]
+    },
+    {
+        "id": 6,
+        "title": "Tamboréu Praia Clube",
+        "distance": "16 km",
+        "image": "/images/clubs/Tamboréu Praia Clube.png",
+        "chips": [
+            "Tamboréu",
+            "Beach Ultimate"
+        ]
+    },
+    {
+        "id": 7,
+        "title": "Hangar 101",
+        "distance": "24 km",
+        "image": "/images/clubs/Hangar 101.png",
+        "chips": [
+            "Corrida de Drone"
+        ]
+    }
+]
