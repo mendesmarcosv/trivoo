@@ -1,0 +1,72 @@
+[
+  {
+    "id": 1,
+    "title": "Trilha de Orientação Camboinhas",
+    "image": "/images/events/Trilha de Orientação Camboinhas.png",
+    "location": "Parque Estadual da Serra da Tiririca (acesso Camboinhas)",
+    "date": "Sábado, 14 de Out às 08:30"
+  },
+  {
+    "id": 2,
+    "title": "Night Parkour Meetup",
+    "image": "/images/events/Night Parkour Meetup.png",
+    "location": "Esplanada do Caminho Niemeyer",
+    "date": "Quinta, 09 de Out às 19:00"
+  },
+  {
+    "id": 3,
+    "title": "Korfebol Aberto da Baía",
+    "image": "/images/events/Korfebol Aberto da Baía.png",
+    "location": "Quadra Poliesportiva São Lourenço",
+    "date": "Sábado, 18 de Out às 09:00"
+  },
+  {
+    "id": 4,
+    "title": "Circuito Inclusivo - Bocha na Praça",
+    "image": "/images/events/Circuito Inclusivo - Bocha na Praça.png",
+    "location": "Praça Estephânia de Carvalho",
+    "date": "Terça, 25 de Out às 15:00"
+  },
+  {
+    "id": 5,
+    "title": "Open de Esgrima — Iniciação & Amistoso",
+    "image": "/images/events/Open de Esgrima — Iniciação & Amistoso.png",
+    "location": "Sala de Esgrima São Domingos",
+    "date": "Sábado, 01 de Nov às 20:00"
+  },
+  {
+    "id": 6,
+    "title": "Slackline Festival - Lagoa de Piratininga",
+    "image": "/images/events/Slackline Festival - Lagoa de Piratininga.png",
+    "location": "Gramado central da Lagoa de Piratininga",
+    "date": "Sábado, 08 de Nov às 08:30"
+  },
+  {
+    "id": 7,
+    "title": "Patins Street Jam — Neves",
+    "image": "/images/events/Patins Street Jam — Neves.png",
+    "location": "Praça do Skate em Neves",
+    "date": "Domingo, 16 de Nov às 09:30"
+  },
+  {
+    "id": 8,
+    "title": "Clínica de Polo Aquático — Iniciantes",
+    "image": "/images/events/Clínica de Polo Aquático — Iniciantes.png",
+    "location": "Parque Aquático Santa Rosa",
+    "date": "Sábado, 22 de Nov às 09:30"
+  },
+  {
+    "id": 9,
+    "title": "Lacrosse Day — Amistoso Misto",
+    "image": "/images/events/Lacrosse Day — Amistoso Misto.png",
+    "location": "Campo do Clube Ponta D'Areia",
+    "date": "Sábado, 29 de Nov às 09:30"
+  },
+  {
+    "id": 10,
+    "title": "Footgolf Aberto da Restinga",
+    "image": "/images/events/Footgolf Aberto da Restinga.png",
+    "location": "Área de Lazer de Itaipuaçu",
+    "date": "Sábado, 06 de Dez às 08:00"
+  }
+]

@@ -18,7 +18,7 @@ const ClubCard: React.FC<ClubCardProps> = ({ title, distance, image, chips }) =>
                     <h4>{title}</h4>
                     {chips && (
                         <div className="chips">
-                            {chips.map((chip, id) =>(
+                            {chips.map((chip, id) => (
                                 <span key={id} className="chip glass">{chip}</span>
                             ))}
                         </div>

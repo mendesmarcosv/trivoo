@@ -1,5 +1,5 @@
 import { useSwiper } from '@/lib/hooks/useSwiper'
-import data from "../data/clubData.json"
+import data from '../data/clubData.json'
 import ClubCard from './ClubCard'
 
 export default function ClubsSection() {
