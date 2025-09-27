@@ -1,194 +1,37 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useAuth } from '@/lib/hooks/useAuth'
-import { useRouter } from 'next/navigation'
 import Sidebar from '@/components/Sidebar'
 import Button from '@/components/Button'
 import Avatar from '@/components/Avatar'
 import LocationSelector from '@/components/LocationSelector'
-import { supabase } from '@/lib/supabase'
-import { toast } from 'react-hot-toast'
-import { X, Plus } from 'lucide-react'
-
-interface Sport {
-  id: string
-  name: string
-  category?: string
-}
 
 export default function ProfilePage() {
-  const router = useRouter()
-  const { user, userProfile, loading, fetchUserProfile } = useAuth()
+  const { user } = useAuth()
   const [isEditing, setIsEditing] = useState(false)
-  const [isLoadingSports, setIsLoadingSports] = useState(false)
-  const [allSports, setAllSports] = useState<Sport[]>([])
-  const [userSports, setUserSports] = useState<Sport[]>([])
-  const [selectedSports, setSelectedSports] = useState<string[]>([])
-  const [showSportsModal, setShowSportsModal] = useState(false)
-  const [searchSport, setSearchSport] = useState('')
   
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    bio: ''
+    name: user?.name || '',
+    email: user?.email || '',
+    phone: user?.phone || '',
+    bio: user?.bio || ''
   })
 
-  React.useEffect(() => {
-    if (!loading && !user) {
-      router.push('/auth/login')
-    }
-  }, [user, loading, router])
+  // Esportes fictícios para demonstração
+  const mockSports = [
+    { id: '1', name: 'Natação' },
+    { id: '2', name: 'Futebol' },
+    { id: '3', name: 'Tênis' },
+    { id: '4', name: 'Yoga' },
+    { id: '5', name: 'Pilates' }
+  ]
 
-  React.useEffect(() => {
-    if (user && userProfile) {
-      setFormData({
-        name: userProfile.name || user.user_metadata?.name || '',
-        email: user.email || '',
-        phone: userProfile.phone || user.user_metadata?.phone || '',
-        bio: userProfile.bio || ''
-      })
-    }
-  }, [user, userProfile])
-
-  // Buscar todos os esportes disponíveis
-  useEffect(() => {
-    const fetchSports = async () => {
-      const { data, error } = await supabase
-        .from('sports')
-        .select('*')
-        .eq('is_active', true)
-        .order('name')
-
-      if (data) {
-        setAllSports(data)
-      }
-    }
-
-    fetchSports()
-  }, [])
-
-  // Buscar esportes do usuário
-  useEffect(() => {
-    const fetchUserSports = async () => {
-      if (!user?.id) return
-
-      setIsLoadingSports(true)
-      const { data, error } = await supabase
-        .from('user_sports')
-        .select(`
-          sport_id,
-          sports:sport_id (
-            id,
-            name,
-            category
-          )
-        `)
-        .eq('user_id', user.id)
-
-      if (data) {
-        const sports = data
-          .filter((item: any) => item.sports)
-          .map((item: any) => item.sports as Sport)
-        setUserSports(sports)
-        setSelectedSports(sports.map(s => s.id))
-      }
-      setIsLoadingSports(false)
-    }
-
-    fetchUserSports()
-  }, [user?.id])
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-neutral-100 flex items-center justify-center">
-        <div className="w-8 h-8 border-4 border-green-900 border-t-transparent rounded-full animate-spin"></div>
-      </div>
-    )
+  const handleSave = () => {
+    // Simular salvamento
+    console.log('Dados salvos:', formData)
+    setIsEditing(false)
   }
-
-  if (!user) return null
-
-  const handleSave = async () => {
-    try {
-      // Salvar dados do perfil
-      const { error: profileError } = await supabase
-        .from('profiles')
-        .update({
-          name: formData.name,
-          phone: formData.phone,
-          bio: formData.bio,
-          updated_at: new Date().toISOString()
-        })
-        .eq('id', user.id)
-
-      if (profileError) throw profileError
-
-      // Atualizar perfil no contexto
-      await fetchUserProfile()
-
-      toast.success('Perfil atualizado com sucesso!')
-      setIsEditing(false)
-    } catch (error) {
-      console.error('Erro ao salvar perfil:', error)
-      toast.error('Erro ao salvar alterações')
-    }
-  }
-
-  const handleSaveSports = async () => {
-    try {
-      // Remover esportes existentes
-      await supabase
-        .from('user_sports')
-        .delete()
-        .eq('user_id', user.id)
-
-      // Adicionar esportes selecionados
-      if (selectedSports.length > 0) {
-        const sportsToAdd = selectedSports.map(sportId => ({
-          user_id: user.id,
-          sport_id: sportId
-        }))
-
-        const { error } = await supabase
-          .from('user_sports')
-          .insert(sportsToAdd)
-
-        if (error) throw error
-      }
-
-      // Atualizar lista de esportes do usuário
-      const updatedSports = allSports.filter(s => selectedSports.includes(s.id))
-      setUserSports(updatedSports)
-
-      toast.success('Esportes atualizados com sucesso!')
-      setShowSportsModal(false)
-    } catch (error) {
-      console.error('Erro ao salvar esportes:', error)
-      toast.error('Erro ao salvar esportes')
-    }
-  }
-
-  const toggleSport = (sportId: string) => {
-    setSelectedSports(prev => 
-      prev.includes(sportId)
-        ? prev.filter(id => id !== sportId)
-        : [...prev, sportId]
-    )
-  }
-
-  const filteredSports = allSports.filter(sport =>
-    sport.name.toLowerCase().includes(searchSport.toLowerCase())
-  )
-
-  // Agrupar esportes por categoria
-  const sportsByCategory = filteredSports.reduce((acc, sport) => {
-    const category = sport.category || 'Outros'
-    if (!acc[category]) acc[category] = []
-    acc[category].push(sport)
-    return acc
-  }, {} as Record<string, Sport[]>)
 
   return (
     <div className="layout">
@@ -332,58 +175,23 @@ export default function ProfilePage() {
                   backgroundColor: 'var(--neutral-100)',
                   borderRadius: '12px'
                 }}>
-                  {isLoadingSports ? (
-                    <div className="flex items-center justify-center py-4">
-                      <div className="w-6 h-6 border-3 border-green-900 border-t-transparent rounded-full animate-spin"></div>
-                    </div>
-                  ) : (
-                    <>
-                      <div className="flex flex-wrap gap-2 mb-3">
-                        {userSports.length > 0 ? (
-                          userSports.map(sport => (
-                            <span 
-                              key={sport.id} 
-                              className="chip"
-                              style={{
-                                backgroundColor: 'var(--green-700)',
-                                color: 'white',
-                                padding: '6px 12px',
-                                borderRadius: '20px',
-                                fontSize: '14px'
-                              }}
-                            >
-                              {sport.name}
-                            </span>
-                          ))
-                        ) : (
-                          <span style={{ color: 'var(--ink-600)', fontSize: '14px' }}>
-                            Nenhum esporte selecionado
-                          </span>
-                        )}
-                      </div>
-                      <button
-                        onClick={() => setShowSportsModal(true)}
+                  <div className="flex flex-wrap gap-2 mb-3">
+                    {mockSports.map(sport => (
+                      <span 
+                        key={sport.id} 
+                        className="chip"
                         style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '8px',
-                          padding: '8px 16px',
-                          backgroundColor: 'white',
-                          border: '1px solid var(--neutral-300)',
-                          borderRadius: '8px',
-                          color: 'var(--ink-700)',
-                          fontSize: '14px',
-                          cursor: 'pointer',
-                          transition: 'all 0.2s'
+                          backgroundColor: 'var(--green-700)',
+                          color: 'white',
+                          padding: '6px 12px',
+                          borderRadius: '20px',
+                          fontSize: '14px'
                         }}
-                        onMouseEnter={e => e.currentTarget.style.backgroundColor = 'var(--neutral-50)'}
-                        onMouseLeave={e => e.currentTarget.style.backgroundColor = 'white'}
                       >
-                        <Plus size={16} />
-                        Adicionar esportes
-                      </button>
-                    </>
-                  )}
+                        {sport.name}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
 
@@ -419,7 +227,7 @@ export default function ProfilePage() {
                     Esportes de interesse
                   </p>
                   <p style={{ color: 'white', fontSize: '32px', fontWeight: 600 }}>
-                    {userSports.length}
+                    {mockSports.length}
                   </p>
                 </div>
                 
@@ -442,7 +250,7 @@ export default function ProfilePage() {
                     Membro desde
                   </p>
                   <p style={{ color: 'white', fontSize: '18px', fontWeight: 500 }}>
-                    {new Date(user.created_at).toLocaleDateString('pt-BR', { 
+                    {new Date(user?.created_at || Date.now()).toLocaleDateString('pt-BR', { 
                       month: 'long', 
                       year: 'numeric' 
                     })}
@@ -452,151 +260,6 @@ export default function ProfilePage() {
             </aside>
           </div>
         </section>
-
-        {/* Modal de Seleção de Esportes */}
-        {showSportsModal && (
-          <div style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: 'rgba(0,0,0,0.5)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 50
-          }}>
-            <div style={{
-              backgroundColor: 'white',
-              borderRadius: '16px',
-              padding: '32px',
-              maxWidth: '800px',
-              width: '90%',
-              maxHeight: '80vh',
-              display: 'flex',
-              flexDirection: 'column'
-            }}>
-              {/* Header do Modal */}
-              <div style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                marginBottom: '24px'
-              }}>
-                <h2 style={{ fontSize: '24px', fontWeight: 600, color: 'var(--ink-800)' }}>
-                  Selecione seus esportes de interesse
-                </h2>
-                <button
-                  onClick={() => {
-                    setShowSportsModal(false)
-                    setSelectedSports(userSports.map(s => s.id))
-                  }}
-                  style={{
-                    background: 'none',
-                    border: 'none',
-                    cursor: 'pointer',
-                    padding: '8px'
-                  }}
-                >
-                  <X size={24} color="var(--ink-600)" />
-                </button>
-              </div>
-
-              {/* Campo de busca */}
-              <input
-                type="text"
-                placeholder="Buscar esportes..."
-                value={searchSport}
-                onChange={(e) => setSearchSport(e.target.value)}
-                style={{
-                  width: '100%',
-                  padding: '12px 16px',
-                  borderRadius: '12px',
-                  border: '1px solid #E5E5E5',
-                  fontSize: '14px',
-                  marginBottom: '24px'
-                }}
-              />
-
-              {/* Lista de esportes por categoria */}
-              <div style={{
-                flex: 1,
-                overflowY: 'auto',
-                marginBottom: '24px'
-              }}>
-                {Object.entries(sportsByCategory).map(([category, sports]) => (
-                  <div key={category} style={{ marginBottom: '24px' }}>
-                    <h3 style={{
-                      fontSize: '14px',
-                      fontWeight: 600,
-                      color: 'var(--ink-600)',
-                      marginBottom: '12px',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.5px'
-                    }}>
-                      {category}
-                    </h3>
-                    <div style={{
-                      display: 'flex',
-                      flexWrap: 'wrap',
-                      gap: '8px'
-                    }}>
-                      {sports.map(sport => (
-                        <button
-                          key={sport.id}
-                          onClick={() => toggleSport(sport.id)}
-                          style={{
-                            padding: '8px 16px',
-                            borderRadius: '20px',
-                            border: selectedSports.includes(sport.id)
-                              ? '2px solid var(--green-700)'
-                              : '1px solid var(--neutral-300)',
-                            backgroundColor: selectedSports.includes(sport.id)
-                              ? 'var(--green-700)'
-                              : 'white',
-                            color: selectedSports.includes(sport.id)
-                              ? 'white'
-                              : 'var(--ink-700)',
-                            fontSize: '14px',
-                            cursor: 'pointer',
-                            transition: 'all 0.2s'
-                          }}
-                        >
-                          {sport.name}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Botões de ação */}
-              <div style={{
-                display: 'flex',
-                gap: '12px',
-                paddingTop: '24px',
-                borderTop: '1px solid var(--neutral-300)'
-              }}>
-                <Button
-                  onClick={() => {
-                    setShowSportsModal(false)
-                    setSelectedSports(userSports.map(s => s.id))
-                  }}
-                  className="flex-1 bg-neutral-200 text-neutral-800 hover:bg-neutral-300"
-                >
-                  Cancelar
-                </Button>
-                <Button
-                  onClick={handleSaveSports}
-                  className="flex-1 bg-green-900 hover:bg-green-950"
-                >
-                  Salvar {selectedSports.length > 0 && `(${selectedSports.length})`}
-                </Button>
-              </div>
-            </div>
-          </div>
-        )}
       </main>
     </div>
   )
