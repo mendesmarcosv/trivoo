@@ -12,6 +12,11 @@ export interface MockUser {
   avatar_url: string
   created_at: string
   updated_at: string
+  // Compatibilidade com Supabase User
+  user_metadata?: {
+    name?: string
+    email?: string
+  }
 }
 
 export const mockUsers: MockUser[] = [
@@ -28,7 +33,11 @@ export const mockUsers: MockUser[] = [
     },
     avatar_url: '/images/teachers/profile Ana Bechara.png',
     created_at: '2024-01-15T10:00:00Z',
-    updated_at: '2024-09-26T15:30:00Z'
+    updated_at: '2024-09-26T15:30:00Z',
+    user_metadata: {
+      name: 'Ana Silva',
+      email: 'ana.silva@email.com'
+    }
   },
   {
     id: 'user-2',
@@ -43,7 +52,11 @@ export const mockUsers: MockUser[] = [
     },
     avatar_url: '/images/teachers/profile Bruno Dantas.png',
     created_at: '2024-02-20T14:15:00Z',
-    updated_at: '2024-09-26T16:45:00Z'
+    updated_at: '2024-09-26T16:45:00Z',
+    user_metadata: {
+      name: 'Bruno Santos',
+      email: 'bruno.santos@email.com'
+    }
   },
   {
     id: 'user-3',
@@ -58,7 +71,11 @@ export const mockUsers: MockUser[] = [
     },
     avatar_url: '/images/teachers/profile Clarice Neri.png',
     created_at: '2024-03-10T09:30:00Z',
-    updated_at: '2024-09-26T17:20:00Z'
+    updated_at: '2024-09-26T17:20:00Z',
+    user_metadata: {
+      name: 'Clarice Oliveira',
+      email: 'clarice.oliveira@email.com'
+    }
   },
   {
     id: 'user-4',
@@ -73,7 +90,11 @@ export const mockUsers: MockUser[] = [
     },
     avatar_url: '/images/teachers/profile Gabriel Mitter.png',
     created_at: '2024-04-05T11:45:00Z',
-    updated_at: '2024-09-26T18:10:00Z'
+    updated_at: '2024-09-26T18:10:00Z',
+    user_metadata: {
+      name: 'Gabriel Costa',
+      email: 'gabriel.costa@email.com'
+    }
   },
   {
     id: 'user-5',
@@ -88,7 +109,11 @@ export const mockUsers: MockUser[] = [
     },
     avatar_url: '/images/teachers/profile Helena Moraes.png',
     created_at: '2024-05-12T16:20:00Z',
-    updated_at: '2024-09-26T19:00:00Z'
+    updated_at: '2024-09-26T19:00:00Z',
+    user_metadata: {
+      name: 'Helena Moraes',
+      email: 'helena.moraes@email.com'
+    }
   }
 ]
 
