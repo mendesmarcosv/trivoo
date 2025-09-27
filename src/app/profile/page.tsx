@@ -20,11 +20,10 @@ export default function ProfilePage() {
 
   // Esportes fictícios para demonstração
   const mockSports = [
-    { id: '1', name: 'Natação' },
-    { id: '2', name: 'Futebol' },
-    { id: '3', name: 'Tênis' },
-    { id: '4', name: 'Yoga' },
-    { id: '5', name: 'Pilates' }
+    { id: '1', name: 'Escalada esportiva (indoor)' },
+    { id: '2', name: 'Parkour' },
+    { id: '3', name: 'Slackline' },
+    { id: '4', name: 'Esgrima' }
   ]
 
   const handleSave = () => {

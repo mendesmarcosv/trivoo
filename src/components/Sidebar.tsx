@@ -72,7 +72,7 @@ export default function Sidebar({ onAuthClick }: SidebarProps) {
             </div>
             <div className="user-details">
               <span className="user-name">{user?.name || 'Usuário'}</span>
-              <span className="user-location">{user?.location || 'Niterói'}</span>
+              {user?.location && <span className="user-location">{user?.location}</span>}
             </div>
           </div>
         </div>

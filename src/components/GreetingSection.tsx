@@ -20,11 +20,10 @@ export default function GreetingSection() {
 
   // Esportes fictícios para demonstração
   const mockSports = [
-    { id: '1', name: 'Natação' },
-    { id: '2', name: 'Futebol' },
-    { id: '3', name: 'Tênis' },
-    { id: '4', name: 'Yoga' },
-    { id: '5', name: 'Pilates' }
+    { id: '1', name: 'Escalada esportiva (indoor)' },
+    { id: '2', name: 'Parkour' },
+    { id: '3', name: 'Slackline' },
+    { id: '4', name: 'Esgrima' }
   ]
 
   return (
@@ -66,7 +65,7 @@ export default function GreetingSection() {
               </button>
             </div>
             <div className="chips">
-              {mockSports.slice(0, 5).map(sport => (
+              {mockSports.slice(0, 4).map(sport => (
                 <span key={sport.id} className="chip">{sport.name}</span>
               ))}
             </div>
