@@ -20,15 +20,6 @@ echo "✅ Node.js e npm encontrados"
 echo "📦 Instalando dependências..."
 npm install
 
-# Criar arquivo .env.local se não existir
-if [ ! -f ".env.local" ]; then
-    echo "🔧 Criando arquivo .env.local..."
-    cp env.local .env.local
-    echo "✅ Arquivo .env.local criado"
-else
-    echo "✅ Arquivo .env.local já existe"
-fi
-
 echo ""
 echo "🎉 Setup concluído!"
 echo ""

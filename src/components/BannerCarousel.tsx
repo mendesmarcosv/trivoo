@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useState, useEffect, useRef } from 'react'
-import { useAuth } from '@/lib/hooks/useAuth'
 
 interface Banner {
   id: number
@@ -32,14 +31,11 @@ const banners: Banner[] = [
 ]
 
 export default function BannerCarousel() {
-  const { user } = useAuth()
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isDragging, setIsDragging] = useState(false)
   const [dragStartX, setDragStartX] = useState(0)
   const [dragOffset, setDragOffset] = useState(0)
   const intervalRef = useRef<NodeJS.Timeout | null>(null)
-
-  const userName = user?.user_metadata?.name || user?.email?.split('@')[0] || 'Usuário'
 
   // Auto-rotation every 6 seconds
   useEffect(() => {

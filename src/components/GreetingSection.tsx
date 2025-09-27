@@ -1,22 +1,13 @@
 'use client'
 
-import { useAuth } from '@/lib/hooks/useAuth'
 import BannerCarousel from './BannerCarousel'
 import LocationSelector from './LocationSelector'
 import Avatar from './Avatar'
 import { useRouter } from 'next/navigation'
+import { defaultUser } from '@/data/mockUsers'
 
 export default function GreetingSection() {
-  const { user } = useAuth()
   const router = useRouter()
-
-  // Obter primeiro nome
-  const getFirstName = () => {
-    if (user?.name) {
-      return user.name.split(' ')[0]
-    }
-    return 'Usuário'
-  }
 
   // Esportes fictícios para demonstração
   const mockSports = [
@@ -43,12 +34,12 @@ export default function GreetingSection() {
         <div className="greeting">
           <div className="hello">
             <Avatar 
-              name={user?.name}
-              email={user?.email}
+              name={defaultUser.name}
+              email={defaultUser.email}
               size="md"
               className="avatar"
             />
-            <h1 className="hello-title">Olá, {getFirstName()}!</h1>
+            <h1 className="hello-title">Olá, {defaultUser.name.split(' ')[0]}!</h1>
           </div>
 
           <div className="interests">

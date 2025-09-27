@@ -21,7 +21,7 @@ export const mockUsers: MockUser[] = [
     email: 'ana.silva@email.com',
     phone: '(21) 99999-1111',
     bio: 'Professora de natação há 8 anos. Especialista em técnicas de respiração e coordenação.',
-    location: '',
+    location: 'Niterói',
     location_coords: {
       lat: -22.9068,
       lng: -43.1729

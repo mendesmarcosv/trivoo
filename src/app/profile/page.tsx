@@ -1,21 +1,20 @@
 'use client'
 
 import React, { useState } from 'react'
-import { useAuth } from '@/lib/hooks/useAuth'
 import Sidebar from '@/components/Sidebar'
 import Button from '@/components/Button'
 import Avatar from '@/components/Avatar'
 import LocationSelector from '@/components/LocationSelector'
+import { defaultUser } from '@/data/mockUsers'
 
 export default function ProfilePage() {
-  const { user } = useAuth()
   const [isEditing, setIsEditing] = useState(false)
   
   const [formData, setFormData] = useState({
-    name: user?.name || '',
-    email: user?.email || '',
-    phone: user?.phone || '',
-    bio: user?.bio || ''
+    name: defaultUser.name,
+    email: defaultUser.email,
+    phone: defaultUser.phone,
+    bio: defaultUser.bio
   })
 
   // Esportes fictícios para demonstração
@@ -58,7 +57,7 @@ export default function ProfilePage() {
             <div style={{ display: 'flex', alignItems: 'center', gap: '24px', marginBottom: '32px' }}>
               <Avatar 
                 name={formData.name}
-                email={user?.email}
+                email={formData.email}
                 size="xl"
               />
               
@@ -249,7 +248,7 @@ export default function ProfilePage() {
                     Membro desde
                   </p>
                   <p style={{ color: 'white', fontSize: '18px', fontWeight: 500 }}>
-                    {new Date(user?.created_at || Date.now()).toLocaleDateString('pt-BR', { 
+                    {new Date(defaultUser.created_at).toLocaleDateString('pt-BR', { 
                       month: 'long', 
                       year: 'numeric' 
                     })}

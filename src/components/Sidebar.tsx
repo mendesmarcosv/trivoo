@@ -2,14 +2,13 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useAuth } from '@/lib/hooks/useAuth'
+import { defaultUser } from '@/data/mockUsers'
 
 interface SidebarProps {
   onAuthClick?: () => void
 }
 
 export default function Sidebar({ onAuthClick }: SidebarProps) {
-  const { user } = useAuth()
   const pathname = usePathname()
 
   return (
@@ -65,14 +64,13 @@ export default function Sidebar({ onAuthClick }: SidebarProps) {
           <div className="user-info">
             <div className="user-avatar">
               <img 
-                src={user?.avatar_url || '/images/teachers/profile Ana Bechara.png'} 
-                alt={user?.name || 'Usuário'} 
+                src={defaultUser.avatar_url} 
+                alt={defaultUser.name} 
                 className="w-8 h-8 rounded-full object-cover"
               />
             </div>
             <div className="user-details">
-              <span className="user-name">{user?.name || 'Usuário'}</span>
-              {user?.location && <span className="user-location">{user?.location}</span>}
+              <span className="user-name">{defaultUser.name}</span>
             </div>
           </div>
         </div>

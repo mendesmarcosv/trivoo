@@ -2,7 +2,6 @@
 
 import React, { useMemo, useState, useEffect } from 'react'
 import Sidebar from '@/components/Sidebar'
-import { useAuth } from '@/lib/hooks/useAuth'
 import { useRouter } from 'next/navigation'
 import dynamic from 'next/dynamic'
 
@@ -64,7 +63,6 @@ function listReasons(reasons: string[]): string {
 }
 
 export default function SwipePage() {
-  const { loading, isAuthenticated } = useAuth()
   const router = useRouter()
   const [index, setIndex] = useState(0)
   const [likes, setLikes] = useState<string[]>([])
@@ -74,12 +72,6 @@ export default function SwipePage() {
   const [viewport, setViewport] = useState({ width: 0, height: 0 })
 
   const current = QUESTIONS[index]
-
-  React.useEffect(() => {
-    if (!loading && !isAuthenticated) {
-      router.push('/auth/login')
-    }
-  }, [loading, isAuthenticated, router])
 
   const onVote = (liked: boolean) => {
     if (!current) return

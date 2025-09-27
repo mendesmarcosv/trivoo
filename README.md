@@ -9,10 +9,21 @@
 [![Next.js](https://img.shields.io/badge/Next.js-14-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-18-blue?style=for-the-badge&logo=react)](https://reactjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
-[![Supabase](https://img.shields.io/badge/Supabase-Green?style=for-the-badge&logo=supabase)](https://supabase.com/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
 
 </div>
+
+---
+
+## 🎨 Design & Protótipo
+
+### 📱 Protótipo Interativo
+**[🔗 Acesse o protótipo no Figma](https://www.figma.com/proto/CueQbPaJ6cfjgDsw8KWB4d/App?node-id=416-1507&p=f&t=E3GqrynWckVordsk-1&scaling=min-zoom&content-scaling=fixed&page-id=416%3A292&starting-point-node-id=418%3A5644)**
+
+### 🎯 Projeto Completo
+**[🔗 Veja o projeto completo no Figma](https://www.figma.com/design/CueQbPaJ6cfjgDsw8KWB4d/App?node-id=448-1446&t=QBK19AQH8SO3OYuG-1)**
+
+> 💡 **Dica**: Use o protótipo para navegar pela experiência completa da aplicação e entender o fluxo de usuário.
 
 ---
 
@@ -119,10 +130,9 @@ A Trivoo não é apenas uma plataforma, mas um **movimento por um ecossistema es
 - **[Tailwind CSS](https://tailwindcss.com/)** - Framework CSS utilitário
 
 ### Backend & Infraestrutura
-- **[Supabase](https://supabase.com/)** - Backend como serviço (BaaS)
-- **PostgreSQL** - Banco de dados relacional
-- **Row Level Security** - Segurança a nível de linha
-- **Real-time Subscriptions** - Atualizações em tempo real
+- **Dados Locais** - Arquivos JSON para demonstração
+- **LocalStorage** - Armazenamento local do navegador
+- **API IBGE** - Busca de cidades brasileiras
 
 ### UI/UX & Interações
 - **[Swiper.js](https://swiperjs.com/)** - Carrosséis responsivos e touch-friendly
@@ -133,7 +143,6 @@ A Trivoo não é apenas uma plataforma, mas um **movimento por um ecossistema es
 ### Deploy & DevOps
 - **[Vercel](https://vercel.com/)** - Plataforma de deploy e hosting
 - **GitHub Actions** - CI/CD automatizado
-- **Environment Variables** - Configuração segura de variáveis
 
 ---
 
@@ -181,24 +190,24 @@ Accessible: #059669 (Green-600)   /* Contraste WCAG AA */
 ```
 src/
 ├── app/                    # App Router (Next.js 14)
-│   ├── auth/               # Páginas de autenticação
 │   ├── profile/            # Perfil do usuário
 │   └── swipe/              # Funcionalidade de swipe
 ├── components/             # Componentes React reutilizáveis
-│   ├── AuthModal.tsx       # Modal de autenticação
 │   ├── Sidebar.tsx         # Navegação lateral
 │   └── [Sections]/         # Seções da página inicial
+├── data/                   # Dados locais (JSON)
+│   ├── clubData.json       # Dados dos clubes
+│   ├── eventData.json      # Dados dos eventos
+│   └── teacherData.json    # Dados dos professores
 ├── lib/                    # Utilitários e configurações
-│   ├── hooks/              # Custom hooks
-│   ├── supabase.ts         # Cliente Supabase
-│   └── supabase-storage.ts # Gerenciamento de arquivos
+│   └── hooks/              # Custom hooks
 └── styles/                 # Estilos globais e responsivos
 ```
 
 ### Padrões de Desenvolvimento
 
 - **Component-Driven Development**: Componentes isolados e testáveis
-- **Custom Hooks**: Lógica reutilizável (`useAuth`, `useForm`, `useSwiper`)
+- **Custom Hooks**: Lógica reutilizável (`useForm`, `useSwiper`)
 - **Type Safety**: TypeScript em toda a aplicação
 - **Error Boundaries**: Tratamento robusto de erros
 - **Performance Optimization**: Lazy loading e code splitting
@@ -229,9 +238,6 @@ npm run dev
 # Instalar dependências
 npm install
 
-# Configurar variáveis de ambiente
-cp env.local .env.local
-
 # Executar
 npm run dev
 ```
@@ -246,12 +252,11 @@ npm run dev
 - **Built-in Optimization**: Imagens, fontes e scripts otimizados automaticamente
 - **Developer Experience**: Hot reload, TypeScript nativo, debugging avançado
 
-### Por que Supabase?
-- **Rapid Development**: Backend completo em minutos
-- **Real-time**: Atualizações instantâneas sem complexidade
-- **Authentication**: Sistema robusto de autenticação
-- **PostgreSQL**: Banco de dados confiável e escalável
-- **Row Level Security**: Segurança a nível de linha integrada
+### Por que Dados Locais?
+- **Simplicidade**: Sem necessidade de configuração de banco de dados
+- **Demonstração**: Perfeito para apresentações e testes
+- **Performance**: Carregamento instantâneo dos dados
+- **Facilidade**: Setup super simples para professores e desenvolvedores
 
 ### Por que Tailwind CSS?
 - **Utility-First**: Estilização rápida e consistente
@@ -294,11 +299,9 @@ npm run dev
 
 ## 🔒 Segurança
 
-- **Row Level Security**: Políticas de acesso no banco de dados
-- **Environment Variables**: Credenciais protegidas
 - **HTTPS Only**: Comunicação segura
 - **Input Validation**: Sanitização de dados do usuário
-- **Authentication**: Tokens JWT seguros
+- **LocalStorage**: Dados armazenados localmente no navegador
 
 ---
 
