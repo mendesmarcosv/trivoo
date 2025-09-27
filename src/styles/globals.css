@@ -1,0 +1,96 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap');
+@import url('https://unpkg.com/@phosphor-icons/web');
+
+@import './styles.css';
+@import './responsive.css';
+
+/* Design tokens: cores principais e paletas */
+:root {
+  /* Primary */
+  --primary-green: #D5FB43;
+  --primary-dark-green: #163300;
+
+  /* Green scale */
+  --green-50: #FBFFEC;
+  --green-100: #F7FED9;
+  --green-200: #F0FEBD;
+  --green-300: #EAFDA1;
+  --green-400: #E4FC85;
+  --green-500: #D5FB43;
+  --green-600: #B5D539;
+  --green-700: #95B02F;
+  --green-800: #758A25;
+  --green-900: #4C5E18;
+  --green-950: #0D1F00;
+
+  /* Neutral scale */
+  --neutral-50: #FCFCFC;
+  --neutral-100: #F7F7F7;
+  --neutral-200: #ECECEC;
+  --neutral-300: #E0E0E0;
+  --neutral-400: #C7C7C7;
+  --neutral-500: #A8A8A8;
+  --neutral-600: #8B8B8B;
+  --neutral-700: #5F5F5F;
+  --neutral-800: #3B3B3B;
+  --neutral-900: #1D1D1D;
+  --neutral-950: #0E0E0E;
+}
+
+/* Utilidades compatíveis com as classes existentes (não altera o visual atual) */
+@layer components {
+  .chip { @apply inline-flex items-center rounded-md text-xs font-medium gap-2; }
+  .chip-filled { @apply rounded-xl; }
+  .teacher-card { @apply rounded-2xl; }
+  .club-card { @apply rounded-2xl; }
+  .event-card .thumb { @apply rounded-xl; }
+}
+
+/* Base styles */
+html, body {
+  font-family: 'Raleway', system-ui, -apple-system, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', Arial, sans-serif !important;
+  background: var(--bg);
+  color: var(--ink-800);
+}
+
+/* Smooth transitions for better UX */
+* {
+  transition: opacity 0.15s ease-in-out;
+}
+
+/* Animações */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Page transitions */
+.layout {
+  transition: all 0.15s ease-in-out;
+}
+
+/* Sidebar transitions */
+.sidebar {
+  transition: none; /* Remove transitions from sidebar to prevent flickering */
+}
+
+.sidebar .menu-item {
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+/* Remove default browser styles */
+input, button, textarea, select {
+  outline: none;
+  border: none;
+  box-shadow: none;
+}
+
+input:focus, button:focus, textarea:focus, select:focus {
+  outline: none;
+  border: none;
+  box-shadow: none;
+}
+

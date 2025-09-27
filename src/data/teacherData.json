@@ -1,0 +1,90 @@
+[
+  {
+    "id": 1,
+    "name": "Victor Nascimento",
+    "sport": "Tamboréu",
+    "rating": "4.9",
+    "location": "Praia de Charitas",
+    "avatar": "/images/teachers/profile Victor Nascimento.png"
+  },
+  {
+    "id": 2,
+    "name": "Helena Moraes",
+    "sport": "Esgrima",
+    "rating": "4.7",
+    "location": "Sala de Esgrima São Domingos",
+    "avatar": "/images/teachers/profile Helena Moraes.png"
+  },
+  {
+    "id": 3,
+    "name": "Lucas Prado",
+    "sport": "Escalada",
+    "rating": "4.4",
+    "location": "Escadarias do Ingá",
+    "avatar": "/images/teachers/profile Lucas Prado.png"
+  },
+  {
+    "id": 4,
+    "name": "Ana Bechara",
+    "sport": "Corrida",
+    "rating": "4.6",
+    "location": "Orla da Boa Viagem",
+    "avatar": "/images/teachers/profile Ana Bechara.png"
+  },
+  {
+    "id": 5,
+    "name": "Mateus Furlan", 
+    "sport": "Natação",
+    "rating": "4.5",
+    "location": "Complexo Aquático Pendotiba",
+    "avatar": "/images/teachers/profile Mateus Furlan.png"
+  },
+  {
+    "id": 6,
+    "name": "Clarice Neri",
+    "sport": "Beach Tennis",
+    "rating": "4.8",
+    "location": "Arena de Squash Santa Rosa",
+    "avatar": "/images/teachers/profile Clarice Neri.png"
+  },
+  {
+    "id": 7,
+    "name": "Rogério Saito",
+    "sport": "Cross Fit",
+    "rating": "4.3",
+    "location": "Centro de Treino Várzea das Moças",
+    "avatar": "/images/teachers/profile Rogério Saito.png"
+  },
+  {
+    "id": 8,
+    "name": "Naomi Tanaka",
+    "sport": "Tênis de Mesa",
+    "rating": "4.9",
+    "location": "Ginásio São Domingos",
+    "avatar": "/images/teachers/profile Naomi Tanaka.png"
+  },
+  {
+    "id": 9,
+    "name": "Gabriel Mitter",
+    "sport": "Futebol",
+    "rating": "4.2",
+    "location": "Campo Caio Martins",
+    "avatar": "/images/teachers/profile Gabriel Mitter.png"
+  },
+  {
+    "id": 10,
+    "name": "Yara Potiguara",
+    "sport": "Ginástica Rítmica",
+    "rating": "4.5",
+    "location": "Área Verde Maria Paula",
+    "avatar": "/images/teachers/profile Yara Potiguara.png"
+  },
+  {
+    "id": 11,
+    "name": "Bruno Dantas",
+    "sport": "Escalada",
+    "rating": "4.6",
+    "location": "Climb House Pendotiba",
+    "avatar": "/images/teachers/profile Bruno Dantas.png"
+  }
+]
