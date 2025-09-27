@@ -109,12 +109,32 @@ export function useAuth() {
   const signIn = async (email: string, password: string) => {
     setAuthState(prev => ({ ...prev, loading: true, error: null }))
     try {
+      // Debug: verificar configuração do Supabase
+      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+      const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+      
+      if (!supabaseUrl || supabaseUrl.includes('placeholder') || 
+          !supabaseKey || supabaseKey.includes('placeholder')) {
+        console.error('❌ Supabase não configurado corretamente:', {
+          url: supabaseUrl,
+          key: supabaseKey ? 'configurada' : 'não configurada'
+        })
+        throw new Error('Configuração do Supabase não encontrada. Verifique as variáveis de ambiente.')
+      }
+
+      console.log('🔐 Tentando fazer login com:', { email, url: supabaseUrl })
+      
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password
       })
 
-      if (error) throw error
+      if (error) {
+        console.error('❌ Erro no login:', error)
+        throw error
+      }
+
+      console.log('✅ Login realizado com sucesso:', data.user?.email)
 
       // Buscar perfil após login
       if (data.user) {
@@ -123,6 +143,7 @@ export function useAuth() {
 
       return { success: true, user: data.user }
     } catch (error) {
+      console.error('❌ Erro geral no login:', error)
       setAuthState(prev => ({ ...prev, error: error as AuthError }))
       return { success: false, error: error as AuthError }
     } finally {

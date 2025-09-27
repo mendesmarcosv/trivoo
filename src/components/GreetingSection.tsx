@@ -88,6 +88,11 @@ export default function GreetingSection() {
 
   return (
     <>
+      {/* Logo no mobile */}
+      <div className="mobile-logo">
+        <img src="/images/logo-trivoo-dark.svg" alt="Trivoo" className="logo-mobile" />
+      </div>
+
       {/* Location chip */}
       <div className="toolbar">
         <LocationSelector />

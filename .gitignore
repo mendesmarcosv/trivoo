@@ -28,6 +28,10 @@ yarn-error.log*
 .env*.local
 .env
 
+# But allow env.local to be committed for teachers
+!.env.local
+!env.local
+
 # vercel
 .vercel
 

@@ -21,7 +21,26 @@ export default function LoginPage() {
       if (result.success) {
         router.push('/')
       } else {
-        throw new Error(result.error?.message || 'Erro no login')
+        // Tratar diferentes tipos de erro do Supabase
+        let errorMessage = 'Erro no login'
+        
+        if (result.error?.message) {
+          switch (result.error.message) {
+            case 'Invalid login credentials':
+              errorMessage = 'Email ou senha incorretos'
+              break
+            case 'Email not confirmed':
+              errorMessage = 'Confirme seu email antes de fazer login'
+              break
+            case 'Too many requests':
+              errorMessage = 'Muitas tentativas. Tente novamente em alguns minutos'
+              break
+            default:
+              errorMessage = result.error.message
+          }
+        }
+        
+        throw new Error(errorMessage)
       }
     }
   })

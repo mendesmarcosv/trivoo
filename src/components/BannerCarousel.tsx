@@ -18,32 +18,16 @@ const banners: Banner[] = [
     title: "Seu próximo esporte",
     subtitle: "está a um swipe",
     description: "Faça o teste e descubra um novo esporte que combine com você",
-    imageUrl: "/images/banners/banner-1.jpg",
+    imageUrl: "/images/banners/banner-1.png",
     backgroundColor: "var(--green-500)"
   },
   {
     id: 2,
-    title: "Encontre sua",
-    subtitle: "comunidade esportiva",
-    description: "Conecte-se com pessoas que compartilham sua paixão pelos esportes",
-    imageUrl: "/images/banners/banner-2.jpg",
+    title: "Assistente IA",
+    subtitle: "pra ajudar na jornada",
+    description: "Sua companhia inteligente para descobrir esportes incríveis",
+    imageUrl: "/images/banners/banner-2.png",
     backgroundColor: "var(--green-900)"
-  },
-  {
-    id: 3,
-    title: "Explore novos",
-    subtitle: "horizontes",
-    description: "Descubra esportes únicos e aventuras que você nunca imaginou",
-    imageUrl: "/images/banners/banner-3.jpg",
-    backgroundColor: "var(--green-800)"
-  },
-  {
-    id: 4,
-    title: "Transforme sua",
-    subtitle: "rotina diária",
-    description: "Adicione movimento e diversão ao seu dia a dia",
-    imageUrl: "/images/banners/banner-4.jpg",
-    backgroundColor: "var(--green-700)"
   }
 ]
 
@@ -132,10 +116,11 @@ export default function BannerCarousel() {
   return (
     <div className="relative w-full">
       {/* Carousel Container */}
-      <div className="relative overflow-hidden rounded-2xl">
+      <div className="relative overflow-hidden" style={{ borderRadius: '16px' }}>
         <div 
           className="flex transition-transform duration-500 ease-in-out"
           style={{
+            borderRadius: '16px',
             transform: `translateX(-${currentIndex * 100}%)`,
             transition: isDragging ? 'none' : 'transform 500ms ease-in-out'
           }}

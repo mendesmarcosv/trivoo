@@ -32,3 +32,6 @@ Exemplo de pergunta:
 Crie via arquivo dedicado se decidir persistir (vide `supabase/swipe_results.sql`).
 
 
+
+
+

@@ -113,23 +113,49 @@ export default function SwipePage() {
   const [dragX, setDragX] = useState(0)
   const likeOpacity = Math.min(Math.max(dragX / 120, 0), 1)
   const dislikeOpacity = Math.min(Math.max(-dragX / 120, 0), 1)
+  
+  // Detectar se é mobile
+  const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768
   const centerFeedbackOpacity = Math.max(likeOpacity, dislikeOpacity)
   const centerFeedbackIsLike = likeOpacity >= dislikeOpacity
 
   const onPointerDown = (e: React.PointerEvent) => {
+    e.preventDefault()
     setDragStartX(e.clientX)
   }
   const onPointerMove = (e: React.PointerEvent) => {
     if (dragStartX === null) return
+    e.preventDefault()
     setDragX(e.clientX - dragStartX)
   }
   const onPointerUp = () => {
     if (dragStartX === null) return
-    const threshold = 80
+    const threshold = isMobile ? 60 : 80 // Threshold menor para mobile
     if (dragX > threshold) onVote(true)
     else if (dragX < -threshold) onVote(false)
-    setDragStartX(null)
     setDragX(0)
+    setDragStartX(null)
+  }
+
+  // Eventos de touch para melhor compatibilidade mobile
+  const onTouchStart = (e: React.TouchEvent) => {
+    e.preventDefault()
+    const touch = e.touches[0]
+    setDragStartX(touch.clientX)
+  }
+  const onTouchMove = (e: React.TouchEvent) => {
+    if (dragStartX === null) return
+    e.preventDefault()
+    const touch = e.touches[0]
+    setDragX(touch.clientX - dragStartX)
+  }
+  const onTouchEnd = () => {
+    if (dragStartX === null) return
+    const threshold = isMobile ? 60 : 80
+    if (dragX > threshold) onVote(true)
+    else if (dragX < -threshold) onVote(false)
+    setDragX(0)
+    setDragStartX(null)
   }
 
   // Confetti quando finalizar (infinitamente)
@@ -154,8 +180,12 @@ export default function SwipePage() {
       .map(offset => ({ q: QUESTIONS[index + offset], offset }))
       .filter(item => !!item.q) as { q: Question; offset: number }[]
 
+    // Tamanhos responsivos para os cards
+    const cardWidth = isMobile ? 280 : 320
+    const cardHeight = isMobile ? 420 : 480
+    
     return (
-      <div style={{ position: 'relative', width: 320, height: 480, maxWidth: '90%' }}>
+      <div style={{ position: 'relative', width: cardWidth, height: cardHeight, maxWidth: '90%' }}>
         {stack
           .reverse() // renderiza do fundo para frente
           .map(({ q, offset }) => {
@@ -171,6 +201,9 @@ export default function SwipePage() {
                 onPointerDown={isTop ? onPointerDown : undefined}
                 onPointerMove={isTop ? onPointerMove : undefined}
                 onPointerUp={isTop ? onPointerUp : undefined}
+                onTouchStart={isTop ? onTouchStart : undefined}
+                onTouchMove={isTop ? onTouchMove : undefined}
+                onTouchEnd={isTop ? onTouchEnd : undefined}
                 style={{
                   position: 'absolute',
                   inset: 0,
@@ -229,15 +262,53 @@ export default function SwipePage() {
     <div className="layout" style={{ background: '#B5D539', minHeight: '100vh' }}>
       <style jsx global>{`
         .sidebar { background: #B5D539 !important; }
+        @media (max-width: 768px) {
+          .sidebar { background: white !important; }
+        }
+        .content { background: transparent !important; }
       `}</style>
       <Sidebar />
       <main className="content" style={{ background: 'transparent' }}>
-        <div className="toolbar" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <h1 style={{ fontSize: '32px', fontWeight: 800, letterSpacing: 0.6, color: 'var(--ink-800)', margin: '0 auto', textTransform: 'uppercase' }}>Responda e descubra seu esporte</h1>
-        </div>
-
-        <section className="greeting-and-promo" style={{ minHeight: 560, display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
-          <div className="greeting" style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 16 }}>
+        <section className="greeting-and-promo" style={{ minHeight: 'calc(100vh - 100px)', display: 'flex', alignItems: 'flex-start', justifyContent: 'center', width: '100%', position: 'relative', paddingTop: '20px' }}>
+          {/* Background centralizado */}
+          <div style={{
+            position: 'absolute',
+            top: isMobile ? '60%' : '50%',
+            left: isMobile ? '48%' : '50%',
+            transform: 'translate(-50%, -50%)',
+            zIndex: 1,
+            pointerEvents: 'none',
+            width: isMobile ? '130vw' : 'auto',
+            height: isMobile ? '130vh' : 'auto',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}>
+            <img 
+              src="/images/backgrounds/frame-assets-swipe.webp" 
+              alt="Background frame" 
+              style={{ 
+                width: isMobile ? '130%' : 'auto', 
+                height: isMobile ? '130%' : 'auto', 
+                maxWidth: 'none',
+                maxHeight: 'none',
+                objectFit: 'contain',
+                opacity: 1 
+              }} 
+            />
+          </div>
+          
+          <div className="greeting" style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 16, position: 'relative', zIndex: 2 }}>
+            {/* Título e subtítulo */}
+            <div style={{ textAlign: 'center', marginBottom: 28 }}>
+              <h2 style={{ fontSize: '32px', fontWeight: 700, color: 'var(--ink-900)', margin: '0 0 8px 0', textTransform: 'none' }}>
+                Descubra Seu Esporte
+              </h2>
+              <p style={{ fontSize: '24px', fontWeight: 500, color: 'var(--ink-700)', margin: 0, textTransform: 'none' }}>
+                Responda às perguntas!
+              </p>
+            </div>
+            
             {/* Cards (stack) */}
             {index < QUESTIONS.length && renderStack()}
 
@@ -278,17 +349,52 @@ export default function SwipePage() {
             )}
 
             {index >= QUESTIONS.length && (
-              <div style={{ width: 560, maxWidth: '95%', background: 'white', borderRadius: 24, padding: 28, textAlign: 'center', position: 'relative', zIndex: 5 }}>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, marginBottom: 10 }}>
-                  <i className="ph ph-confetti" style={{ fontSize: 26, color: '#16a34a' }}></i>
-                  <h2 style={{ fontSize: 24, color: 'var(--ink-900)', margin: 0, textAlign: 'center' }}>Recomendamos para você</h2>
+              <div style={{ width: '100%', maxWidth: '520px', background: 'white', borderRadius: 24, padding: 24, textAlign: 'center', position: 'relative', zIndex: 5, margin: '0 16px' }}>
+                <div style={{ 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'center', 
+                  gap: 12, 
+                  marginBottom: 24,
+                  background: '#CCE56A',
+                  borderRadius: 16,
+                  padding: '16px 20px',
+                  width: 'fit-content',
+                  margin: '0 auto 24px auto'
+                }}>
+                  <img 
+                    src="/images/badges/result-badge-trofeu.webp" 
+                    alt="Troféu" 
+                    style={{ width: 32, height: 32 }} 
+                  />
+                  <h2 style={{ fontSize: 24, color: '#3B3B3B', margin: 0, textAlign: 'center', fontWeight: 700 }}>Recomendamos para você</h2>
                 </div>
-                {recommendations.length > 0 ? (
-                  <div style={{ marginTop: 24 }}>
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 16 }}>
-                      {recommendations.map((s) => (
-                        <div key={s.name} style={{
-                          background: '#E5E7EB',
+                <div style={{ marginTop: 20 }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 16 }}>
+                    {recommendations.length > 0 ? (
+                      recommendations.slice(0, 3).map((s, index) => {
+                        const colors = ['#B5D539', '#EDC843', '#A0E1E1']
+                        return (
+                          <div key={s.name} style={{
+                            background: colors[index],
+                            color: '#111827',
+                            borderRadius: 16,
+                            padding: '16px 14px',
+                            fontWeight: 800,
+                            fontSize: 18,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            minHeight: 64
+                          }}>
+                            {s.name}
+                          </div>
+                        )
+                      })
+                    ) : (
+                      <>
+                        <div style={{
+                          background: '#B5D539',
                           color: '#111827',
                           borderRadius: 16,
                           padding: '16px 14px',
@@ -299,14 +405,40 @@ export default function SwipePage() {
                           justifyContent: 'center',
                           minHeight: 64
                         }}>
-                          {s.name}
+                          Descubra novos esportes!
                         </div>
-                      ))}
-                    </div>
+                        <div style={{
+                          background: '#EDC843',
+                          color: '#111827',
+                          borderRadius: 16,
+                          padding: '16px 14px',
+                          fontWeight: 800,
+                          fontSize: 18,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          minHeight: 64
+                        }}>
+                          Explore aventuras!
+                        </div>
+                        <div style={{
+                          background: '#A0E1E1',
+                          color: '#111827',
+                          borderRadius: 16,
+                          padding: '16px 14px',
+                          fontWeight: 800,
+                          fontSize: 18,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          minHeight: 64
+                        }}>
+                          Experimente!
+                        </div>
+                      </>
+                    )}
                   </div>
-                ) : (
-                  <p style={{ color: 'var(--ink-600)' }}>Você não curtiu nada por enquanto. Tente novamente!</p>
-                )}
+                </div>
 
                 {/* Justificativas */}
                 {recommendations.length > 0 && (
@@ -331,13 +463,13 @@ export default function SwipePage() {
                   </div>
                 )}
 
-                <div style={{ marginTop: 28, display: 'flex', gap: 12, justifyContent: 'center' }}>
+                <div style={{ marginTop: 20, display: 'flex', gap: 12, justifyContent: 'center' }}>
                   <button
                     onClick={() => { setIndex(0); setLikes([]); setDislikes([]); }}
                     style={{
                       padding: '12px 22px',
-                      background: '#E5E7EB',
-                      color: '#1F2937',
+                      background: '#CCE56A',
+                      color: '#3B3B3B',
                       border: 'none',
                       borderRadius: 10,
                       fontWeight: 600,

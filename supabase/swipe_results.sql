@@ -60,3 +60,6 @@ CREATE INDEX IF NOT EXISTS idx_swipe_answers_session ON swipe_answers(session_id
 CREATE INDEX IF NOT EXISTS idx_swipe_recommendations_session ON swipe_recommendations(session_id);
 
 
+
+
+

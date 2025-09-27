@@ -7,6 +7,7 @@ import { Toaster } from 'react-hot-toast'
 export const metadata: Metadata = {
   title: 'Trivoo',
   description: 'Sua próxima aventura esportiva está a um swipe',
+  viewport: 'width=device-width, initial-scale=1, maximum-scale=1',
 }
 
 export default function RootLayout({

@@ -46,24 +46,24 @@ export default function Sidebar({ onAuthClick }: SidebarProps) {
               {pathname === '/swipe' && <span className="active-pill" aria-hidden="true"></span>}
             </Link>
             <a className="menu-item" href="#explorar">
-              <i className="ph ph-compass"></i>
+              <i className="ph ph-magnifying-glass"></i>
               <span>Explorar</span>
-            </a>
-            <a className="menu-item" href="#mapa">
-              <i className="ph ph-map-pin"></i>
-              <span>Mapa</span>
             </a>
             <Link 
               href="/profile" 
               className={`menu-item ${pathname === '/profile' ? 'is-active' : ''}`}
             >
-              <i className="ph ph-user"></i>
+              <i className="ph ph-user-circle"></i>
               <span>Meu Perfil</span>
               {pathname === '/profile' && <span className="active-pill" aria-hidden="true"></span>}
             </Link>
-            <a className="menu-item" href="#assistente">
-              <i className="ph ph-robot"></i>
+            <a className="menu-item mobile-hidden" href="#assistente">
+              <i className="ph ph-sparkle"></i>
               <span>Assistente IA</span>
+            </a>
+            <a className="menu-item mobile-hidden" href="#configuracoes">
+              <i className="ph ph-gear"></i>
+              <span>Configurações</span>
             </a>
           </nav>
         </div>
