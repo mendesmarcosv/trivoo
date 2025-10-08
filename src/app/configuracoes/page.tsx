@@ -18,7 +18,7 @@ const ConfigItem: React.FC<ConfigItemProps> = ({ icon, label, onClick }) => {
     >
       <div className="flex items-center gap-3">
         <i className={`ph ${icon} text-[#6B7A2F]`} style={{ fontSize: '24px', width: '24px', height: '24px' }}></i>
-        <span className="text-[#2C2C2C] font-medium" style={{ fontSize: '18px' }}>{label}</span>
+        <span className="text-[#2C2C2C] font-medium" style={{ fontSize: '16px' }}>{label}</span>
       </div>
       <i className="ph ph-caret-right group-hover:text-[#6B7A2F] transition-colors" style={{ fontSize: '24px', width: '24px', height: '24px', color: 'var(--neutral-600)' }}></i>
     </button>
@@ -47,7 +47,7 @@ export default function ConfiguracoesPage() {
         </div>
 
         {/* Content */}
-        <div style={{ maxWidth: '600px' }}>
+        <div style={{ maxWidth: '60%' }}>
           {/* Meu perfil */}
           <div className="config-section">
             <h2 style={{ 
