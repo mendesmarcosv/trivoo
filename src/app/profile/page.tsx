@@ -20,7 +20,6 @@ interface Sport {
 export default function ProfilePage() {
   const router = useRouter()
   const { user, userProfile, loading, fetchUserProfile } = useAuth()
-  const [isEditing, setIsEditing] = useState(false)
   const [isLoadingSports, setIsLoadingSports] = useState(false)
   const [allSports, setAllSports] = useState<Sport[]>([])
   const [userSports, setUserSports] = useState<Sport[]>([])
@@ -28,12 +27,6 @@ export default function ProfilePage() {
   const [showSportsModal, setShowSportsModal] = useState(false)
   const [searchSport, setSearchSport] = useState('')
   
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    bio: ''
-  })
 
   React.useEffect(() => {
     if (!loading && !user) {
@@ -41,16 +34,6 @@ export default function ProfilePage() {
     }
   }, [user, loading, router])
 
-  React.useEffect(() => {
-    if (user && userProfile) {
-      setFormData({
-        name: userProfile.name || user.user_metadata?.name || '',
-        email: user.email || '',
-        phone: userProfile.phone || user.user_metadata?.phone || '',
-        bio: userProfile.bio || ''
-      })
-    }
-  }, [user, userProfile])
 
   // Buscar todos os esportes disponíveis
   useEffect(() => {
@@ -110,31 +93,6 @@ export default function ProfilePage() {
 
   if (!user) return null
 
-  const handleSave = async () => {
-    try {
-      // Salvar dados do perfil
-      const { error: profileError } = await supabase
-        .from('profiles')
-        .update({
-          name: formData.name,
-          phone: formData.phone,
-          bio: formData.bio,
-          updated_at: new Date().toISOString()
-        })
-        .eq('id', user.id)
-
-      if (profileError) throw profileError
-
-      // Atualizar perfil no contexto
-      await fetchUserProfile()
-
-      toast.success('Perfil atualizado com sucesso!')
-      setIsEditing(false)
-    } catch (error) {
-      console.error('Erro ao salvar perfil:', error)
-      toast.error('Erro ao salvar alterações')
-    }
-  }
 
   const handleSaveSports = async () => {
     try {
@@ -198,14 +156,12 @@ export default function ProfilePage() {
         {/* Header */}
         <div className="toolbar" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <h1 style={{ fontSize: '30px', fontWeight: 600, color: 'var(--ink-800)' }}>Meu Perfil</h1>
-          {!isEditing && (
-            <Button 
-              onClick={() => setIsEditing(true)}
-              className="bg-green-900 hover:bg-green-950"
-            >
-              Editar perfil
-            </Button>
-          )}
+          <Button 
+            onClick={() => router.push('/configuracoes')}
+            className="bg-green-900 hover:bg-green-950"
+          >
+            Editar perfil
+          </Button>
         </div>
 
         {/* Profile Content */}
@@ -215,7 +171,7 @@ export default function ProfilePage() {
             {/* Profile Picture */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '24px', marginBottom: '32px' }}>
               <Avatar 
-                name={formData.name}
+                name={userProfile?.name || user?.user_metadata?.name}
                 email={user?.email}
                 size="xl"
                 avatarUrl={userProfile?.avatar_url}
@@ -223,104 +179,84 @@ export default function ProfilePage() {
               
               <div style={{ flex: 1 }}>
                 <h2 style={{ fontSize: '24px', fontWeight: 600, color: 'var(--ink-800)' }}>
-                  {formData.name || 'Usuário'}
+                  {userProfile?.name || user?.user_metadata?.name || 'Usuário'}
                 </h2>
-                <p style={{ color: 'var(--ink-600)', marginBottom: '8px' }}>{formData.email}</p>
-                {!isEditing && (
-                  <div style={{ marginTop: '12px' }}>
-                    <LocationSelector />
-                  </div>
-                )}
+                <p style={{ color: 'var(--ink-600)', marginBottom: '8px' }}>{user?.email}</p>
+                <div style={{ marginTop: '12px' }}>
+                  <LocationSelector />
+                </div>
               </div>
             </div>
 
-            {/* Form Fields */}
+            {/* Profile Information */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
               <div>
                 <label style={{ display: 'block', marginBottom: '8px', color: 'var(--ink-700)', fontSize: '14px' }}>
                   Nome completo
                 </label>
-                <input
-                  type="text"
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  disabled={!isEditing}
-                  style={{
-                    width: '100%',
-                    padding: '12px 16px',
-                    borderRadius: '12px',
-                    border: 'none',
-                    backgroundColor: isEditing ? 'white' : 'var(--neutral-100)',
-                    fontSize: '14px',
-                    color: 'var(--ink-800)'
-                  }}
-                />
+                <div style={{
+                  width: '100%',
+                  padding: '12px 16px',
+                  borderRadius: '12px',
+                  border: 'none',
+                  backgroundColor: 'var(--neutral-100)',
+                  fontSize: '14px',
+                  color: 'var(--ink-800)'
+                }}>
+                  {userProfile?.name || user?.user_metadata?.name || 'Não informado'}
+                </div>
               </div>
 
               <div>
                 <label style={{ display: 'block', marginBottom: '8px', color: 'var(--ink-700)', fontSize: '14px' }}>
                   Email
                 </label>
-                <input
-                  type="email"
-                  value={formData.email}
-                  disabled
-                  style={{
-                    width: '100%',
-                    padding: '12px 16px',
-                    borderRadius: '12px',
-                    border: 'none',
-                    backgroundColor: 'var(--neutral-100)',
-                    fontSize: '14px',
-                    color: 'var(--ink-600)',
-                    cursor: 'not-allowed'
-                  }}
-                />
+                <div style={{
+                  width: '100%',
+                  padding: '12px 16px',
+                  borderRadius: '12px',
+                  border: 'none',
+                  backgroundColor: 'var(--neutral-100)',
+                  fontSize: '14px',
+                  color: 'var(--ink-600)'
+                }}>
+                  {user?.email || 'Não informado'}
+                </div>
               </div>
 
               <div>
                 <label style={{ display: 'block', marginBottom: '8px', color: 'var(--ink-700)', fontSize: '14px' }}>
                   Telefone
                 </label>
-                <input
-                  type="tel"
-                  value={formData.phone}
-                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                  disabled={!isEditing}
-                  placeholder="(00) 00000-0000"
-                  style={{
-                    width: '100%',
-                    padding: '12px 16px',
-                    borderRadius: '12px',
-                    border: 'none',
-                    backgroundColor: isEditing ? 'white' : 'var(--neutral-100)',
-                    fontSize: '14px',
-                    color: 'var(--ink-800)'
-                  }}
-                />
+                <div style={{
+                  width: '100%',
+                  padding: '12px 16px',
+                  borderRadius: '12px',
+                  border: 'none',
+                  backgroundColor: 'var(--neutral-100)',
+                  fontSize: '14px',
+                  color: 'var(--ink-800)'
+                }}>
+                  {userProfile?.phone || user?.user_metadata?.phone || 'Não informado'}
+                </div>
               </div>
 
               <div>
                 <label style={{ display: 'block', marginBottom: '8px', color: 'var(--ink-700)', fontSize: '14px' }}>
                   Biografia
                 </label>
-                <textarea
-                  value={formData.bio}
-                  onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
-                  disabled={!isEditing}
-                  placeholder="Conte um pouco sobre você..."
-                  rows={4}
-                  style={{
-                    width: '100%',
-                    padding: '12px 16px',
-                    borderRadius: '12px',
-                    border: 'none',
-                    backgroundColor: isEditing ? 'white' : '#F7F7F7',
-                    fontSize: '14px',
-                    color: 'var(--ink-800)',
-                    resize: 'vertical'
-                  }}
-                />
+                <div style={{
+                  width: '100%',
+                  padding: '12px 16px',
+                  borderRadius: '12px',
+                  border: 'none',
+                  backgroundColor: 'var(--neutral-100)',
+                  fontSize: '14px',
+                  color: 'var(--ink-800)',
+                  minHeight: '100px'
+                }}>
+                  {userProfile?.bio || 'Nenhuma biografia adicionada ainda.'}
+                </div>
               </div>
 
               {/* Seção de Esportes */}
@@ -388,20 +324,6 @@ export default function ProfilePage() {
                 </div>
               </div>
 
-              {/* Action Buttons */}
-              {isEditing && (
-                <div style={{ display: 'flex', gap: '12px', marginTop: '20px' }}>
-                  <Button
-                    onClick={() => setIsEditing(false)}
-                    className="flex-1 bg-neutral-200 text-neutral-800 hover:bg-neutral-300"
-                  >
-                    Cancelar
-                  </Button>
-                  <Button onClick={handleSave} className="flex-1">
-                    Salvar alterações
-                  </Button>
-                </div>
-              )}
             </div>
           </div>
 
