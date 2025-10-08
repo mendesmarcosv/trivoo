@@ -17,10 +17,10 @@ const ConfigItem: React.FC<ConfigItemProps> = ({ icon, label, onClick }) => {
       className="w-full flex items-center justify-between px-4 py-3 bg-neutral-200 hover:bg-neutral-300 rounded-xl transition-colors group"
     >
       <div className="flex items-center gap-3">
-        <i className={`ph ${icon} text-[#6B7A2F] text-lg`}></i>
-        <span className="text-[#2C2C2C] text-sm font-medium">{label}</span>
+        <i className={`ph ${icon} text-[#6B7A2F]`} style={{ fontSize: '24px', width: '24px', height: '24px' }}></i>
+        <span className="text-[#2C2C2C] font-medium" style={{ fontSize: '18px' }}>{label}</span>
       </div>
-      <i className="ph ph-caret-right text-[#999999] text-sm group-hover:text-[#6B7A2F] transition-colors"></i>
+      <i className="ph ph-caret-right group-hover:text-[#6B7A2F] transition-colors" style={{ fontSize: '24px', width: '24px', height: '24px', color: 'var(--neutral-600)' }}></i>
     </button>
   )
 }
