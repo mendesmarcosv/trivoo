@@ -83,6 +83,7 @@ export default function GreetingSection() {
               email={user?.email}
               size="md"
               className="avatar"
+              avatarUrl={userProfile?.avatar_url}
             />
             <h1 className="hello-title">Olá, {getFirstName()}!</h1>
           </div>

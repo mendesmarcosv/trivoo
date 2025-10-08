@@ -197,6 +197,10 @@ export default function EditarPerfilPage() {
       // Atualizar perfil no contexto
       await fetchUserProfile()
       
+      // Forçar atualização do estado local
+      setFormData(prev => ({ ...prev }))
+      
+      console.log('Avatar atualizado:', publicUrl)
       toast.success('Foto atualizada com sucesso!')
     } catch (error) {
       console.error('Erro ao fazer upload da imagem:', error)

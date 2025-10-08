@@ -218,6 +218,7 @@ export default function ProfilePage() {
                 name={formData.name}
                 email={user?.email}
                 size="xl"
+                avatarUrl={userProfile?.avatar_url}
               />
               
               <div style={{ flex: 1 }}>

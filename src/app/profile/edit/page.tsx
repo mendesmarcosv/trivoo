@@ -154,6 +154,7 @@ export default function EditProfilePage() {
                 name={formData.name}
                 email={user?.email}
                 size="xl"
+                avatarUrl={userProfile?.avatar_url}
               />
               
               <div style={{ display: 'flex', gap: '12px' }}>

@@ -30,6 +30,7 @@ export default function Avatar({ name, email, size = 'md', className = '', avata
 
   // Se tem URL da imagem, mostrar a imagem
   if (avatarUrl) {
+    console.log('Avatar renderizando com URL:', avatarUrl)
     return (
       <div className={`
         ${sizeClasses[size]}
@@ -41,6 +42,10 @@ export default function Avatar({ name, email, size = 'md', className = '', avata
           src={avatarUrl}
           alt={name || 'Avatar'}
           className="w-full h-full object-cover"
+          onError={(e) => {
+            console.error('Erro ao carregar avatar:', avatarUrl)
+            e.currentTarget.style.display = 'none'
+          }}
         />
       </div>
     )
