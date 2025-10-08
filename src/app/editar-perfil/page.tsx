@@ -31,6 +31,20 @@ export default function EditarPerfilPage() {
     location: ''
   })
 
+  // Máscara para telefone
+  const formatPhone = (value: string) => {
+    const numbers = value.replace(/\D/g, '')
+    if (numbers.length <= 2) return numbers
+    if (numbers.length <= 6) return `(${numbers.slice(0, 2)}) ${numbers.slice(2)}`
+    if (numbers.length <= 10) return `(${numbers.slice(0, 2)}) ${numbers.slice(2, 6)}-${numbers.slice(6)}`
+    return `(${numbers.slice(0, 2)}) ${numbers.slice(2, 7)}-${numbers.slice(7, 11)}`
+  }
+
+  const handlePhoneChange = (value: string) => {
+    const formatted = formatPhone(value)
+    handleInputChange('phone', formatted)
+  }
+
   // Carregar dados do usuário
   useEffect(() => {
     if (!loading && !user) {
@@ -210,14 +224,14 @@ export default function EditarPerfilPage() {
                     width: '100%',
                     padding: '12px 16px',
                     borderRadius: '12px',
-                    border: '1px solid var(--neutral-300)',
-                    backgroundColor: 'white',
+                    border: 'none',
+                    backgroundColor: 'var(--neutral-50)',
                     fontSize: '16px',
                     color: 'var(--ink-800)',
-                    transition: 'border-color 0.2s'
+                    transition: 'background-color 0.2s'
                   }}
-                  onFocus={(e) => e.target.style.borderColor = 'var(--green-700)'}
-                  onBlur={(e) => e.target.style.borderColor = 'var(--neutral-300)'}
+                  onFocus={(e) => e.target.style.backgroundColor = 'white'}
+                  onBlur={(e) => e.target.style.backgroundColor = 'var(--neutral-50)'}
                 />
               </div>
 
@@ -239,7 +253,7 @@ export default function EditarPerfilPage() {
                     width: '100%',
                     padding: '12px 16px',
                     borderRadius: '12px',
-                    border: '1px solid var(--neutral-300)',
+                    border: 'none',
                     backgroundColor: 'var(--neutral-100)',
                     fontSize: '16px',
                     color: 'var(--ink-600)',
@@ -261,20 +275,21 @@ export default function EditarPerfilPage() {
                 <input
                   type="tel"
                   value={formData.phone}
-                  onChange={(e) => handleInputChange('phone', e.target.value)}
+                  onChange={(e) => handlePhoneChange(e.target.value)}
                   placeholder="(00) 00000-0000"
+                  maxLength={15}
                   style={{
                     width: '100%',
                     padding: '12px 16px',
                     borderRadius: '12px',
-                    border: '1px solid var(--neutral-300)',
-                    backgroundColor: 'white',
+                    border: 'none',
+                    backgroundColor: 'var(--neutral-50)',
                     fontSize: '16px',
                     color: 'var(--ink-800)',
-                    transition: 'border-color 0.2s'
+                    transition: 'background-color 0.2s'
                   }}
-                  onFocus={(e) => e.target.style.borderColor = 'var(--green-700)'}
-                  onBlur={(e) => e.target.style.borderColor = 'var(--neutral-300)'}
+                  onFocus={(e) => e.target.style.backgroundColor = 'white'}
+                  onBlur={(e) => e.target.style.backgroundColor = 'var(--neutral-50)'}
                 />
               </div>
 
@@ -296,47 +311,58 @@ export default function EditarPerfilPage() {
                     width: '100%',
                     padding: '12px 16px',
                     borderRadius: '12px',
-                    border: '1px solid var(--neutral-300)',
-                    backgroundColor: 'white',
+                    border: 'none',
+                    backgroundColor: 'var(--neutral-50)',
                     fontSize: '16px',
                     color: 'var(--ink-800)',
-                    transition: 'border-color 0.2s'
+                    transition: 'background-color 0.2s'
                   }}
-                  onFocus={(e) => e.target.style.borderColor = 'var(--green-700)'}
-                  onBlur={(e) => e.target.style.borderColor = 'var(--neutral-300)'}
+                  onFocus={(e) => e.target.style.backgroundColor = 'white'}
+                  onBlur={(e) => e.target.style.backgroundColor = 'var(--neutral-50)'}
                 />
               </div>
             </div>
 
             {/* Bio - Full Width */}
             <div style={{ marginTop: '20px' }}>
-              <label style={{ 
-                display: 'block', 
-                marginBottom: '8px', 
-                color: 'var(--ink-700)', 
-                fontSize: '14px',
-                fontWeight: 500
-              }}>
-                Biografia
-              </label>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                <label style={{ 
+                  color: 'var(--ink-700)', 
+                  fontSize: '14px',
+                  fontWeight: 500
+                }}>
+                  Biografia
+                </label>
+                <span style={{ 
+                  color: 'var(--ink-600)', 
+                  fontSize: '12px'
+                }}>
+                  {formData.bio.length}/500
+                </span>
+              </div>
               <textarea
                 value={formData.bio}
-                onChange={(e) => handleInputChange('bio', e.target.value)}
+                onChange={(e) => {
+                  if (e.target.value.length <= 500) {
+                    handleInputChange('bio', e.target.value)
+                  }
+                }}
                 placeholder="Conte um pouco sobre você..."
                 rows={4}
+                maxLength={500}
                 style={{
                   width: '100%',
                   padding: '12px 16px',
                   borderRadius: '12px',
-                  border: '1px solid var(--neutral-300)',
-                  backgroundColor: 'white',
+                  border: 'none',
+                  backgroundColor: 'var(--neutral-50)',
                   fontSize: '16px',
                   color: 'var(--ink-800)',
                   resize: 'vertical',
-                  transition: 'border-color 0.2s'
+                  transition: 'background-color 0.2s'
                 }}
-                onFocus={(e) => e.target.style.borderColor = 'var(--green-700)'}
-                onBlur={(e) => e.target.style.borderColor = 'var(--neutral-300)'}
+                onFocus={(e) => e.target.style.backgroundColor = 'white'}
+                onBlur={(e) => e.target.style.backgroundColor = 'var(--neutral-50)'}
               />
             </div>
           </div>
