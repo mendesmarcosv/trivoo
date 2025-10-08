@@ -52,3 +52,7 @@ git push -u origin main
 4. Acessar: http://localhost:3000
 
 **Login funcionará automaticamente!** ✅
+
+
+
+

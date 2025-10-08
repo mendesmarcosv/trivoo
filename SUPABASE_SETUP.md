@@ -43,3 +43,7 @@ const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholde
 - `src/lib/hooks/useAuth.ts` - Autenticação
 - `src/app/auth/login/page.tsx` - Página de login
 - `src/app/auth/signup/page.tsx` - Página de cadastro
+
+
+
+

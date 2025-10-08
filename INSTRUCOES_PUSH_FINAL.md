@@ -116,3 +116,7 @@ git push -u origin main
 - ✅ Funcionamento local e em produção
 
 **A Trivoo está pronta para impressionar!** 🚀
+
+
+
+

@@ -74,3 +74,7 @@ echo "2. Execute: git remote add origin https://github.com/SEU_USUARIO/trivoo.gi
 echo "3. Execute: git push -u origin main"
 echo ""
 echo "🌟 Substitua 'SEU_USUARIO' pelo seu nome de usuário do GitHub"
+
+
+
+
