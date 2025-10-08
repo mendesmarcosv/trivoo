@@ -254,9 +254,9 @@ export default function EditarPerfilPage() {
                     padding: '12px 16px',
                     borderRadius: '12px',
                     border: 'none',
-                    backgroundColor: 'var(--neutral-100)',
+                    backgroundColor: 'var(--neutral-200)',
                     fontSize: '16px',
-                    color: 'var(--ink-600)',
+                    color: 'var(--ink-500)',
                     cursor: 'not-allowed'
                   }}
                 />
