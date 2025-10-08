@@ -320,7 +320,7 @@ section {
 
 .config-content .config-section {
   padding: 0 !important;
-  margin-bottom: 0 !important;
+  margin-bottom: 40px !important;
 }
 
 /* Responsividade */

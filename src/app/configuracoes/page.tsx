@@ -49,7 +49,7 @@ export default function ConfiguracoesPage() {
         {/* Content */}
         <div style={{ maxWidth: '600px' }}>
           {/* Meu perfil */}
-          <div className="config-section" style={{ marginBottom: '48px' }}>
+          <div className="config-section">
             <h2 style={{ 
               fontSize: '22px', 
               fontWeight: 600, 
@@ -84,7 +84,7 @@ export default function ConfiguracoesPage() {
           </div>
 
           {/* Preferências */}
-          <div className="config-section" style={{ marginBottom: '48px' }}>
+          <div className="config-section">
             <h2 style={{ 
               fontSize: '22px', 
               fontWeight: 600, 
@@ -124,7 +124,7 @@ export default function ConfiguracoesPage() {
           </div>
 
           {/* Controle de acessibilidade */}
-          <div className="config-section" style={{ marginBottom: '48px' }}>
+          <div className="config-section">
             <h2 style={{ 
               fontSize: '22px', 
               fontWeight: 600, 
@@ -149,7 +149,7 @@ export default function ConfiguracoesPage() {
           </div>
 
           {/* Suporte & Legal */}
-          <div className="config-section" style={{ marginBottom: '48px' }}>
+          <div className="config-section">
             <h2 style={{ 
               fontSize: '22px', 
               fontWeight: 600, 
@@ -179,7 +179,7 @@ export default function ConfiguracoesPage() {
           </div>
 
           {/* Conta */}
-          <div className="config-section" style={{ marginBottom: '48px' }}>
+          <div className="config-section">
             <h2 style={{ 
               fontSize: '22px', 
               fontWeight: 600, 
