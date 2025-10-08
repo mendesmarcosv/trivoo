@@ -1,11 +1,12 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/lib/hooks/useAuth'
 import Sidebar from '@/components/Sidebar'
 import Button from '@/components/Button'
 import Avatar from '@/components/Avatar'
+import ImageCropModal from '@/components/ImageCropModal'
 import { supabase } from '@/lib/supabase'
 import { toast } from 'react-hot-toast'
 
@@ -14,6 +15,10 @@ export default function EditarPerfilPage() {
   const { user, userProfile, loading, fetchUserProfile } = useAuth()
   const [isSaving, setIsSaving] = useState(false)
   const [hasChanges, setHasChanges] = useState(false)
+  const [showCropModal, setShowCropModal] = useState(false)
+  const [selectedImageSrc, setSelectedImageSrc] = useState('')
+  const [isUploadingImage, setIsUploadingImage] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
   
   const [formData, setFormData] = useState({
     name: '',
@@ -120,6 +125,116 @@ export default function EditarPerfilPage() {
     toast.success('Alterações descartadas')
   }
 
+  // Função para selecionar arquivo de imagem
+  const handleSelectImage = () => {
+    fileInputRef.current?.click()
+  }
+
+  // Função para lidar com a seleção de arquivo
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (!file) return
+
+    // Validar tipo de arquivo
+    const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp']
+    if (!validTypes.includes(file.type)) {
+      toast.error('Por favor, selecione apenas arquivos de imagem (JPG, PNG, WebP)')
+      return
+    }
+
+    // Validar tamanho (máximo 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error('A imagem deve ter no máximo 5MB')
+      return
+    }
+
+    // Criar URL para preview
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      const src = e.target?.result as string
+      setSelectedImageSrc(src)
+      setShowCropModal(true)
+    }
+    reader.readAsDataURL(file)
+  }
+
+  // Função para lidar com o crop completo
+  const handleCropComplete = async (croppedImageBlob: Blob) => {
+    if (!user?.id) return
+
+    setIsUploadingImage(true)
+    try {
+      // Criar nome único para o arquivo
+      const fileExt = 'jpg'
+      const fileName = `${user.id}-${Date.now()}.${fileExt}`
+      
+      // Upload para Supabase Storage
+      const { data, error } = await supabase.storage
+        .from('avatars')
+        .upload(fileName, croppedImageBlob, {
+          contentType: 'image/jpeg',
+          upsert: true
+        })
+
+      if (error) throw error
+
+      // Obter URL pública da imagem
+      const { data: { publicUrl } } = supabase.storage
+        .from('avatars')
+        .getPublicUrl(fileName)
+
+      // Atualizar perfil com nova URL da imagem
+      const { error: updateError } = await supabase
+        .from('profiles')
+        .update({
+          avatar_url: publicUrl,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', user.id)
+
+      if (updateError) throw updateError
+
+      // Atualizar perfil no contexto
+      await fetchUserProfile()
+      
+      toast.success('Foto atualizada com sucesso!')
+    } catch (error) {
+      console.error('Erro ao fazer upload da imagem:', error)
+      toast.error('Erro ao fazer upload da imagem')
+    } finally {
+      setIsUploadingImage(false)
+    }
+  }
+
+  // Função para excluir foto
+  const handleDeleteImage = async () => {
+    if (!user?.id) return
+
+    setIsUploadingImage(true)
+    try {
+      // Remover URL da imagem do perfil
+      const { error } = await supabase
+        .from('profiles')
+        .update({
+          avatar_url: null,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', user.id)
+
+      if (error) throw error
+
+      // Atualizar perfil no contexto
+      await fetchUserProfile()
+      
+      toast.success('Foto removida com sucesso!')
+    } catch (error) {
+      console.error('Erro ao remover imagem:', error)
+      toast.error('Erro ao remover imagem')
+    } finally {
+      setIsUploadingImage(false)
+    }
+  }
+
   if (loading) {
     return (
       <div className="min-h-screen bg-neutral-100 flex items-center justify-center">
@@ -183,17 +298,35 @@ export default function EditarPerfilPage() {
                 name={formData.name}
                 email={user?.email}
                 size="xl"
+                avatarUrl={userProfile?.avatar_url}
               />
               
               <div style={{ display: 'flex', gap: '12px' }}>
-                <Button className="bg-green-900 hover:bg-green-950">
-                  Alterar foto
+                <Button 
+                  onClick={handleSelectImage}
+                  disabled={isUploadingImage}
+                  className="bg-green-900 hover:bg-green-950 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isUploadingImage ? 'Enviando...' : 'Alterar foto'}
                 </Button>
-                <Button className="bg-red-50 border border-red-200 text-red-600 hover:bg-red-100">
+                <Button 
+                  onClick={handleDeleteImage}
+                  disabled={isUploadingImage || !userProfile?.avatar_url}
+                  className="bg-red-50 border border-red-200 text-red-600 hover:bg-red-100 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
                   Excluir foto
                 </Button>
               </div>
             </div>
+
+            {/* Hidden File Input */}
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/jpeg,image/jpg,image/png,image/webp"
+              onChange={handleFileChange}
+              style={{ display: 'none' }}
+            />
           </div>
 
           {/* Personal Information Section */}
@@ -368,6 +501,14 @@ export default function EditarPerfilPage() {
           </div>
         </div>
       </main>
+
+      {/* Image Crop Modal */}
+      <ImageCropModal
+        isOpen={showCropModal}
+        onClose={() => setShowCropModal(false)}
+        onCropComplete={handleCropComplete}
+        imageSrc={selectedImageSrc}
+      />
     </div>
   )
 }

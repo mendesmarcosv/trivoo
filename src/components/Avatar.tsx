@@ -5,9 +5,10 @@ interface AvatarProps {
   email?: string
   size?: 'sm' | 'md' | 'lg' | 'xl'
   className?: string
+  avatarUrl?: string | null
 }
 
-export default function Avatar({ name, email, size = 'md', className = '' }: AvatarProps) {
+export default function Avatar({ name, email, size = 'md', className = '', avatarUrl }: AvatarProps) {
   // Obter primeira letra do nome
   const getInitial = () => {
     if (name && name.trim()) {
@@ -27,6 +28,25 @@ export default function Avatar({ name, email, size = 'md', className = '' }: Ava
     xl: 'w-24 h-24 text-2xl'
   }
 
+  // Se tem URL da imagem, mostrar a imagem
+  if (avatarUrl) {
+    return (
+      <div className={`
+        ${sizeClasses[size]}
+        rounded-full 
+        overflow-hidden
+        ${className}
+      `}>
+        <img
+          src={avatarUrl}
+          alt={name || 'Avatar'}
+          className="w-full h-full object-cover"
+        />
+      </div>
+    )
+  }
+
+  // Senão, mostrar inicial
   return (
     <div className={`
       ${sizeClasses[size]}
