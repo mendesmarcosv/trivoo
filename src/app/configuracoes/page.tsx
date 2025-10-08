@@ -63,7 +63,7 @@ export default function ConfiguracoesPage() {
               <ConfigItem 
                 icon="ph-note-pencil" 
                 label="Editar perfil"
-                onClick={() => router.push('/editar-perfil')}
+                onClick={() => router.push('/configuracoes/editar-perfil')}
               />
               <ConfigItem 
                 icon="ph-soccer-ball" 

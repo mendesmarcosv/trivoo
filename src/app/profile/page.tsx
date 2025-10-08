@@ -157,7 +157,7 @@ export default function ProfilePage() {
         <div className="toolbar" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <h1 style={{ fontSize: '30px', fontWeight: 600, color: 'var(--ink-800)' }}>Meu Perfil</h1>
           <Button 
-            onClick={() => router.push('/configuracoes')}
+            onClick={() => router.push('/configuracoes/editar-perfil')}
             className="bg-green-900 hover:bg-green-950"
           >
             Editar perfil
