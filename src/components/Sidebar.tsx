@@ -1,16 +1,24 @@
 'use client'
 
+import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useAuth } from '@/lib/hooks/useAuth'
+import LogoutModal from './LogoutModal'
 
 interface SidebarProps {
   onAuthClick?: () => void
 }
 
 export default function Sidebar({ onAuthClick }: SidebarProps) {
-  const { user } = useAuth()
+  const { user, userProfile } = useAuth()
+  const [showLogoutModal, setShowLogoutModal] = useState(false)
   const pathname = usePathname()
+
+  const handleSignOutClick = (e: React.MouseEvent) => {
+    e.preventDefault()
+    setShowLogoutModal(true)
+  }
 
   return (
     <aside className="sidebar">
@@ -62,22 +70,18 @@ export default function Sidebar({ onAuthClick }: SidebarProps) {
 
         <div className="sidebar-bottom">
           <div className="divider"></div>
-          <div className="user-info">
-            <div className="user-avatar">
-              <img 
-                src={user?.avatar_url || '/images/teachers/profile Ana Bechara.png'} 
-                alt={user?.name || 'Usuário'} 
-                className="w-8 h-8 rounded-full object-cover"
-              />
-            </div>
-            <div className="user-details">
-              <span className="user-name">{user?.name || 'Usuário'}</span>
-              <span className="user-location">{user?.location || 'Niterói'}</span>
-            </div>
-          </div>
+          <a className="menu-item signout" href="#" onClick={handleSignOutClick}>
+            <i className="ph ph-sign-out"></i>
+            <span>Sair</span>
+          </a>
         </div>
 
       </div>
+      
+      <LogoutModal 
+        isOpen={showLogoutModal} 
+        onClose={() => setShowLogoutModal(false)} 
+      />
     </aside>
   )
 }
