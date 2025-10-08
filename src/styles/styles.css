@@ -686,7 +686,7 @@ html, body { overflow-x: visible; }
   /* Config content com padding lateral específico */
   .config-content { 
     flex: 1 !important;
-    padding: 20px 16px 120px 16px !important;
+    padding: 20px 16px 120px 40px !important;
     margin-bottom: 0 !important;
     overflow-x: hidden !important;
     gap: 24px !important;
@@ -702,6 +702,17 @@ html, body { overflow-x: visible; }
   .config-section {
     margin-bottom: 0 !important;
     padding: 0 !important;
+  }
+  
+  /* Configurações - sobrescrever estilos globais */
+  .config-content .config-header {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  
+  .config-content .config-section {
+    padding: 0 !important;
+    margin-bottom: 0 !important;
   }
   
   .section {
