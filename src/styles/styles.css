@@ -683,6 +683,15 @@ html, body { overflow-x: visible; }
     gap: 24px !important;
   }
   
+  /* Config content com padding lateral específico */
+  .config-content { 
+    flex: 1 !important;
+    padding: 20px 16px 120px 16px !important;
+    margin-bottom: 0 !important;
+    overflow-x: hidden !important;
+    gap: 24px !important;
+  }
+  
   /* Seções */
   section {
     margin-bottom: 0 !important;

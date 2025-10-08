@@ -38,7 +38,7 @@ export default function ConfiguracoesPage() {
     <div className="layout">
       <Sidebar />
       
-      <main className="content">
+      <main className="config-content">
         {/* Header */}
         <div className="config-header" style={{ marginBottom: '32px' }}>
           <h1 style={{ fontSize: '30px', fontWeight: 600, color: 'var(--ink-800)' }}>
