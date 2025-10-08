@@ -43,6 +43,35 @@ export function useAuth() {
         .single()
 
       if (error) {
+        // Se o perfil não existir, criar um novo
+        if (error.code === 'PGRST116') {
+          console.log('Perfil não encontrado, criando...')
+          const user = authState.user || await supabase.auth.getUser().then(r => r.data.user)
+          
+          if (user) {
+            const { data: newProfile, error: createError } = await supabase
+              .from('profiles')
+              .insert({
+                id: user.id,
+                name: user.user_metadata?.name || '',
+                phone: user.user_metadata?.phone || '',
+                bio: '',
+                location: 'Niterói',
+                location_coords: null,
+                avatar_url: null
+              })
+              .select()
+              .single()
+
+            if (createError) {
+              console.error('Erro ao criar perfil:', createError)
+              return null
+            }
+
+            setUserProfile(newProfile)
+            return newProfile
+          }
+        }
         console.error('Erro ao buscar perfil:', error)
         return null
       }

@@ -6,7 +6,6 @@ import { useAuth } from '@/lib/hooks/useAuth'
 import { useForm } from '@/lib/hooks/useForm'
 import Link from 'next/link'
 import Button from '@/components/Button'
-import { toast } from 'react-hot-toast'
 
 export default function SignupPage() {
   const router = useRouter()
@@ -25,18 +24,13 @@ export default function SignupPage() {
         throw new Error('As senhas não coincidem')
       }
 
-      if (values.password.length < 6) {
-        throw new Error('A senha deve ter pelo menos 6 caracteres')
-      }
-
       const result = await signUp(values.email, values.password, { 
         name: values.name,
         phone: values.phone 
       })
-      
       if (result.success) {
-        toast.success('Conta criada com sucesso! Verifique seu email.')
-        router.push('/auth/login')
+        // Redirecionar para login com mensagem de sucesso
+        router.push('/auth/login?message=Conta criada com sucesso!')
       } else {
         throw new Error(result.error?.message || 'Erro no cadastro')
       }
@@ -147,7 +141,7 @@ export default function SignupPage() {
               </label>
               <input
                 type="password"
-                placeholder="Crie uma senha (mínimo 6 caracteres)"
+                placeholder="Crie uma senha forte"
                 value={form.values.password}
                 onChange={(e) => form.setValue('password', e.target.value)}
                 onBlur={() => form.setTouched('password')}
@@ -200,7 +194,7 @@ export default function SignupPage() {
             </Button>
           </form>
         </div>
-
+        
         <div className="text-center mt-4">
           <span className="text-neutral-600">Já tem conta? </span>
           <Link
@@ -218,4 +212,3 @@ export default function SignupPage() {
     </div>
   )
 }
-

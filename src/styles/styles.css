@@ -689,6 +689,12 @@ html, body { overflow-x: visible; }
     padding: 40px 0 !important;
   }
   
+  /* Configurações - remover padding das sections */
+  .config-section {
+    margin-bottom: 0 !important;
+    padding: 0 !important;
+  }
+  
   .section {
     margin-bottom: 0 !important;
     padding: 32px 0 !important;

@@ -61,10 +61,14 @@ export default function Sidebar({ onAuthClick }: SidebarProps) {
               <i className="ph ph-sparkle"></i>
               <span>Assistente IA</span>
             </a>
-            <a className="menu-item mobile-hidden" href="#configuracoes">
+            <Link 
+              href="/configuracoes" 
+              className={`menu-item mobile-hidden ${pathname === '/configuracoes' ? 'is-active' : ''}`}
+            >
               <i className="ph ph-gear"></i>
               <span>Configurações</span>
-            </a>
+              {pathname === '/configuracoes' && <span className="active-pill" aria-hidden="true"></span>}
+            </Link>
           </nav>
         </div>
 
