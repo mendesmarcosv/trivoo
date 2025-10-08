@@ -304,6 +304,25 @@ section {
     100% { transform: rotate(360deg); }
 }
 
+/* Config content - estilos específicos para página de configurações */
+.config-content { 
+  flex: 1 !important;
+  padding: 20px 16px 120px 40px !important;
+  margin-bottom: 0 !important;
+  overflow-x: hidden !important;
+  gap: 24px !important;
+}
+
+.config-content .config-header {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.config-content .config-section {
+  padding: 0 !important;
+  margin-bottom: 0 !important;
+}
+
 /* Responsividade */
 @media (max-width: 768px) {
     .navbar {
@@ -683,36 +702,10 @@ html, body { overflow-x: visible; }
     gap: 24px !important;
   }
   
-  /* Config content com padding lateral específico */
-  .config-content { 
-    flex: 1 !important;
-    padding: 20px 16px 120px 40px !important;
-    margin-bottom: 0 !important;
-    overflow-x: hidden !important;
-    gap: 24px !important;
-  }
-  
   /* Seções */
   section {
     margin-bottom: 0 !important;
     padding: 40px 0 !important;
-  }
-  
-  /* Configurações - remover padding das sections */
-  .config-section {
-    margin-bottom: 0 !important;
-    padding: 0 !important;
-  }
-  
-  /* Configurações - sobrescrever estilos globais */
-  .config-content .config-header {
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-  }
-  
-  .config-content .config-section {
-    padding: 0 !important;
-    margin-bottom: 0 !important;
   }
   
   .section {
