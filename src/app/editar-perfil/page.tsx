@@ -301,21 +301,55 @@ export default function EditarPerfilPage() {
                 avatarUrl={userProfile?.avatar_url}
               />
               
-              <div style={{ display: 'flex', gap: '12px' }}>
-                <Button 
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <button
                   onClick={handleSelectImage}
                   disabled={isUploadingImage}
-                  className="bg-green-900 hover:bg-green-950 disabled:opacity-50 disabled:cursor-not-allowed"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    padding: '8px 12px',
+                    borderRadius: '8px',
+                    border: 'none',
+                    backgroundColor: 'var(--neutral-200)',
+                    color: 'var(--ink-700)',
+                    fontSize: '14px',
+                    fontWeight: 500,
+                    cursor: isUploadingImage ? 'not-allowed' : 'pointer',
+                    opacity: isUploadingImage ? 0.5 : 1,
+                    transition: 'all 0.2s'
+                  }}
+                  onMouseEnter={e => !isUploadingImage && (e.currentTarget.style.backgroundColor = 'var(--neutral-300)')}
+                  onMouseLeave={e => !isUploadingImage && (e.currentTarget.style.backgroundColor = 'var(--neutral-200)')}
                 >
-                  {isUploadingImage ? 'Enviando...' : 'Alterar foto'}
-                </Button>
-                <Button 
+                  <i className="ph ph-camera" style={{ fontSize: '16px' }}></i>
+                  {isUploadingImage ? 'Enviando...' : 'Alterar'}
+                </button>
+                <button
                   onClick={handleDeleteImage}
                   disabled={isUploadingImage || !userProfile?.avatar_url}
-                  className="bg-red-50 border border-red-200 text-red-600 hover:bg-red-100 disabled:opacity-50 disabled:cursor-not-allowed"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    padding: '8px 12px',
+                    borderRadius: '8px',
+                    border: 'none',
+                    backgroundColor: 'var(--neutral-200)',
+                    color: 'var(--ink-700)',
+                    fontSize: '14px',
+                    fontWeight: 500,
+                    cursor: (isUploadingImage || !userProfile?.avatar_url) ? 'not-allowed' : 'pointer',
+                    opacity: (isUploadingImage || !userProfile?.avatar_url) ? 0.5 : 1,
+                    transition: 'all 0.2s'
+                  }}
+                  onMouseEnter={e => !isUploadingImage && userProfile?.avatar_url && (e.currentTarget.style.backgroundColor = 'var(--neutral-300)')}
+                  onMouseLeave={e => !isUploadingImage && userProfile?.avatar_url && (e.currentTarget.style.backgroundColor = 'var(--neutral-200)')}
                 >
-                  Excluir foto
-                </Button>
+                  <i className="ph ph-trash" style={{ fontSize: '16px' }}></i>
+                  Excluir
+                </button>
               </div>
             </div>
 
@@ -358,13 +392,13 @@ export default function EditarPerfilPage() {
                     padding: '12px 16px',
                     borderRadius: '12px',
                     border: 'none',
-                    backgroundColor: 'var(--neutral-50)',
+                    backgroundColor: 'var(--neutral-200)',
                     fontSize: '16px',
                     color: 'var(--ink-800)',
                     transition: 'background-color 0.2s'
                   }}
                   onFocus={(e) => e.target.style.backgroundColor = 'white'}
-                  onBlur={(e) => e.target.style.backgroundColor = 'var(--neutral-50)'}
+                  onBlur={(e) => e.target.style.backgroundColor = 'var(--neutral-200)'}
                 />
               </div>
 
@@ -387,7 +421,7 @@ export default function EditarPerfilPage() {
                     padding: '12px 16px',
                     borderRadius: '12px',
                     border: 'none',
-                    backgroundColor: 'var(--neutral-200)',
+                    backgroundColor: 'var(--neutral-50)',
                     fontSize: '16px',
                     color: 'var(--ink-500)',
                     cursor: 'not-allowed'
@@ -416,13 +450,13 @@ export default function EditarPerfilPage() {
                     padding: '12px 16px',
                     borderRadius: '12px',
                     border: 'none',
-                    backgroundColor: 'var(--neutral-50)',
+                    backgroundColor: 'var(--neutral-200)',
                     fontSize: '16px',
                     color: 'var(--ink-800)',
                     transition: 'background-color 0.2s'
                   }}
                   onFocus={(e) => e.target.style.backgroundColor = 'white'}
-                  onBlur={(e) => e.target.style.backgroundColor = 'var(--neutral-50)'}
+                  onBlur={(e) => e.target.style.backgroundColor = 'var(--neutral-200)'}
                 />
               </div>
 
@@ -445,13 +479,13 @@ export default function EditarPerfilPage() {
                     padding: '12px 16px',
                     borderRadius: '12px',
                     border: 'none',
-                    backgroundColor: 'var(--neutral-50)',
+                    backgroundColor: 'var(--neutral-200)',
                     fontSize: '16px',
                     color: 'var(--ink-800)',
                     transition: 'background-color 0.2s'
                   }}
                   onFocus={(e) => e.target.style.backgroundColor = 'white'}
-                  onBlur={(e) => e.target.style.backgroundColor = 'var(--neutral-50)'}
+                  onBlur={(e) => e.target.style.backgroundColor = 'var(--neutral-200)'}
                 />
               </div>
             </div>
@@ -488,14 +522,14 @@ export default function EditarPerfilPage() {
                   padding: '12px 16px',
                   borderRadius: '12px',
                   border: 'none',
-                  backgroundColor: 'var(--neutral-50)',
+                  backgroundColor: 'var(--neutral-200)',
                   fontSize: '16px',
                   color: 'var(--ink-800)',
                   resize: 'vertical',
                   transition: 'background-color 0.2s'
                 }}
                 onFocus={(e) => e.target.style.backgroundColor = 'white'}
-                onBlur={(e) => e.target.style.backgroundColor = 'var(--neutral-50)'}
+                onBlur={(e) => e.target.style.backgroundColor = 'var(--neutral-200)'}
               />
             </div>
           </div>
