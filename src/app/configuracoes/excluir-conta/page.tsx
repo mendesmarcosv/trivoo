@@ -4,6 +4,8 @@ import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/lib/hooks/useAuth'
 import Sidebar from '@/components/Sidebar'
+import PrimaryButton from '@/components/PrimaryButton'
+import SecondaryButton from '@/components/SecondaryButton'
 import { supabase } from '@/lib/supabase'
 import { toast } from 'react-hot-toast'
 
@@ -181,48 +183,12 @@ export default function ExcluirContaPage() {
               </div>
 
               <div style={{ display: 'flex', gap: '12px' }}>
-                <button
-                  onClick={() => router.push('/configuracoes')}
-                  style={{
-                    flex: 1,
-                    padding: '12px 32px',
-                    borderRadius: '12px',
-                    border: 'none',
-                    backgroundColor: 'var(--green-700)',
-                    color: 'white',
-                    fontSize: '16px',
-                    fontWeight: 600,
-                    cursor: 'pointer',
-                    transition: 'all 0.2s'
-                  }}
-                  onMouseEnter={e => e.currentTarget.style.backgroundColor = 'var(--green-800)'}
-                  onMouseLeave={e => e.currentTarget.style.backgroundColor = 'var(--green-700)'}
-                >
+                <PrimaryButton onClick={() => router.push('/configuracoes')} fullWidth>
                   Manter minha conta
-                </button>
-                <button
-                  onClick={() => setShowConfirmation(true)}
-                  style={{
-                    flex: 1,
-                    padding: '12px 32px',
-                    borderRadius: '12px',
-                    border: '1px solid var(--red-500)',
-                    backgroundColor: 'white',
-                    color: 'var(--red-600)',
-                    fontSize: '16px',
-                    fontWeight: 600,
-                    cursor: 'pointer',
-                    transition: 'all 0.2s'
-                  }}
-                  onMouseEnter={e => {
-                    e.currentTarget.style.backgroundColor = 'var(--red-50)'
-                  }}
-                  onMouseLeave={e => {
-                    e.currentTarget.style.backgroundColor = 'white'
-                  }}
-                >
+                </PrimaryButton>
+                <SecondaryButton onClick={() => setShowConfirmation(true)} fullWidth>
                   Continuar com exclusão
-                </button>
+                </SecondaryButton>
               </div>
             </>
           ) : (
@@ -301,36 +267,20 @@ export default function ExcluirContaPage() {
               </div>
 
               <div style={{ marginTop: '32px', display: 'flex', gap: '12px' }}>
-                <button
-                  onClick={() => setShowConfirmation(false)}
-                  style={{
-                    flex: 1,
-                    padding: '12px 32px',
-                    borderRadius: '12px',
-                    border: 'none',
-                    backgroundColor: 'var(--neutral-200)',
-                    color: 'var(--ink-700)',
-                    fontSize: '16px',
-                    fontWeight: 600,
-                    cursor: 'pointer',
-                    transition: 'all 0.2s'
-                  }}
-                  onMouseEnter={e => e.currentTarget.style.backgroundColor = 'var(--neutral-300)'}
-                  onMouseLeave={e => e.currentTarget.style.backgroundColor = 'var(--neutral-200)'}
-                >
+                <SecondaryButton onClick={() => setShowConfirmation(false)} fullWidth>
                   Voltar
-                </button>
+                </SecondaryButton>
                 <button
                   onClick={handleDeleteAccount}
                   disabled={isDeleting || confirmText !== 'EXCLUIR' || !password}
                   style={{
                     flex: 1,
                     padding: '12px 32px',
-                    borderRadius: '12px',
+                    borderRadius: '24px',
                     border: 'none',
                     backgroundColor: 'var(--red-600)',
                     color: 'white',
-                    fontSize: '16px',
+                    fontSize: '14px',
                     fontWeight: 600,
                     cursor: (isDeleting || confirmText !== 'EXCLUIR' || !password) ? 'not-allowed' : 'pointer',
                     opacity: (isDeleting || confirmText !== 'EXCLUIR' || !password) ? 0.5 : 1,

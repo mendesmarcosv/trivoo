@@ -4,6 +4,8 @@ import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/lib/hooks/useAuth'
 import Sidebar from '@/components/Sidebar'
+import PrimaryButton from '@/components/PrimaryButton'
+import SecondaryButton from '@/components/SecondaryButton'
 import { supabase } from '@/lib/supabase'
 import { toast } from 'react-hot-toast'
 
@@ -227,44 +229,12 @@ export default function RelatarProblemaPage() {
           </div>
 
           <div style={{ marginTop: '32px', display: 'flex', gap: '12px' }}>
-            <button
-              onClick={() => router.push('/configuracoes')}
-              style={{
-                padding: '12px 32px',
-                borderRadius: '12px',
-                border: 'none',
-                backgroundColor: 'var(--neutral-200)',
-                color: 'var(--ink-700)',
-                fontSize: '16px',
-                fontWeight: 600,
-                cursor: 'pointer',
-                transition: 'all 0.2s'
-              }}
-              onMouseEnter={e => e.currentTarget.style.backgroundColor = 'var(--neutral-300)'}
-              onMouseLeave={e => e.currentTarget.style.backgroundColor = 'var(--neutral-200)'}
-            >
+            <SecondaryButton onClick={() => router.push('/configuracoes')}>
               Cancelar
-            </button>
-            <button
-              onClick={handleSubmit}
-              disabled={isSending || !category || !title || !description}
-              style={{
-                padding: '12px 32px',
-                borderRadius: '12px',
-                border: 'none',
-                backgroundColor: 'var(--green-900)',
-                color: 'white',
-                fontSize: '16px',
-                fontWeight: 600,
-                cursor: (isSending || !category || !title || !description) ? 'not-allowed' : 'pointer',
-                opacity: (isSending || !category || !title || !description) ? 0.5 : 1,
-                transition: 'all 0.2s'
-              }}
-              onMouseEnter={e => !isSending && category && title && description && (e.currentTarget.style.backgroundColor = 'var(--green-950)')}
-              onMouseLeave={e => !isSending && category && title && description && (e.currentTarget.style.backgroundColor = 'var(--green-900)')}
-            >
+            </SecondaryButton>
+            <PrimaryButton onClick={handleSubmit} disabled={isSending || !category || !title || !description}>
               {isSending ? 'Enviando...' : 'Enviar relatório'}
-            </button>
+            </PrimaryButton>
           </div>
         </div>
       </main>

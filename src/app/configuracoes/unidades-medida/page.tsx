@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/lib/hooks/useAuth'
 import Sidebar from '@/components/Sidebar'
+import PrimaryButton from '@/components/PrimaryButton'
 import { supabase } from '@/lib/supabase'
 import { toast } from 'react-hot-toast'
 
@@ -266,26 +267,9 @@ export default function UnidadesMedidaPage() {
           </div>
 
           <div style={{ marginTop: '32px' }}>
-            <button
-              onClick={handleSave}
-              disabled={isSaving}
-              style={{
-                padding: '10px 24px',
-                borderRadius: '8px',
-                border: 'none',
-                backgroundColor: 'var(--green-700)',
-                color: 'white',
-                fontSize: '14px',
-                fontWeight: 600,
-                cursor: isSaving ? 'not-allowed' : 'pointer',
-                opacity: isSaving ? 0.5 : 1,
-                transition: 'all 0.2s'
-              }}
-              onMouseEnter={e => !isSaving && (e.currentTarget.style.backgroundColor = 'var(--green-800)')}
-              onMouseLeave={e => !isSaving && (e.currentTarget.style.backgroundColor = 'var(--green-700)')}
-            >
+            <PrimaryButton onClick={handleSave} disabled={isSaving}>
               {isSaving ? 'Salvando...' : 'Salvar'}
-            </button>
+            </PrimaryButton>
           </div>
         </div>
       </main>
