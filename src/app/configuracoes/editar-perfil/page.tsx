@@ -136,6 +136,7 @@ export default function EditarPerfilPage() {
 
     setIsSaving(true)
     try {
+      // Atualizar perfil
       const { error } = await supabase
         .from('profiles')
         .update({
@@ -150,6 +151,31 @@ export default function EditarPerfilPage() {
         .eq('id', user.id)
 
       if (error) throw error
+
+      // Atualizar condições de deficiência
+      if (formData.hasDisability) {
+        // Remover condições antigas
+        await supabase
+          .from('user_disability_conditions')
+          .delete()
+          .eq('user_id', user.id)
+
+        // Adicionar nova condição se selecionada
+        if (userDisabilityConditions.length > 0) {
+          await supabase
+            .from('user_disability_conditions')
+            .insert({
+              user_id: user.id,
+              condition_id: userDisabilityConditions[0]
+            })
+        }
+      } else {
+        // Se não possui deficiência, remover todas as condições
+        await supabase
+          .from('user_disability_conditions')
+          .delete()
+          .eq('user_id', user.id)
+      }
 
       // Atualizar perfil no contexto
       await fetchUserProfile()
@@ -623,7 +649,7 @@ export default function EditarPerfilPage() {
                     padding: '10px 24px',
                     borderRadius: '24px',
                     border: formData.hasDisability ? 'none' : '1.5px solid var(--neutral-400)',
-                    backgroundColor: formData.hasDisability ? 'var(--green-800)' : 'transparent',
+                    backgroundColor: formData.hasDisability ? '#006FCA' : 'transparent',
                     color: formData.hasDisability ? 'white' : 'var(--ink-700)',
                     fontSize: '14px',
                     fontWeight: 500,
@@ -636,13 +662,14 @@ export default function EditarPerfilPage() {
                 <button
                   type="button"
                   onClick={() => {
-                    setFormData(prev => ({ ...prev, hasDisability: false }))
+                    setFormData(prev => ({ ...prev, hasDisability: false, selectedDisabilityCondition: null }))
+                    setUserDisabilityConditions([])
                   }}
                   style={{
                     padding: '10px 24px',
                     borderRadius: '24px',
                     border: !formData.hasDisability ? 'none' : '1.5px solid var(--neutral-400)',
-                    backgroundColor: !formData.hasDisability ? 'var(--green-800)' : 'transparent',
+                    backgroundColor: !formData.hasDisability ? '#006FCA' : 'transparent',
                     color: !formData.hasDisability ? 'white' : 'var(--ink-700)',
                     fontSize: '14px',
                     fontWeight: 500,
@@ -655,42 +682,45 @@ export default function EditarPerfilPage() {
               </div>
             </div>
 
-            {/* Mostrar link para selecionar condições se "Sim" */}
+            {/* Dropdown de condições de deficiência se "Sim" */}
             {formData.hasDisability && (
-              <div style={{ 
-                marginBottom: '24px',
-                padding: '16px',
-                backgroundColor: 'var(--neutral-100)',
-                borderRadius: '12px'
-              }}>
-                <p style={{ fontSize: '14px', color: 'var(--ink-700)', marginBottom: '12px' }}>
-                  {userDisabilityConditions.length > 0 
-                    ? `Você selecionou ${userDisabilityConditions.length} condição(ões)`
-                    : 'Nenhuma condição selecionada ainda'
-                  }
-                </p>
-                <button
-                  type="button"
-                  onClick={() => router.push('/configuracoes/condicoes-deficiencia')}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                    padding: '8px 16px',
-                    backgroundColor: 'white',
-                    border: '1px solid var(--neutral-300)',
-                    borderRadius: '8px',
-                    color: 'var(--ink-700)',
-                    fontSize: '14px',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s'
+              <div style={{ marginBottom: '24px' }}>
+                <label style={{ 
+                  display: 'block', 
+                  marginBottom: '8px', 
+                  color: 'var(--ink-700)', 
+                  fontSize: '14px',
+                  fontWeight: 500
+                }}>
+                  Selecionar condição de deficiência
+                </label>
+                <select
+                  value={userDisabilityConditions[0] || ''}
+                  onChange={(e) => {
+                    const conditionId = parseInt(e.target.value)
+                    setUserDisabilityConditions(conditionId ? [conditionId] : [])
                   }}
-                  onMouseEnter={e => e.currentTarget.style.backgroundColor = 'var(--neutral-50)'}
-                  onMouseLeave={e => e.currentTarget.style.backgroundColor = 'white'}
+                  style={{
+                    width: '100%',
+                    padding: '12px 16px',
+                    borderRadius: '12px',
+                    border: 'none',
+                    backgroundColor: 'var(--neutral-200)',
+                    fontSize: '14px',
+                    color: 'var(--ink-800)',
+                    cursor: 'pointer',
+                    transition: 'background-color 0.2s'
+                  }}
+                  onFocus={(e) => e.target.style.backgroundColor = 'white'}
+                  onBlur={(e) => e.target.style.backgroundColor = 'var(--neutral-200)'}
                 >
-                  <i className="ph ph-pencil-simple" style={{ fontSize: '16px' }}></i>
-                  Selecionar condições de deficiência
-                </button>
+                  <option value="">Selecione uma condição</option>
+                  {allDisabilityConditions.map(condition => (
+                    <option key={condition.id} value={condition.id}>
+                      {condition.label_pt}
+                    </option>
+                  ))}
+                </select>
               </div>
             )}
 
@@ -698,17 +728,14 @@ export default function EditarPerfilPage() {
             <div style={{ 
               display: 'flex', 
               justifyContent: 'space-between', 
-              alignItems: 'center',
-              padding: '16px',
-              backgroundColor: 'var(--neutral-100)',
-              borderRadius: '12px'
+              alignItems: 'center'
             }}>
               <div>
                 <div style={{ fontSize: '14px', fontWeight: 500, color: 'var(--ink-800)', marginBottom: '4px' }}>
-                  Modo de acessibilidade
+                  Modo de acessibilidade ativado
                 </div>
                 <div style={{ fontSize: '13px', color: 'var(--ink-600)' }}>
-                  Ativa recursos avançados de acessibilidade na plataforma
+                  Personaliza recomendações e buscas para usuários com deficiência
                 </div>
               </div>
               <button
@@ -721,10 +748,11 @@ export default function EditarPerfilPage() {
                   height: '28px',
                   borderRadius: '14px',
                   border: 'none',
-                  backgroundColor: formData.accessibilityModeEnabled ? 'var(--green-800)' : 'var(--neutral-400)',
+                  backgroundColor: formData.accessibilityModeEnabled ? '#006FCA' : 'var(--neutral-400)',
                   position: 'relative',
                   cursor: 'pointer',
-                  transition: 'all 0.3s'
+                  transition: 'all 0.3s',
+                  flexShrink: 0
                 }}
               >
                 <div style={{

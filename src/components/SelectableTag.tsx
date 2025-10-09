@@ -15,9 +15,9 @@ export default function SelectableTag({ label, selected, onClick }: SelectableTa
       style={{
         padding: '8px 16px',
         borderRadius: '20px',
-        border: selected ? 'none' : '1.5px solid var(--green-800)',
-        backgroundColor: selected ? 'var(--green-800)' : 'transparent',
-        color: selected ? 'white' : 'var(--green-800)',
+        border: selected ? 'none' : '1.5px solid #006FCA',
+        backgroundColor: selected ? '#006FCA' : 'transparent',
+        color: selected ? 'white' : '#006FCA',
         fontSize: '14px',
         fontWeight: 500,
         cursor: 'pointer',
@@ -26,7 +26,7 @@ export default function SelectableTag({ label, selected, onClick }: SelectableTa
       }}
       onMouseEnter={e => {
         if (!selected) {
-          e.currentTarget.style.backgroundColor = 'var(--green-100)'
+          e.currentTarget.style.backgroundColor = 'rgba(0, 111, 202, 0.1)'
         }
       }}
       onMouseLeave={e => {
