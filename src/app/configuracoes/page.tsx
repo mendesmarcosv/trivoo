@@ -29,9 +29,7 @@ export default function ConfiguracoesPage() {
   const router = useRouter()
 
   const handleNavigation = (path: string) => {
-    // Por enquanto, apenas console.log
-    // Você pode implementar as páginas específicas depois
-    console.log(`Navegando para: ${path}`)
+    router.push(path)
   }
 
   return (

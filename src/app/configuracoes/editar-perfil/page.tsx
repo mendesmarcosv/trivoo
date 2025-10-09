@@ -268,20 +268,46 @@ export default function EditarPerfilPage() {
             
             {/* Action Buttons */}
             <div style={{ display: 'flex', gap: '12px' }}>
-              <Button
+              <button
                 onClick={handleDiscard}
                 disabled={!hasChanges}
-                className="bg-white border border-neutral-300 text-neutral-700 hover:bg-neutral-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                style={{
+                  padding: '10px 24px',
+                  borderRadius: '8px',
+                  border: '1px solid var(--neutral-300)',
+                  backgroundColor: 'white',
+                  color: 'var(--ink-700)',
+                  fontSize: '14px',
+                  fontWeight: 600,
+                  cursor: hasChanges ? 'pointer' : 'not-allowed',
+                  opacity: hasChanges ? 1 : 0.5,
+                  transition: 'all 0.2s'
+                }}
+                onMouseEnter={e => hasChanges && (e.currentTarget.style.backgroundColor = 'var(--neutral-50)')}
+                onMouseLeave={e => hasChanges && (e.currentTarget.style.backgroundColor = 'white')}
               >
                 Descartar
-              </Button>
-              <Button
+              </button>
+              <button
                 onClick={handleSave}
                 disabled={!hasChanges || isSaving}
-                className="bg-green-900 hover:bg-green-950 disabled:opacity-50 disabled:cursor-not-allowed"
+                style={{
+                  padding: '10px 24px',
+                  borderRadius: '8px',
+                  border: 'none',
+                  backgroundColor: 'var(--green-700)',
+                  color: 'white',
+                  fontSize: '14px',
+                  fontWeight: 600,
+                  cursor: (!hasChanges || isSaving) ? 'not-allowed' : 'pointer',
+                  opacity: (!hasChanges || isSaving) ? 0.5 : 1,
+                  transition: 'all 0.2s'
+                }}
+                onMouseEnter={e => hasChanges && !isSaving && (e.currentTarget.style.backgroundColor = 'var(--green-800)')}
+                onMouseLeave={e => hasChanges && !isSaving && (e.currentTarget.style.backgroundColor = 'var(--green-700)')}
               >
                 {isSaving ? 'Salvando...' : 'Salvar'}
-              </Button>
+              </button>
             </div>
           </div>
         </div>
