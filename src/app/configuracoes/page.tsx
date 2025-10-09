@@ -68,11 +68,11 @@ export default function ConfiguracoesPage() {
                 label="Meus esportes de interesse"
                 onClick={() => router.push('/profile')}
               />
-              <ConfigItem 
-                icon="ph-list-bullets" 
-                label="Esportes que já pratiquei"
-                onClick={() => handleNavigation('/esportes-praticados')}
-              />
+                  <ConfigItem 
+                    icon="ph-list-bullets" 
+                    label="Esportes que já pratiquei"
+                    onClick={() => router.push('/configuracoes/esportes-praticados')}
+                  />
               <ConfigItem 
                 icon="ph-wheelchair" 
                 label="Recursos de acessibilidade que desejo"
