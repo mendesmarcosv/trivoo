@@ -23,7 +23,7 @@ export default function PrimaryButton({
       onClick={onClick}
       disabled={disabled}
       style={{
-        padding: '12px 32px',
+        padding: '10px 24px',
         borderRadius: '24px',
         border: 'none',
         backgroundColor: 'var(--green-700)',

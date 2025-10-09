@@ -23,7 +23,7 @@ export default function SecondaryButton({
       onClick={onClick}
       disabled={disabled}
       style={{
-        padding: '12px 32px',
+        padding: '10px 24px',
         borderRadius: '24px',
         border: 'none',
         backgroundColor: 'var(--neutral-200)',
