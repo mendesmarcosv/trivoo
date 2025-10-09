@@ -78,7 +78,7 @@ export default function ConfiguracoesPage() {
               <ConfigItem 
                 icon="ph-wheelchair" 
                 label="Recursos de acessibilidade que desejo"
-                onClick={() => handleNavigation('/acessibilidade')}
+                onClick={() => handleNavigation('/configuracoes/recursos-acessibilidade')}
               />
             </div>
           </div>
@@ -98,27 +98,22 @@ export default function ConfiguracoesPage() {
               <ConfigItem 
                 icon="ph-bell" 
                 label="Notificações"
-                onClick={() => handleNavigation('/notificacoes')}
+                onClick={() => handleNavigation('/configuracoes/notificacoes')}
               />
               <ConfigItem 
                 icon="ph-map-pin" 
                 label="Localização"
-                onClick={() => handleNavigation('/localizacao')}
+                onClick={() => handleNavigation('/configuracoes/localizacao')}
               />
               <ConfigItem 
                 icon="ph-ruler" 
                 label="Unidades de medida"
-                onClick={() => handleNavigation('/unidades')}
+                onClick={() => handleNavigation('/configuracoes/unidades-medida')}
               />
               <ConfigItem 
                 icon="ph-globe" 
                 label="Idioma e região"
-                onClick={() => handleNavigation('/idioma')}
-              />
-              <ConfigItem 
-                icon="ph-palette" 
-                label="Tema"
-                onClick={() => handleNavigation('/tema')}
+                onClick={() => handleNavigation('/configuracoes/idioma-regiao')}
               />
             </div>
           </div>
@@ -138,12 +133,12 @@ export default function ConfiguracoesPage() {
               <ConfigItem 
                 icon="ph-chat-circle-text" 
                 label="Feedback tátil"
-                onClick={() => handleNavigation('/feedback-tatil')}
+                onClick={() => handleNavigation('/configuracoes/feedback-tatil')}
               />
               <ConfigItem 
                 icon="ph-warning" 
                 label="Cores e texto"
-                onClick={() => handleNavigation('/cores-texto')}
+                onClick={() => handleNavigation('/configuracoes/cores-texto')}
               />
             </div>
           </div>
@@ -163,17 +158,17 @@ export default function ConfiguracoesPage() {
               <ConfigItem 
                 icon="ph-question" 
                 label="Ajuda"
-                onClick={() => handleNavigation('/ajuda')}
+                onClick={() => handleNavigation('/configuracoes/ajuda')}
               />
               <ConfigItem 
                 icon="ph-warning-diamond" 
                 label="Relatar um problema"
-                onClick={() => handleNavigation('/relatar-problema')}
+                onClick={() => handleNavigation('/configuracoes/relatar-problema')}
               />
               <ConfigItem 
                 icon="ph-file-text" 
                 label="Políticas e termos"
-                onClick={() => handleNavigation('/politicas')}
+                onClick={() => handleNavigation('/configuracoes/politicas')}
               />
             </div>
           </div>
@@ -193,12 +188,12 @@ export default function ConfiguracoesPage() {
               <ConfigItem 
                 icon="ph-at" 
                 label="Trocar e-mail"
-                onClick={() => handleNavigation('/trocar-email')}
+                onClick={() => handleNavigation('/configuracoes/trocar-email')}
               />
               <ConfigItem 
                 icon="ph-trash" 
                 label="Excluir conta"
-                onClick={() => handleNavigation('/excluir-conta')}
+                onClick={() => handleNavigation('/configuracoes/excluir-conta')}
               />
             </div>
           </div>
