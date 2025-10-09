@@ -328,6 +328,16 @@ CREATE INDEX IF NOT EXISTS idx_user_desired_location_resources_user_id ON user_d
 CREATE INDEX IF NOT EXISTS idx_user_desired_coach_offerings_user_id ON user_desired_coach_offerings(user_id);
 CREATE INDEX IF NOT EXISTS idx_user_sports_practiced_user_id ON user_sports_practiced(user_id);
 
+-- ----------------------------------------------------------------------------
+-- 6) ADICIONAR CAMPOS NA TABELA PROFILES
+-- ----------------------------------------------------------------------------
+
+-- Adicionar campo para indicar se possui deficiência
+ALTER TABLE profiles ADD COLUMN IF NOT EXISTS has_disability BOOLEAN DEFAULT FALSE;
+
+-- Adicionar campo para modo de acessibilidade
+ALTER TABLE profiles ADD COLUMN IF NOT EXISTS accessibility_mode_enabled BOOLEAN DEFAULT FALSE;
+
 -- ============================================================================
 -- FIM DO SETUP DE ACESSIBILIDADE
 -- ============================================================================

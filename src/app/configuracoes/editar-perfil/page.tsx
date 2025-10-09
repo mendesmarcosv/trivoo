@@ -20,13 +20,17 @@ export default function EditarPerfilPage() {
   const [selectedImageSrc, setSelectedImageSrc] = useState('')
   const [isUploadingImage, setIsUploadingImage] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const [allDisabilityConditions, setAllDisabilityConditions] = useState<Array<{id: number, label_pt: string}>>([])
+  const [userDisabilityConditions, setUserDisabilityConditions] = useState<number[]>([])
   
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
     bio: '',
-    location: ''
+    location: '',
+    hasDisability: false,
+    accessibilityModeEnabled: false
   })
 
   const [originalData, setOriginalData] = useState({
@@ -34,7 +38,9 @@ export default function EditarPerfilPage() {
     email: '',
     phone: '',
     bio: '',
-    location: ''
+    location: '',
+    hasDisability: false,
+    accessibilityModeEnabled: false
   })
 
   // Máscara para telefone
@@ -58,6 +64,43 @@ export default function EditarPerfilPage() {
     }
   }, [user, loading, router])
 
+  // Buscar condições de deficiência
+  useEffect(() => {
+    const fetchDisabilityConditions = async () => {
+      const { data } = await supabase
+        .from('disability_conditions')
+        .select('id, label_pt')
+        .eq('active', true)
+        .order('sort_order')
+      
+      if (data) {
+        setAllDisabilityConditions(data)
+      }
+    }
+
+    fetchDisabilityConditions()
+  }, [])
+
+  // Buscar condições selecionadas pelo usuário
+  useEffect(() => {
+    const fetchUserConditions = async () => {
+      if (!user?.id) return
+
+      const { data } = await supabase
+        .from('user_disability_conditions')
+        .select('condition_id')
+        .eq('user_id', user.id)
+      
+      if (data) {
+        setUserDisabilityConditions(data.map(item => item.condition_id))
+      }
+    }
+
+    if (formData.hasDisability) {
+      fetchUserConditions()
+    }
+  }, [user?.id, formData.hasDisability])
+
   useEffect(() => {
     if (user && userProfile) {
       const data = {
@@ -65,7 +108,9 @@ export default function EditarPerfilPage() {
         email: user.email || '',
         phone: userProfile.phone || user.user_metadata?.phone || '',
         bio: userProfile.bio || '',
-        location: userProfile.location || 'Niterói'
+        location: userProfile.location || 'Niterói',
+        hasDisability: userProfile.has_disability || false,
+        accessibilityModeEnabled: userProfile.accessibility_mode_enabled || false
       }
       
       setFormData(data)
@@ -98,6 +143,8 @@ export default function EditarPerfilPage() {
           phone: formData.phone,
           bio: formData.bio,
           location: formData.location,
+          has_disability: formData.hasDisability,
+          accessibility_mode_enabled: formData.accessibilityModeEnabled,
           updated_at: new Date().toISOString()
         })
         .eq('id', user.id)
@@ -543,6 +590,155 @@ export default function EditarPerfilPage() {
                 onFocus={(e) => e.target.style.backgroundColor = 'white'}
                 onBlur={(e) => e.target.style.backgroundColor = 'var(--neutral-200)'}
               />
+            </div>
+          </div>
+
+          {/* Accessibility Section */}
+          <div className="config-section">
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px' }}>
+              <i className="ph ph-wheelchair" style={{ fontSize: '24px', color: 'var(--green-700)' }}></i>
+              <h2 style={{ fontSize: '22px', fontWeight: 600, color: 'var(--neutral-700)' }}>
+                Acessibilidade
+              </h2>
+            </div>
+
+            {/* Possui deficiência */}
+            <div style={{ marginBottom: '24px' }}>
+              <label style={{ 
+                display: 'block', 
+                marginBottom: '12px', 
+                color: 'var(--ink-700)', 
+                fontSize: '14px',
+                fontWeight: 500
+              }}>
+                Possui deficiência?
+              </label>
+              <div style={{ display: 'flex', gap: '12px' }}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setFormData(prev => ({ ...prev, hasDisability: true }))
+                  }}
+                  style={{
+                    padding: '10px 24px',
+                    borderRadius: '24px',
+                    border: formData.hasDisability ? 'none' : '1.5px solid var(--neutral-400)',
+                    backgroundColor: formData.hasDisability ? 'var(--green-800)' : 'transparent',
+                    color: formData.hasDisability ? 'white' : 'var(--ink-700)',
+                    fontSize: '14px',
+                    fontWeight: 500,
+                    cursor: 'pointer',
+                    transition: 'all 0.2s'
+                  }}
+                >
+                  Sim
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setFormData(prev => ({ ...prev, hasDisability: false }))
+                  }}
+                  style={{
+                    padding: '10px 24px',
+                    borderRadius: '24px',
+                    border: !formData.hasDisability ? 'none' : '1.5px solid var(--neutral-400)',
+                    backgroundColor: !formData.hasDisability ? 'var(--green-800)' : 'transparent',
+                    color: !formData.hasDisability ? 'white' : 'var(--ink-700)',
+                    fontSize: '14px',
+                    fontWeight: 500,
+                    cursor: 'pointer',
+                    transition: 'all 0.2s'
+                  }}
+                >
+                  Não
+                </button>
+              </div>
+            </div>
+
+            {/* Mostrar link para selecionar condições se "Sim" */}
+            {formData.hasDisability && (
+              <div style={{ 
+                marginBottom: '24px',
+                padding: '16px',
+                backgroundColor: 'var(--neutral-100)',
+                borderRadius: '12px'
+              }}>
+                <p style={{ fontSize: '14px', color: 'var(--ink-700)', marginBottom: '12px' }}>
+                  {userDisabilityConditions.length > 0 
+                    ? `Você selecionou ${userDisabilityConditions.length} condição(ões)`
+                    : 'Nenhuma condição selecionada ainda'
+                  }
+                </p>
+                <button
+                  type="button"
+                  onClick={() => router.push('/configuracoes/condicoes-deficiencia')}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    padding: '8px 16px',
+                    backgroundColor: 'white',
+                    border: '1px solid var(--neutral-300)',
+                    borderRadius: '8px',
+                    color: 'var(--ink-700)',
+                    fontSize: '14px',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s'
+                  }}
+                  onMouseEnter={e => e.currentTarget.style.backgroundColor = 'var(--neutral-50)'}
+                  onMouseLeave={e => e.currentTarget.style.backgroundColor = 'white'}
+                >
+                  <i className="ph ph-pencil-simple" style={{ fontSize: '16px' }}></i>
+                  Selecionar condições de deficiência
+                </button>
+              </div>
+            )}
+
+            {/* Modo de acessibilidade */}
+            <div style={{ 
+              display: 'flex', 
+              justifyContent: 'space-between', 
+              alignItems: 'center',
+              padding: '16px',
+              backgroundColor: 'var(--neutral-100)',
+              borderRadius: '12px'
+            }}>
+              <div>
+                <div style={{ fontSize: '14px', fontWeight: 500, color: 'var(--ink-800)', marginBottom: '4px' }}>
+                  Modo de acessibilidade
+                </div>
+                <div style={{ fontSize: '13px', color: 'var(--ink-600)' }}>
+                  Ativa recursos avançados de acessibilidade na plataforma
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  setFormData(prev => ({ ...prev, accessibilityModeEnabled: !prev.accessibilityModeEnabled }))
+                }}
+                style={{
+                  width: '48px',
+                  height: '28px',
+                  borderRadius: '14px',
+                  border: 'none',
+                  backgroundColor: formData.accessibilityModeEnabled ? 'var(--green-800)' : 'var(--neutral-400)',
+                  position: 'relative',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s'
+                }}
+              >
+                <div style={{
+                  width: '24px',
+                  height: '24px',
+                  borderRadius: '12px',
+                  backgroundColor: 'white',
+                  position: 'absolute',
+                  top: '2px',
+                  left: formData.accessibilityModeEnabled ? '22px' : '2px',
+                  transition: 'all 0.3s',
+                  boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+                }}></div>
+              </button>
             </div>
           </div>
         </div>
