@@ -258,13 +258,28 @@ export default function EditarPerfilPage() {
         {/* Header */}
         <div className="config-header" style={{ marginBottom: '32px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-            <div>
-              <h1 style={{ fontSize: '30px', fontWeight: 600, color: 'var(--ink-800)', marginBottom: '8px' }}>
-                Editar perfil
-              </h1>
-              <p style={{ fontSize: '14px', color: 'var(--ink-600)' }}>
-                Última edição em {new Date(userProfile?.updated_at || user.created_at).toLocaleDateString('pt-BR')}
-              </p>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+              <button
+                onClick={() => router.push('/configuracoes')}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  padding: '8px',
+                  display: 'flex',
+                  alignItems: 'center'
+                }}
+              >
+                <i className="ph ph-caret-left" style={{ fontSize: '24px', color: 'var(--ink-600)' }}></i>
+              </button>
+              <div>
+                <h1 style={{ fontSize: '30px', fontWeight: 600, color: 'var(--ink-800)', marginBottom: '8px' }}>
+                  Editar perfil
+                </h1>
+                <p style={{ fontSize: '14px', color: 'var(--ink-600)' }}>
+                  Última edição em {new Date(userProfile?.updated_at || user.created_at).toLocaleDateString('pt-BR')}
+                </p>
+              </div>
             </div>
             
             {/* Action Buttons */}
