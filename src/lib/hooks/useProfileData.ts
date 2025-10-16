@@ -120,7 +120,7 @@ export function useProfileData(userId: string | undefined) {
             name: item.sports_general.label_pt
           } as Sport))
 
-        const condition = conditionResult.data?.disability_conditions?.label_pt || ''
+        const condition = (conditionResult.data as any)?.disability_conditions?.label_pt || ''
 
         // Buscar labels dos recursos e ofertas se modo de acessibilidade estiver ativo
         let resources: string[] = []

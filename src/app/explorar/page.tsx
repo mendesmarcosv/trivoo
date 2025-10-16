@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Suspense } from 'react'
 import { useAuth } from '@/lib/hooks/useAuth'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Sidebar from '@/components/Sidebar'
@@ -10,14 +10,14 @@ import ExplorarEventCard from '@/components/ExplorarEventCard'
 import ExplorarSkeleton from '@/components/ExplorarSkeleton'
 import { supabase } from '@/lib/supabase'
 
-export default function ExplorarPage() {
+function ExplorarContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const { user, loading } = useAuth()
   
   // Definir aba inicial baseada no parâmetro da URL
   const getInitialTab = (): 'clubs' | 'teachers' | 'events' => {
-    const tab = searchParams.get('tab')
+    const tab = searchParams?.get('tab')
     if (tab === 'teachers' || tab === 'clubs' || tab === 'events') {
       return tab
     }
@@ -36,7 +36,7 @@ export default function ExplorarPage() {
 
   // Reativo aos parâmetros da URL
   useEffect(() => {
-    const tab = searchParams.get('tab')
+    const tab = searchParams?.get('tab')
     if (tab === 'teachers' || tab === 'clubs' || tab === 'events') {
       setActiveTab(tab)
     }
@@ -494,6 +494,14 @@ export default function ExplorarPage() {
         </div>
       </main>
     </div>
+  )
+}
+
+export default function ExplorarPage() {
+  return (
+    <Suspense fallback={<ExplorarSkeleton />}>
+      <ExplorarContent />
+    </Suspense>
   )
 }
 

@@ -23,6 +23,8 @@ interface UserProfile {
   fitness_level?: string
   city?: string
   birth_date?: string
+  has_disability?: boolean
+  accessibility_mode_enabled?: boolean
 }
 
 export function useAuth() {

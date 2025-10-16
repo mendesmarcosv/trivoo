@@ -11,11 +11,11 @@ export default function BottomBar() {
   // Não mostrar bottom bar em páginas de auth ou se não estiver logado
   if (loading) return null
   if (!user) return null
-  if (pathname.startsWith('/auth')) return null
+  if (pathname?.startsWith('/auth')) return null
 
   const isActive = (path: string) => {
     if (path === '/') return pathname === '/'
-    return pathname.startsWith(path)
+    return pathname?.startsWith(path)
   }
 
   const navItems = [

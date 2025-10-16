@@ -173,7 +173,7 @@ export default function ConfiguracoesPage() {
 
       {/* Logout Modal */}
       {showLogoutModal && (
-        <LogoutModal onClose={() => setShowLogoutModal(false)} />
+        <LogoutModal isOpen={showLogoutModal} onClose={() => setShowLogoutModal(false)} />
       )}
     </div>
   )

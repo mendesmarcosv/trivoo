@@ -205,14 +205,14 @@ export default function ExcluirContaPage() {
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                   <div>
-                    <label style={{ 
+                    <label style={{
                       display: 'block', 
                       marginBottom: '8px', 
                       color: 'var(--ink-700)', 
                       fontSize: '14px',
                       fontWeight: 500
                     }}>
-                      Digite "EXCLUIR" para confirmar
+                      Digite &quot;EXCLUIR&quot; para confirmar
                     </label>
                     <input
                       type="text"

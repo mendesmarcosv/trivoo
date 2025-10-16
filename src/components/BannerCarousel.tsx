@@ -147,11 +147,9 @@ export default function BannerCarousel() {
                 alt="Ilustração"
                 style={{
                   userSelect: 'none',
-                  WebkitUserDrag: 'none',
-                  MozUserSelect: 'none',
-                  msUserSelect: 'none',
                   pointerEvents: 'none'
-                }}
+                } as React.CSSProperties}
+                draggable={false}
               />
             </aside>
           </div>
