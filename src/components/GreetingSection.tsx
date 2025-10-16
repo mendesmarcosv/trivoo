@@ -1,24 +1,17 @@
 'use client'
 
 import { useAuth } from '@/lib/hooks/useAuth'
-import { useState, useEffect } from 'react'
 import BannerCarousel from './BannerCarousel'
 import LocationSelector from './LocationSelector'
 import Avatar from './Avatar'
 import { useRouter } from 'next/navigation'
-import { supabase } from '@/lib/supabase'
-
-interface Sport {
-  id: string
-  name: string
-}
 
 export default function GreetingSection() {
-  const { user, userProfile } = useAuth()
-  const [userSports, setUserSports] = useState<Sport[]>([])
+  const { user, userProfile, loading: authLoading } = useAuth()
   const router = useRouter()
 
-  // Obter primeiro nome
+  const isUserDataLoading = authLoading || !user
+
   const getFirstName = () => {
     if (userProfile?.name) {
       return userProfile.name.split(' ')[0]
@@ -31,36 +24,6 @@ export default function GreetingSection() {
     }
     return 'Usuário'
   }
-
-  // Buscar esportes do usuário
-  useEffect(() => {
-    const fetchUserSports = async () => {
-      if (!user?.id) return
-
-      const { data, error } = await supabase
-        .from('user_sports')
-        .select(`
-          sport_id,
-          sports:sport_id (
-            id,
-            name
-          )
-        `)
-        .eq('user_id', user.id)
-
-      if (data) {
-        const sports = data
-          .filter((item: any) => item.sports)
-          .map((item: any) => ({
-            id: item.sports.id,
-            name: item.sports.name
-          }))
-        setUserSports(sports)
-      }
-    }
-
-    fetchUserSports()
-  }, [user?.id])
 
   return (
     <>
@@ -78,69 +41,89 @@ export default function GreetingSection() {
       <section className="greeting-and-promo">
         <div className="greeting">
           <div className="hello">
-            <Avatar 
-              name={userProfile?.name || user?.user_metadata?.name}
-              email={user?.email}
-              size="md"
-              className="avatar"
-              avatarUrl={userProfile?.avatar_url}
-            />
-            <h1 className="hello-title">Olá, {getFirstName()}!</h1>
+            {/* Avatar com skeleton */}
+            {isUserDataLoading ? (
+              <div className="avatar-skeleton" style={{
+                width: '64px',
+                height: '64px',
+                borderRadius: '50%',
+                backgroundColor: 'var(--neutral-300)',
+                animation: 'pulse 1.5s ease-in-out infinite alternate'
+              }}></div>
+            ) : (
+              <Avatar 
+                name={userProfile?.name || user?.user_metadata?.name || 'Usuário'}
+                email={user?.email}
+                size="lg"
+                className="avatar"
+                avatarUrl={userProfile?.avatar_url}
+              />
+            )}
+
+            {/* Nome com skeleton */}
+            {isUserDataLoading ? (
+              <div style={{
+                width: '150px',
+                height: '36px',
+                backgroundColor: 'var(--neutral-300)',
+                borderRadius: '8px',
+                animation: 'pulse 1.5s ease-in-out infinite alternate 0.2s'
+              }}></div>
+            ) : (
+              <h1 className="hello-title">Olá, {getFirstName()}!</h1>
+            )}
           </div>
 
-          <div className="interests">
-            <div className="interests-title">
-              <span>Esportes de interesse</span>
-              {userSports.length > 0 && (
-                <button 
-                  className="icon-btn" 
-                  type="button" 
-                  aria-label="editar interesses"
-                  onClick={() => router.push('/profile')}
-                  style={{ color: '#4a4a4a' }}
-                >
-                  <i className="ph ph-pencil-simple"></i>
-                </button>
-              )}
-            </div>
-            <div className="chips">
-              {userSports.length > 0 ? (
-                <>
-                  {userSports.slice(0, 5).map(sport => (
-                    <span key={sport.id} className="chip">{sport.name}</span>
-                  ))}
-                  {userSports.length > 5 && (
-                    <span className="chip">+{userSports.length - 5} mais</span>
-                  )}
-                </>
-              ) : (
-                <button
-                  onClick={() => router.push('/profile')}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                    padding: '8px 16px',
-                    backgroundColor: '#F0F0F0',
-                    border: 'none',
-                    borderRadius: '8px',
-                    color: '#555555',
-                    fontSize: '14px',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s'
-                  }}
-                  onMouseEnter={e => {
-                    e.currentTarget.style.backgroundColor = '#E6E6E6';
-                  }}
-                  onMouseLeave={e => {
-                    e.currentTarget.style.backgroundColor = '#F0F0F0';
-                  }}
-                >
-                  <i className="ph ph-plus" style={{ fontSize: '16px' }}></i>
-                  <span>Adicionar esportes de interesse</span>
-                </button>
-              )}
-            </div>
+          {/* Botão Ver meu perfil - apenas mobile */}
+          {!isUserDataLoading && (
+            <button
+              className="view-profile-btn-mobile"
+              onClick={() => router.push('/profile')}
+              style={{
+                display: 'none',
+                padding: '10px 20px',
+                background: '#E0E0E0',
+                borderRadius: '12px',
+                border: 'none',
+                cursor: 'pointer',
+                justifyContent: 'center',
+                alignItems: 'center',
+                transition: 'all 0.2s',
+                marginTop: '24px',
+                marginBottom: '0'
+              }}
+              onMouseOver={(e) => e.currentTarget.style.background = '#D0D0D0'}
+              onMouseOut={(e) => e.currentTarget.style.background = '#E0E0E0'}
+            >
+              <span style={{ 
+                color: '#5F5F5F', 
+                fontSize: '14px', 
+                fontFamily: 'Raleway', 
+                fontWeight: 500 
+              }}>
+                Ver meu perfil
+              </span>
+            </button>
+          )}
+
+          {/* Frase Inspiradora */}
+          <div className="motivational-phrase" style={{
+            marginTop: '16px',
+            padding: '20px 24px',
+            background: 'linear-gradient(135deg, rgba(117, 138, 37, 0.08) 0%, rgba(181, 213, 57, 0.08) 100%)',
+            borderRadius: '16px',
+            borderLeft: '4px solid var(--green-700)'
+          }}>
+            <p style={{
+              fontSize: '17px',
+              lineHeight: '1.6',
+              color: '#3B3B3B',
+              fontFamily: 'Raleway',
+              fontWeight: 500,
+              margin: 0
+            }}>
+              Descubra novos esportes, conecte-se com professores incríveis e participe de eventos perto de você. Sua próxima aventura esportiva começa aqui! 🚀
+            </p>
           </div>
         </div>
 

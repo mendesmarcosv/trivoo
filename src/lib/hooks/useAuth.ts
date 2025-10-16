@@ -20,27 +20,38 @@ interface UserProfile {
   avatar_url?: string
   created_at?: string
   updated_at?: string
+  fitness_level?: string
+  city?: string
+  birth_date?: string
 }
 
 export function useAuth() {
   const [authState, setAuthState] = useState<AuthState>({
     user: null,
-    loading: true,
+    loading: true, // Começa true para evitar redirects prematuros
     error: null
   })
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null)
+  const [isInitialized, setIsInitialized] = useState(false)
 
   // Função para buscar perfil do usuário
   const fetchUserProfile = async (userId?: string) => {
     const id = userId || authState.user?.id
     if (!id) return null
 
+    // Timeout de 5 segundos para buscar perfil
+    const timeoutPromise = new Promise((_, reject) => 
+      setTimeout(() => reject(new Error('Profile fetch timeout')), 5000)
+    )
+
     try {
-      const { data, error } = await supabase
+      const queryPromise = supabase
         .from('profiles')
         .select('*')
         .eq('id', id)
         .single()
+
+      const { data, error } = await Promise.race([queryPromise, timeoutPromise]) as any
 
       if (error) {
         // Se o perfil não existir, criar um novo
@@ -78,61 +89,87 @@ export function useAuth() {
 
       setUserProfile(data)
       return data
-    } catch (error) {
-      console.error('Erro ao buscar perfil:', error)
+    } catch (error: any) {
+      if (error.message === 'Profile fetch timeout') {
+        console.warn('Timeout ao buscar perfil - continuando sem perfil')
+      } else {
+        console.error('Erro ao buscar perfil:', error)
+      }
       return null
     }
   }
 
   useEffect(() => {
+    let isMounted = true
+    
     // Verificar sessão inicial
     const checkUser = async () => {
       try {
         const { data: { user }, error } = await supabase.auth.getUser()
         
-        // Pequeno delay para evitar flash
-        await new Promise(resolve => setTimeout(resolve, 100))
-        
-        setAuthState({
-          user,
-          loading: false,
-          error
-        })
+        if (isMounted) {
+          setAuthState({
+            user,
+            loading: false,
+            error
+          })
+          setIsInitialized(true)
 
-        // Buscar perfil se usuário estiver autenticado
-        if (user) {
-          await fetchUserProfile(user.id)
+          // Buscar perfil se usuário estiver autenticado
+          if (user) {
+            fetchUserProfile(user.id).catch(err => {
+              console.error('Erro ao buscar perfil:', err)
+            })
+          }
         }
       } catch (error) {
-        setAuthState({
-          user: null,
-          loading: false,
-          error: error as AuthError
-        })
+        if (isMounted) {
+          setAuthState({
+            user: null,
+            loading: false,
+            error: error as AuthError
+          })
+          setIsInitialized(true)
+        }
       }
     }
 
     checkUser()
+    
+    // Timeout de segurança apenas se não inicializou
+    const safetyTimeout = setTimeout(() => {
+      if (!isInitialized && isMounted) {
+        console.warn('Auth timeout - forçando loading: false')
+        setAuthState(prev => ({ ...prev, loading: false }))
+        setIsInitialized(true)
+      }
+    }, 5000) // 5 segundos
 
     // Escutar mudanças de autenticação
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
-        setAuthState(prev => ({
-          user: session?.user ?? null,
-          loading: false,
-          error: null
-        }))
+        if (isMounted) {
+          setAuthState(prev => ({
+            user: session?.user ?? null,
+            loading: false,
+            error: null
+          }))
 
-        // Buscar perfil quando usuário fizer login
-        if (session?.user) {
-          await fetchUserProfile(session.user.id)
-        } else {
-          setUserProfile(null)
+          // Buscar perfil quando usuário fizer login
+          if (session?.user) {
+            await fetchUserProfile(session.user.id)
+          } else {
+            setUserProfile(null)
+          }
         }
       }
     )
 
-    return () => subscription.unsubscribe()
+    return () => {
+      isMounted = false
+      clearTimeout(safetyTimeout)
+      subscription.unsubscribe()
+    }
   }, [])
 
   const signIn = async (email: string, password: string) => {

@@ -11,13 +11,14 @@ interface SelectableTagProps {
 export default function SelectableTag({ label, selected, onClick }: SelectableTagProps) {
   return (
     <button
+      type="button"
       onClick={onClick}
       style={{
         padding: '8px 16px',
         borderRadius: '20px',
-        border: selected ? 'none' : '1.5px solid #006FCA',
-        backgroundColor: selected ? '#006FCA' : 'transparent',
-        color: selected ? 'white' : '#006FCA',
+        border: selected ? 'none' : '1.5px solid #0093EF',
+        backgroundColor: selected ? '#0093EF' : 'transparent',
+        color: selected ? 'white' : '#0093EF',
         fontSize: '14px',
         fontWeight: 500,
         cursor: 'pointer',
@@ -26,7 +27,7 @@ export default function SelectableTag({ label, selected, onClick }: SelectableTa
       }}
       onMouseEnter={e => {
         if (!selected) {
-          e.currentTarget.style.backgroundColor = 'rgba(0, 111, 202, 0.1)'
+          e.currentTarget.style.backgroundColor = 'rgba(0, 147, 239, 0.1)'
         }
       }}
       onMouseLeave={e => {

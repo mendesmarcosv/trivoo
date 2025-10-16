@@ -1,0 +1,938 @@
+/* ================================================
+   PERFIS RESPONSIVOS - MOBILE
+   ================================================ */
+
+@media (max-width: 768px) {
+  /* ===================================
+     MEU PERFIL
+     =================================== */
+  
+  /* Cards de info (3 colunas -> 1 coluna) */
+  .profile-info-grid {
+    grid-template-columns: 1fr !important;
+  }
+  
+  /* Esportes grid (2 colunas -> 1 coluna) */
+  .profile-sports-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* ===================================
+     PROFESSOR
+     =================================== */
+  
+  /* Local e Telefone (2 colunas -> 1 coluna) */
+  .teacher-location-phone {
+    flex-direction: column !important;
+    gap: 24px !important;
+  }
+
+  /* ===================================
+     CLUBE/CT
+     =================================== */
+  
+  /* Localização e Horários (2 colunas -> 1 coluna) */
+  .club-location-hours {
+    flex-direction: column !important;
+    gap: 24px !important;
+  }
+
+  /* ===================================
+     EVENTO
+     =================================== */
+  
+  /* Layout principal (sticky banner -> coluna) */
+  .profile-description-wrapper {
+    flex-direction: column !important;
+    gap: 24px !important;
+  }
+  
+  .profile-sticky-banner {
+    position: relative !important;
+    top: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+/* ================================================
+   AJUSTES GERAIS DE PERFIS NO MOBILE
+   ================================================ */
+
+@media (max-width: 768px) {
+  /* Container principal com padding menor */
+  .profile-wrapper,
+  .page-content {
+    padding: 20px !important;
+  }
+
+  /* Header de perfil */
+  .profile-header h1 {
+    font-size: 24px !important;
+  }
+
+  /* Cards com menos padding */
+  .profile-card,
+  .info-card {
+    padding: 20px !important;
+  }
+
+  /* Avatar menor no mobile */
+  .profile-avatar {
+    width: 80px !important;
+    height: 80px !important;
+  }
+
+  /* Títulos menores */
+  h2 {
+    font-size: 20px !important;
+  }
+
+  h3 {
+    font-size: 18px !important;
+  }
+
+  /* Tags com padding menor */
+  .tag,
+  .chip {
+    padding: 6px 10px !important;
+    font-size: 13px !important;
+  }
+
+  /* Botões full width no mobile */
+  .action-buttons {
+    flex-direction: column !important;
+    width: 100% !important;
+  }
+
+  .action-buttons button {
+    width: 100% !important;
+  }
+
+  /* Imagens de perfil/evento */
+  .profile-image,
+  .event-image {
+    max-height: 250px !important;
+    object-fit: cover !important;
+  }
+}
+
+/* ================================================
+   PERFIL DO PROFESSOR - MOBILE
+   ================================================ */
+
+@media (max-width: 768px) {
+  /* Header do professor */
+  .teacher-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 20px !important;
+  }
+
+  /* Avatar e info do professor */
+  .teacher-avatar-section {
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    width: 100% !important;
+  }
+
+  /* Card de esportes */
+  .teacher-sports-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ================================================
+   PERFIL DO CLUBE/CT - MOBILE
+   ================================================ */
+
+@media (max-width: 768px) {
+  /* Header do clube */
+  .club-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 20px !important;
+  }
+
+  /* Imagem do clube */
+  .club-image-wrapper {
+    width: 100% !important;
+    height: 200px !important;
+  }
+
+  /* Botões de ação do clube */
+  .club-action-buttons {
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 12px !important;
+  }
+
+  .club-action-buttons button {
+    width: 100% !important;
+  }
+
+  /* Esportes oferecidos */
+  .club-sports-tags {
+    flex-wrap: wrap !important;
+  }
+}
+
+/* ================================================
+   PERFIL DO EVENTO - MOBILE
+   ================================================ */
+
+@media (max-width: 768px) {
+  /* Header do evento */
+  .event-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 20px !important;
+  }
+
+  /* Imagem do evento */
+  .event-image-wrapper {
+    width: 100% !important;
+    height: 200px !important;
+  }
+
+  /* Info do evento (data, local, etc) */
+  .event-info-items {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
+  }
+
+  /* Banner de inscrição no mobile fica embaixo */
+  .event-registration-banner {
+    width: 100% !important;
+    position: relative !important;
+    top: 0 !important;
+  }
+}
+
+/* ================================================
+   ACESSIBILIDADE E AVALIAÇÕES - MOBILE
+   ================================================ */
+
+@media (max-width: 768px) {
+  /* Card de acessibilidade */
+  .accessibility-card {
+    padding: 20px !important;
+  }
+
+  .accessibility-features {
+    flex-wrap: wrap !important;
+    gap: 10px !important;
+  }
+
+  /* Card de avaliações */
+  .reviews-card {
+    padding: 20px !important;
+  }
+
+  .review-tags {
+    flex-wrap: wrap !important;
+    gap: 10px !important;
+  }
+
+  /* Rating info */
+  .rating-info {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 10px !important;
+  }
+}
+
+/* ================================================
+   WRAPPER E CONTAINER - MOBILE
+   ================================================ */
+
+@media (max-width: 768px) {
+  /* Page content com padding menor */
+  .page-content {
+    padding: 20px !important;
+  }
+
+  /* Header das páginas de perfil */
+  .page-content > div:first-child {
+    margin-bottom: 20px !important;
+  }
+
+  /* Cards principais */
+  .profile-main-card {
+    padding: 20px !important;
+    margin-bottom: 20px !important;
+  }
+
+  /* Espaçamento entre sections */
+  section {
+    margin-bottom: 24px !important;
+  }
+
+  /* Linha divisória */
+  .divider-line {
+    margin: 20px 0 !important;
+  }
+}
+
+/* ================================================
+   BOTÕES E AÇÕES - MOBILE
+   ================================================ */
+
+@media (max-width: 768px) {
+  /* Botão de editar perfil */
+  .edit-profile-button {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+
+  /* Botão de compartilhar */
+  .share-button {
+    width: 100% !important;
+  }
+
+  /* Grupo de botões de ação */
+  .action-button-group {
+    flex-direction: column !important;
+    gap: 12px !important;
+    width: 100% !important;
+  }
+
+  .action-button-group > * {
+    width: 100% !important;
+  }
+}
+
+/* ================================================
+   ICONS E BADGES - MOBILE
+   ================================================ */
+
+@media (max-width: 768px) {
+  /* Ícones circulares */
+  .icon-circle {
+    width: 40px !important;
+    height: 40px !important;
+  }
+
+  .icon-circle i {
+    font-size: 20px !important;
+  }
+
+  /* Badges */
+  .badge {
+    padding: 8px 12px !important;
+    font-size: 14px !important;
+  }
+
+  /* Badge de acessibilidade */
+  .accessibility-badge {
+    width: 100% !important;
+    justify-content: center !important;
+    margin-top: 16px !important;
+  }
+}
+
+/* ================================================
+   TIPOGRAFIA E TEXTO - MOBILE
+   ================================================ */
+
+@media (max-width: 768px) {
+  /* Títulos principais */
+  .profile-name,
+  .teacher-name,
+  .club-name,
+  .event-name {
+    font-size: 24px !important;
+    line-height: 1.3 !important;
+  }
+
+  /* Subtítulos */
+  .profile-subtitle {
+    font-size: 16px !important;
+    line-height: 1.4 !important;
+  }
+
+  /* Texto de descrição */
+  .description-text,
+  .bio-text {
+    font-size: 15px !important;
+    line-height: 1.6 !important;
+  }
+
+  /* Labels */
+  .field-label {
+    font-size: 14px !important;
+    font-weight: 600 !important;
+  }
+
+  /* Valores de campo */
+  .field-value {
+    font-size: 16px !important;
+  }
+
+  /* Rating */
+  .rating-number {
+    font-size: 18px !important;
+  }
+
+  /* Info text */
+  .info-text {
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+  }
+}
+
+/* ================================================
+   IMAGENS E MEDIA - MOBILE
+   ================================================ */
+
+@media (max-width: 768px) {
+  /* Imagens de perfil/header */
+  .header-image {
+    width: 100% !important;
+    height: auto !important;
+    max-height: 250px !important;
+    object-fit: cover !important;
+    border-radius: 16px !important;
+  }
+
+  /* Avatar */
+  .profile-avatar-wrapper {
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+    margin-bottom: 16px !important;
+  }
+
+  /* Ícones de serviço */
+  .service-icon {
+    width: 48px !important;
+    height: 48px !important;
+  }
+}
+
+/* ================================================
+   ESPAÇAMENTOS E GAPS - MOBILE
+   ================================================ */
+
+@media (max-width: 768px) {
+  /* Gap entre elementos */
+  .flex-gap-large {
+    gap: 20px !important;
+  }
+
+  .flex-gap-medium {
+    gap: 16px !important;
+  }
+
+  .flex-gap-small {
+    gap: 12px !important;
+  }
+
+  /* Margins */
+  .mb-large {
+    margin-bottom: 32px !important;
+  }
+
+  .mb-medium {
+    margin-bottom: 24px !important;
+  }
+
+  .mb-small {
+    margin-bottom: 16px !important;
+  }
+}
+
+/* ================================================
+   MEU PERFIL - LAYOUT MOBILE ESPECÍFICO
+   ================================================ */
+
+@media (max-width: 768px) {
+  /* Header do perfil - reorganizar para coluna centralizada */
+  .profile-header-mobile {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    gap: 0 !important;
+    width: 100% !important;
+    margin-bottom: 32px !important;
+    justify-content: center !important;
+  }
+
+  /* Container da foto e nome */
+  .profile-top-section {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 16px !important;
+    width: 100% !important;
+  }
+
+  /* Avatar centralizado */
+  .profile-avatar-mobile {
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+    margin-bottom: 8px !important;
+  }
+
+  /* Nome centralizado */
+  .profile-name-mobile {
+    text-align: center !important;
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 12px !important;
+  }
+
+  .profile-name-mobile h2 {
+    text-align: center !important;
+    margin-bottom: 12px !important;
+  }
+
+  /* Botão editar perfil centralizado e full-width */
+  .edit-profile-btn-mobile {
+    width: 100% !important;
+    max-width: 300px !important;
+    justify-content: center !important;
+    margin: 0 auto !important;
+    display: flex !important;
+  }
+
+  /* Badge de acessibilidade centralizado */
+  .accessibility-badge-mobile {
+    width: 100% !important;
+    max-width: 300px !important;
+    justify-content: center !important;
+    margin: 16px auto 0 auto !important;
+  }
+
+  /* Adicionar margin-bottom no final da página */
+  .profile-page-mobile {
+    padding-bottom: 100px !important;
+  }
+
+  /* Última seção com margin maior */
+  .profile-last-section {
+    margin-bottom: 80px !important;
+  }
+
+  /* Seção de restrição de saúde */
+  .health-restriction-section {
+    margin-bottom: 100px !important;
+  }
+}
+
+/* ================================================
+   PERFIL DO PROFESSOR - LAYOUT MOBILE ESPECÍFICO
+   ================================================ */
+
+@media (max-width: 768px) {
+  /* Header do professor - centralizar tudo */
+  .teacher-header-mobile {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    gap: 16px !important;
+    width: 100% !important;
+  }
+
+  .teacher-header-mobile > div {
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+
+  /* Forçar wrapper de info e ações em coluna */
+  .teacher-info-actions-wrapper {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 16px !important;
+  }
+
+  .teacher-info-actions-wrapper > div:first-child {
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+
+  /* Avatar do professor centralizado */
+  .teacher-avatar-mobile {
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+    margin-bottom: 8px !important;
+  }
+
+  .teacher-avatar-mobile > div {
+    display: flex !important;
+    justify-content: center !important;
+  }
+
+  /* Avatar container responsivo */
+  .teacher-avatar-container-mobile {
+    width: 120px !important;
+    height: 120px !important;
+  }
+
+  /* Imagem do avatar responsiva */
+  .teacher-avatar-image-mobile {
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  /* Initial do avatar responsiva */
+  .teacher-avatar-initial-mobile {
+    width: 100% !important;
+    height: 100% !important;
+    font-size: 40px !important;
+  }
+
+  /* Rating centralizado */
+  .teacher-rating-mobile {
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+    margin-bottom: 8px !important;
+  }
+
+  /* Nome do professor centralizado */
+  .teacher-name-mobile {
+    text-align: center !important;
+    width: 100% !important;
+    margin-bottom: 16px !important;
+  }
+
+  /* Tags e badges em coluna */
+  .teacher-badges-mobile {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 12px !important;
+    width: 100% !important;
+    margin-bottom: 16px !important;
+  }
+
+  .teacher-badges-mobile > * {
+    width: 100% !important;
+    max-width: 320px !important;
+    justify-content: center !important;
+  }
+
+  /* Botões de ação em coluna */
+  .teacher-action-buttons-mobile {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+    width: 100% !important;
+    margin-top: 16px !important;
+  }
+
+  .teacher-action-buttons-mobile button {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+
+  /* Cards de informação (local, telefone, sobre) */
+  .teacher-info-card-mobile {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    text-align: left !important;
+    gap: 12px !important;
+    padding: 16px !important;
+    flex: none !important;
+    width: 100% !important;
+  }
+
+  .teacher-info-card-mobile > div:first-child {
+    order: 1 !important;
+    margin: 0 0 8px 0 !important;
+  }
+
+  .teacher-info-card-mobile > div:nth-child(2) {
+    order: 2 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    width: 100% !important;
+  }
+
+  .teacher-info-card-mobile > div:nth-child(2) > div:first-child {
+    order: 1 !important;
+    text-align: left !important;
+    width: 100% !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    color: #5F5F5F !important;
+    margin-bottom: 8px !important;
+  }
+
+  .teacher-info-card-mobile > div:nth-child(2) > div:nth-child(2) {
+    order: 2 !important;
+    text-align: left !important;
+    width: 100% !important;
+  }
+
+  .teacher-info-card-mobile button {
+    display: none !important;
+  }
+
+  /* Card de sobre mim */
+  .teacher-bio-card-mobile {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
+    padding: 16px !important;
+    width: 100% !important;
+  }
+
+  .teacher-bio-card-mobile > div:first-child {
+    order: 1 !important;
+    margin: 0 0 8px 0 !important;
+  }
+
+  .teacher-bio-card-mobile > div:nth-child(2) {
+    order: 2 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    width: 100% !important;
+  }
+
+  .teacher-bio-card-mobile > div:nth-child(2) > div:first-child {
+    order: 1 !important;
+    text-align: left !important;
+    width: 100% !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    color: #5F5F5F !important;
+    margin-bottom: 12px !important;
+  }
+
+  .teacher-bio-card-mobile > div:nth-child(2) > div:nth-child(2) {
+    order: 2 !important;
+    text-align: left !important;
+    width: 100% !important;
+  }
+
+  /* Card principal do professor - ajustes mobile */
+  .teacher-profile-card-mobile {
+    margin-bottom: 100px !important;
+    padding: 16px !important;
+  }
+
+  /* Cards de seção (esportes, informações, acessibilidade, avaliações) */
+  .teacher-section-card-mobile {
+    padding: 16px !important;
+  }
+
+  .teacher-last-card-mobile {
+    padding: 16px !important;
+  }
+}
+
+/* ================================================
+   PERFIL DO EVENTO - LAYOUT MOBILE ESPECÍFICO
+   ================================================ */
+
+@media (max-width: 768px) {
+  /* Botão compartilhar alinhado à esquerda */
+  .event-image-share-mobile {
+    align-items: flex-start !important;
+    width: 100% !important;
+  }
+
+  /* Banner de inscrição aparece ANTES da descrição no mobile */
+  .profile-description-wrapper {
+    flex-direction: column-reverse !important;
+    display: flex !important;
+  }
+
+  /* Banner de inscrição no topo (devido ao column-reverse) */
+  .profile-sticky-banner {
+    position: relative !important;
+    top: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-bottom: 32px !important;
+  }
+
+  /* Descrição embaixo */
+  .profile-description-wrapper > div:first-child {
+    width: 100% !important;
+  }
+
+  /* Adicionar margin-bottom no final */
+  .event-page-mobile {
+    padding-bottom: 100px !important;
+  }
+}
+
+/* ================================================
+   PERFIL DO CLUBE/CT - LAYOUT MOBILE ESPECÍFICO
+   ================================================ */
+
+@media (max-width: 768px) {
+  /* Cards de informação (localização, horário, telefone) */
+  .club-info-card-mobile {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    text-align: left !important;
+    gap: 12px !important;
+  }
+
+  .club-info-card-mobile > div:first-child {
+    order: 1 !important;
+    margin: 0 0 8px 0 !important;
+  }
+
+  .club-info-card-mobile > div:nth-child(2) {
+    order: 2 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    width: 100% !important;
+  }
+
+  .club-info-card-mobile > div:nth-child(2) > div {
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+
+  .club-info-card-mobile > div:nth-child(2) > div > div:first-child {
+    text-align: left !important;
+    width: 100% !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    color: #5F5F5F !important;
+    margin-bottom: 8px !important;
+  }
+
+  .club-info-card-mobile > div:nth-child(2) > div > div:nth-child(2) {
+    text-align: left !important;
+    width: 100% !important;
+  }
+
+  .club-info-card-mobile button {
+    display: none !important;
+  }
+
+  /* Header do clube - centralizar */
+  .club-header-mobile {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    gap: 20px !important;
+  }
+
+  .club-header-mobile > div {
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+
+  /* Imagem do clube no topo */
+  .club-image-wrapper-mobile {
+    order: 1 !important;
+    width: 100% !important;
+    align-items: center !important;
+    margin-bottom: 16px !important;
+  }
+
+  /* Info do clube embaixo da imagem */
+  .club-info-wrapper-mobile {
+    order: 2 !important;
+    width: 100% !important;
+    align-items: center !important;
+  }
+
+  /* Imagem do clube responsiva */
+  .club-image-mobile {
+    width: 100% !important;
+    height: 200px !important;
+    max-width: 100% !important;
+  }
+
+  /* Wrapper de esportes e botões - forçar coluna centralizada */
+  .club-sports-actions-wrapper {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 24px !important;
+  }
+
+  .club-sports-actions-wrapper > div {
+    width: 100% !important;
+  }
+
+  /* Seção de esportes oferecidos - centralizar */
+  .club-sports-section-mobile {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+  }
+
+  .club-sports-section-mobile > div:first-child {
+    text-align: center !important;
+    width: 100% !important;
+  }
+
+  /* Esportes oferecidos - tags em coluna centralizada */
+  .club-sports-tags-mobile {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 10px !important;
+    width: 100% !important;
+  }
+
+  .club-sports-tags-mobile > div {
+    width: 100% !important;
+    max-width: 320px !important;
+  }
+
+  /* Botões de ação em coluna centralizada */
+  .club-sports-actions-wrapper .profile-actions {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    width: 100% !important;
+    gap: 12px !important;
+  }
+
+  .club-sports-actions-wrapper .profile-actions button {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+
+  /* Card principal do clube */
+  .club-profile-card-mobile {
+    margin-bottom: 100px !important;
+    padding: 16px !important;
+  }
+
+  /* Cards de seção do clube */
+  .club-section-card-mobile {
+    padding: 16px !important;
+  }
+
+  .club-last-card-mobile {
+    padding: 16px !important;
+  }
+}

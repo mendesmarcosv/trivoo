@@ -56,10 +56,15 @@ export function useForm(options: UseFormOptions = {}) {
 
   const isValid = useCallback(() => {
     return Object.values(formState).every(field => !field.error) &&
-           Object.values(formState).every(field => field.value.trim() !== '' || !field.touched)
+           Object.values(formState).every(field => {
+             if (typeof field.value === 'string') {
+               return field.value.trim() !== '' || !field.touched
+             }
+             return field.value !== '' || !field.touched
+           })
   }, [formState])
 
-  const setValue = useCallback((name: string, value: string) => {
+  const setValue = useCallback((name: string, value: any) => {
     setFormState(prev => ({
       ...prev,
       [name]: {
@@ -110,7 +115,9 @@ export function useForm(options: UseFormOptions = {}) {
         break
       default:
         // Validação obrigatória
-        if (field.value.trim() === '') {
+        if (typeof field.value === 'string' && field.value.trim() === '') {
+          error = 'Este campo é obrigatório'
+        } else if (field.value === '' || field.value === null || field.value === undefined) {
           error = 'Este campo é obrigatório'
         }
         break

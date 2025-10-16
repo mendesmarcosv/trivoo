@@ -305,6 +305,26 @@ section {
 }
 
 /* Config content - estilos específicos para página de configurações */
+/* Classes genéricas de página (usadas em config, explorar, etc) */
+.page-content { 
+  flex: 1 !important;
+  padding: 20px 16px 120px 40px !important;
+  margin-bottom: 0 !important;
+  overflow-x: hidden !important;
+  gap: 24px !important;
+}
+
+.page-header {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.page-section {
+  padding: 0 !important;
+  margin-bottom: 48px !important;
+}
+
+/* Classes específicas de config (mantidas para compatibilidade) */
 .config-content { 
   flex: 1 !important;
   padding: 20px 16px 120px 40px !important;
@@ -454,19 +474,18 @@ html {
 /* Greeting + Promo */
 .greeting-and-promo { display: grid; grid-template-columns: 1fr 590px; gap: 80px; padding: 32px 40px !important; }
 .hello { display: flex; align-items: center; gap: 12px; }
-.avatar { width: 48px; height: 48px; border-radius: 200px; overflow: hidden; background: #ef0000; }
-.avatar img { width: 48px; height: 48px; object-fit: cover; }
-.hello-title { font-size: 30px; font-weight: 600; color: var(--ink-800); }
+/* Remover CSS fixo do avatar - agora usa tamanhos do componente Avatar */
+.hello-title { font-size: 36px; font-weight: 600; color: #758A25; }
 
 .interests { display: flex; flex-direction: column; gap: 16px; margin-top: 24px; }
 .interests-title { display: flex; align-items: center; gap: 16px; color: var(--ink-800); }
 .icon-btn { background: none; border: none; color: #A8A8A8; cursor: pointer; }
 .chips { display: flex; gap: 10px; flex-wrap: wrap; }
 
-.promo-card { position: relative; background: var(--accent-lime); border-radius: 24px; padding: 40px 40px 50px 40px; overflow: hidden; display: flex; flex-direction: column; gap: 14px; }
+.promo-card { position: relative; background: var(--accent-lime); border-radius: 24px; padding: 40px 40px 50px 40px; overflow: hidden; display: flex; flex-direction: column; gap: 14px; z-index: 1; }
 .promo-card h2 { font-size: 30px; line-height: 30px; font-weight: 700; color: #0E0E0E; }
 .promo-card p { color: #163300; font-weight: 500; }
-.promo-figure { position: absolute; width: 244px; height: 244px; right: -10px; top: -26px; transform: rotate(21deg); }
+.promo-figure { position: absolute; width: 244px; height: 244px; right: -10px; top: -26px; transform: rotate(21deg); z-index: 1; }
 
 /* Sections */
 .section { display: flex; flex-direction: column; gap: 24px; }
@@ -510,7 +529,8 @@ html, body { overflow-x: visible; }
   color: white !important;
   font-size: 16px !important;
   transition: all 0.2s ease !important;
-  z-index: 20 !important;
+  z-index: 1 !important;
+  display: none; /* Começar escondidos */
 }
 .swiper-button-next:hover,
 .swiper-button-prev:hover {
@@ -522,16 +542,16 @@ html, body { overflow-x: visible; }
 .swiper-button-prev { left: 8px !important; }
 
 /* Slides fixos */
-.clubs-swiper .swiper-slide { width: 260px !important; }
-.teachers-swiper .swiper-slide { width: 199px !important; }
-.events-swiper .swiper-slide { width: 239px !important; }
+.clubs-swiper .swiper-slide { width: 300px !important; }
+.teachers-swiper .swiper-slide { width: 280px !important; }
+.events-swiper .swiper-slide { width: 320px !important; }
 
 .club-card { position: relative; height: 196px; border-radius: 16px; overflow: hidden; padding: 16px; display: flex; flex-direction: column; justify-content: space-between; }
 .card-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; top: -14px; }
 .overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0) 47%, black 100%); }
 .overlay.tint { background: linear-gradient(180deg, rgba(0,0,0,0) 0%, #465800 100%); }
-.card-top { display: flex; justify-content: flex-end; z-index: 1; }
-.card-body { display: flex; flex-direction: column; gap: 8px; z-index: 1; }
+.card-top { display: flex; justify-content: flex-end; }
+.card-body { display: flex; flex-direction: column; gap: 8px; }
 .card-body h4 { color: #fff; font-size: 16px; font-weight: 600; letter-spacing: 0.08px; }
 
 /* Teachers */
@@ -859,7 +879,7 @@ html, body { overflow-x: visible; }
   background: linear-gradient(to right, var(--bg) 0, rgba(247,247,247,0) var(--fade-edge), rgba(247,247,247,0) calc(100% - var(--fade-edge)), var(--bg) 100%);
   z-index: 1;
 }
-.section .swiper { position: relative; z-index: 2; }
+.section .swiper { position: relative; }
 
 /* Remover mask anterior */
 .section .swiper { -webkit-mask-image: none; mask-image: none; padding-left: 0; padding-right: 56px; }
@@ -909,11 +929,19 @@ html, body { overflow-x: visible; }
 /* Alinhar primeiro card com o padding interno (40px) */
 .section .swiper .swiper-wrapper > .swiper-slide:first-child { margin-left: 40px; }
 
-/* Posicionar setas do carrossel de eventos ao centro das imagens (134px) */
+/* Posicionar setas do carrossel de eventos ao centro das imagens */
 .events-swiper .swiper-button-next,
 .events-swiper .swiper-button-prev {
-  top: 67px !important; /* 134 / 2 */
-  transform: none !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  margin-top: 0 !important;
+}
+
+/* Posicionar setas dos clubes também */
+.clubs-swiper .swiper-button-next,
+.clubs-swiper .swiper-button-prev {
+  top: 50% !important;
+  transform: translateY(-50%) !important;
   margin-top: 0 !important;
 }
 

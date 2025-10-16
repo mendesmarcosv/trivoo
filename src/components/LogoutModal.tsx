@@ -32,14 +32,15 @@ export default function LogoutModal({ isOpen, onClose }: LogoutModalProps) {
   }
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center" style={{ zIndex: 9999 }}>
+    <div className="fixed inset-0 flex items-center justify-center" style={{ zIndex: 99999 }}>
       <div 
         className="absolute inset-0 bg-black/60" 
         onClick={onClose}
         aria-hidden="true"
+        style={{ zIndex: 99998 }}
       ></div>
       
-      <div className="relative bg-white rounded-2xl p-8 w-full max-w-md mx-4 shadow-2xl">
+      <div className="relative bg-white rounded-2xl p-8 w-full max-w-md mx-4 shadow-2xl" style={{ zIndex: 99999 }}>
         <div className="text-center mb-6">
           <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <i className="ph ph-sign-out text-3xl text-red-600"></i>

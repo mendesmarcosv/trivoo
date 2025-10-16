@@ -1,525 +1,564 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useAuth } from '@/lib/hooks/useAuth'
+import { useProfileData } from '@/lib/hooks/useProfileData'
 import { useRouter } from 'next/navigation'
 import Sidebar from '@/components/Sidebar'
-import Button from '@/components/Button'
 import Avatar from '@/components/Avatar'
-import LocationSelector from '@/components/LocationSelector'
-import { supabase } from '@/lib/supabase'
-import { toast } from 'react-hot-toast'
-import { X, Plus } from 'lucide-react'
-
-interface Sport {
-  id: string
-  name: string
-  category?: string
-}
+import LoadingSkeleton from '@/components/LoadingSkeleton'
 
 export default function ProfilePage() {
   const router = useRouter()
-  const { user, userProfile, loading, fetchUserProfile } = useAuth()
-  const [isLoadingSports, setIsLoadingSports] = useState(false)
-  const [allSports, setAllSports] = useState<Sport[]>([])
-  const [userSports, setUserSports] = useState<Sport[]>([])
-  const [selectedSports, setSelectedSports] = useState<string[]>([])
-  const [showSportsModal, setShowSportsModal] = useState(false)
-  const [searchSport, setSearchSport] = useState('')
+  const { user, userProfile, loading } = useAuth()
   
+  // Buscar todos os dados do perfil em paralelo
+  const {
+    interestSports: userInterestSports,
+    practicedSports: userPracticedSports,
+    accessibilityModeEnabled,
+    disabilityCondition,
+    localResources,
+    coachOfferings,
+    isLoading: isLoadingProfileData
+  } = useProfileData(user?.id)
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!loading && !user) {
+      const timer = setTimeout(() => {
       router.push('/auth/login')
+      }, 100)
+      return () => clearTimeout(timer)
     }
   }, [user, loading, router])
 
-
-  // Buscar todos os esportes disponíveis
-  useEffect(() => {
-    const fetchSports = async () => {
-      const { data, error } = await supabase
-        .from('sports')
-        .select('*')
-        .eq('is_active', true)
-        .order('name')
-
-      if (data) {
-        setAllSports(data)
-      }
-    }
-
-    fetchSports()
-  }, [])
-
-  // Buscar esportes do usuário
-  useEffect(() => {
-    const fetchUserSports = async () => {
-      if (!user?.id) return
-
-      setIsLoadingSports(true)
-      const { data, error } = await supabase
-        .from('user_sports')
-        .select(`
-          sport_id,
-          sports:sport_id (
-            id,
-            name,
-            category
-          )
-        `)
-        .eq('user_id', user.id)
-
-      if (data) {
-        const sports = data
-          .filter((item: any) => item.sports)
-          .map((item: any) => item.sports as Sport)
-        setUserSports(sports)
-        setSelectedSports(sports.map(s => s.id))
-      }
-      setIsLoadingSports(false)
-    }
-
-    fetchUserSports()
-  }, [user?.id])
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-neutral-100 flex items-center justify-center">
-        <div className="w-8 h-8 border-4 border-green-900 border-t-transparent rounded-full animate-spin"></div>
-      </div>
-    )
+  // Mostrar loading enquanto auth ou dados do perfil estão carregando
+  if (loading || isLoadingProfileData) {
+    return <LoadingSkeleton />
   }
 
-  if (!user) return null
-
-
-  const handleSaveSports = async () => {
-    try {
-      // Remover esportes existentes
-      await supabase
-        .from('user_sports')
-        .delete()
-        .eq('user_id', user.id)
-
-      // Adicionar esportes selecionados
-      if (selectedSports.length > 0) {
-        const sportsToAdd = selectedSports.map(sportId => ({
-          user_id: user.id,
-          sport_id: sportId
-        }))
-
-        const { error } = await supabase
-          .from('user_sports')
-          .insert(sportsToAdd)
-
-        if (error) throw error
-      }
-
-      // Atualizar lista de esportes do usuário
-      const updatedSports = allSports.filter(s => selectedSports.includes(s.id))
-      setUserSports(updatedSports)
-
-      toast.success('Esportes atualizados com sucesso!')
-      setShowSportsModal(false)
-    } catch (error) {
-      console.error('Erro ao salvar esportes:', error)
-      toast.error('Erro ao salvar esportes')
-    }
+  // Redirect se não estiver autenticado
+  if (!user) {
+    return null
   }
 
-  const toggleSport = (sportId: string) => {
-    setSelectedSports(prev => 
-      prev.includes(sportId)
-        ? prev.filter(id => id !== sportId)
-        : [...prev, sportId]
-    )
-  }
-
-  const filteredSports = allSports.filter(sport =>
-    sport.name.toLowerCase().includes(searchSport.toLowerCase())
-  )
-
-  // Agrupar esportes por categoria
-  const sportsByCategory = filteredSports.reduce((acc, sport) => {
-    const category = sport.category || 'Outros'
-    if (!acc[category]) acc[category] = []
-    acc[category].push(sport)
-    return acc
-  }, {} as Record<string, Sport[]>)
-
+  // Agora renderiza tudo de uma vez com os dados já carregados
   return (
     <div className="layout">
       <Sidebar />
       
-      <main className="content">
+      <main className="page-content profile-page-mobile">
         {/* Header */}
-        <div className="toolbar" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <h1 style={{ fontSize: '30px', fontWeight: 600, color: 'var(--ink-800)' }}>Meu Perfil</h1>
-          <Button 
-            onClick={() => router.push('/configuracoes/editar-perfil')}
-            className="bg-green-900 hover:bg-green-950"
-          >
-            Editar perfil
-          </Button>
+        <div style={{ 
+          display: 'flex', 
+          justifyContent: 'space-between', 
+          alignItems: 'center',
+          marginBottom: '32px'
+        }}>
+          <h1 style={{ 
+            fontSize: '30px', 
+            fontWeight: 600, 
+            color: 'var(--ink-800)',
+            fontFamily: 'Raleway'
+          }}>
+            Meu Perfil
+          </h1>
         </div>
 
-        {/* Profile Content */}
-        <section className="greeting-and-promo">
-          {/* Left Column - User Info */}
-          <div className="greeting" style={{ flex: 1 }}>
-            {/* Profile Picture */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '24px', marginBottom: '32px' }}>
-              <Avatar 
-                name={userProfile?.name || user?.user_metadata?.name}
-                email={user?.email}
-                size="xl"
-                avatarUrl={userProfile?.avatar_url}
-              />
+        {/* Profile Card */}
+        <div style={{
+          backgroundColor: 'var(--neutral-200)',
+          borderRadius: '16px',
+          padding: '32px',
+          marginBottom: '24px'
+        }}>
+          {/* Header com Avatar e Nome */}
+          <div className="profile-header-mobile" style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '32px' }}>
+            <div className="profile-top-section" style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
+              <div className="profile-avatar-mobile">
+                <Avatar 
+                  avatarUrl={userProfile?.avatar_url} 
+                  name={userProfile?.name || 'Usuário'} 
+                  size="xxl" 
+                />
+              </div>
               
-              <div style={{ flex: 1 }}>
-                <h2 style={{ fontSize: '24px', fontWeight: 600, color: 'var(--ink-800)' }}>
-                  {userProfile?.name || user?.user_metadata?.name || 'Usuário'}
+              <div className="profile-name-mobile">
+                <h2 style={{ 
+                  fontSize: '32px', 
+                  fontWeight: 700, 
+                  color: 'var(--green-800)',
+                  marginBottom: '8px',
+                  fontFamily: 'Raleway'
+                }}>
+                  {userProfile?.name || 'Usuário'}
                 </h2>
-                <p style={{ color: 'var(--ink-600)', marginBottom: '8px' }}>{user?.email}</p>
-                <div style={{ marginTop: '12px' }}>
-                  <LocationSelector />
-                </div>
-              </div>
-            </div>
-
-            {/* Profile Information */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-              <div>
-                <label style={{ display: 'block', marginBottom: '8px', color: 'var(--ink-700)', fontSize: '14px' }}>
-                  Nome completo
-                </label>
-                <div style={{
-                  width: '100%',
-                  padding: '12px 16px',
-                  borderRadius: '12px',
-                  border: 'none',
-                  backgroundColor: 'var(--neutral-100)',
-                  fontSize: '14px',
-                  color: 'var(--ink-800)'
-                }}>
-                  {userProfile?.name || user?.user_metadata?.name || 'Não informado'}
-                </div>
-              </div>
-
-              <div>
-                <label style={{ display: 'block', marginBottom: '8px', color: 'var(--ink-700)', fontSize: '14px' }}>
-                  Email
-                </label>
-                <div style={{
-                  width: '100%',
-                  padding: '12px 16px',
-                  borderRadius: '12px',
-                  border: 'none',
-                  backgroundColor: 'var(--neutral-100)',
-                  fontSize: '14px',
-                  color: 'var(--ink-600)'
-                }}>
-                  {user?.email || 'Não informado'}
-                </div>
-              </div>
-
-              <div>
-                <label style={{ display: 'block', marginBottom: '8px', color: 'var(--ink-700)', fontSize: '14px' }}>
-                  Telefone
-                </label>
-                <div style={{
-                  width: '100%',
-                  padding: '12px 16px',
-                  borderRadius: '12px',
-                  border: 'none',
-                  backgroundColor: 'var(--neutral-100)',
-                  fontSize: '14px',
-                  color: 'var(--ink-800)'
-                }}>
-                  {userProfile?.phone || user?.user_metadata?.phone || 'Não informado'}
-                </div>
-              </div>
-
-              <div>
-                <label style={{ display: 'block', marginBottom: '8px', color: 'var(--ink-700)', fontSize: '14px' }}>
-                  Biografia
-                </label>
-                <div style={{
-                  width: '100%',
-                  padding: '12px 16px',
-                  borderRadius: '12px',
-                  border: 'none',
-                  backgroundColor: 'var(--neutral-100)',
-                  fontSize: '14px',
-                  color: 'var(--ink-800)',
-                  minHeight: '100px'
-                }}>
-                  {userProfile?.bio || 'Nenhuma biografia adicionada ainda.'}
-                </div>
-              </div>
-
-              {/* Seção de Esportes */}
-              <div>
-                <label style={{ display: 'block', marginBottom: '8px', color: 'var(--ink-700)', fontSize: '14px' }}>
-                  Esportes de interesse
-                </label>
-                <div style={{ 
-                  padding: '16px',
-                  backgroundColor: 'var(--neutral-100)',
-                  borderRadius: '12px'
-                }}>
-                  {isLoadingSports ? (
-                    <div className="flex items-center justify-center py-4">
-                      <div className="w-6 h-6 border-3 border-green-900 border-t-transparent rounded-full animate-spin"></div>
-                    </div>
-                  ) : (
-                    <>
-                      <div className="flex flex-wrap gap-2 mb-3">
-                        {userSports.length > 0 ? (
-                          userSports.map(sport => (
-                            <span 
-                              key={sport.id} 
-                              className="chip"
-                              style={{
-                                backgroundColor: 'var(--green-700)',
-                                color: 'white',
-                                padding: '6px 12px',
-                                borderRadius: '20px',
-                                fontSize: '14px'
-                              }}
-                            >
-                              {sport.name}
-                            </span>
-                          ))
-                        ) : (
-                          <span style={{ color: 'var(--ink-600)', fontSize: '14px' }}>
-                            Nenhum esporte selecionado
-                          </span>
-                        )}
-                      </div>
-                      <button
-                        onClick={() => setShowSportsModal(true)}
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '8px',
-                          padding: '8px 16px',
-                          backgroundColor: 'white',
-                          border: '1px solid var(--neutral-300)',
-                          borderRadius: '8px',
-                          color: 'var(--ink-700)',
-                          fontSize: '14px',
-                          cursor: 'pointer',
-                          transition: 'all 0.2s'
-                        }}
-                        onMouseEnter={e => e.currentTarget.style.backgroundColor = 'var(--neutral-50)'}
-                        onMouseLeave={e => e.currentTarget.style.backgroundColor = 'white'}
-                      >
-                        <Plus size={16} />
-                        Adicionar esportes
-                      </button>
-                    </>
-                  )}
-                </div>
-              </div>
-
-            </div>
-          </div>
-
-          {/* Right Column - Stats/Info */}
-          <div style={{ width: '400px' }}>
-            <aside className="promo-card" style={{ 
-              backgroundColor: 'var(--green-700)', 
-              height: 'auto',
-              padding: '32px'
-            }}>
-              <h2 style={{ color: 'white', marginBottom: '24px' }}>Suas estatísticas</h2>
-              
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                <div>
-                  <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '14px', marginBottom: '4px' }}>
-                    Esportes de interesse
-                  </p>
-                  <p style={{ color: 'white', fontSize: '32px', fontWeight: 600 }}>
-                    {userSports.length}
-                  </p>
-                </div>
                 
-                <div>
-                  <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '14px', marginBottom: '4px' }}>
-                    Aulas realizadas
-                  </p>
-                  <p style={{ color: 'white', fontSize: '32px', fontWeight: 600 }}>12</p>
-                </div>
-                
-                <div>
-                  <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '14px', marginBottom: '4px' }}>
-                    Clubes visitados
-                  </p>
-                  <p style={{ color: 'white', fontSize: '32px', fontWeight: 600 }}>3</p>
-                </div>
-                
-                <div>
-                  <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '14px', marginBottom: '4px' }}>
-                    Membro desde
-                  </p>
-                  <p style={{ color: 'white', fontSize: '18px', fontWeight: 500 }}>
-                    {new Date(user?.created_at || Date.now()).toLocaleDateString('pt-BR', { 
-                      month: 'long', 
-                      year: 'numeric' 
-                    })}
-                  </p>
-                </div>
-              </div>
-            </aside>
-          </div>
-        </section>
-
-        {/* Modal de Seleção de Esportes */}
-        {showSportsModal && (
-          <div style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: 'rgba(0,0,0,0.5)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 50
-          }}>
-            <div style={{
-              backgroundColor: 'white',
-              borderRadius: '16px',
-              padding: '32px',
-              maxWidth: '800px',
-              width: '90%',
-              maxHeight: '80vh',
-              display: 'flex',
-              flexDirection: 'column'
-            }}>
-              {/* Header do Modal */}
-              <div style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                marginBottom: '24px'
-              }}>
-                <h2 style={{ fontSize: '24px', fontWeight: 600, color: 'var(--ink-800)' }}>
-                  Selecione seus esportes de interesse
-                </h2>
+                {/* Botão Editar Perfil */}
                 <button
-                  onClick={() => {
-                    setShowSportsModal(false)
-                    setSelectedSports(userSports.map(s => s.id))
-                  }}
+                  className="edit-profile-btn-mobile"
+                  onClick={() => router.push('/configuracoes/editar-perfil')}
                   style={{
-                    background: 'none',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '10px',
+                    padding: '6px 16px',
+                    background: '#E0E0E0',
+                    borderRadius: '12px',
                     border: 'none',
                     cursor: 'pointer',
-                    padding: '8px'
+                    transition: 'all 0.2s'
                   }}
+                  onMouseOver={(e) => e.currentTarget.style.background = '#D0D0D0'}
+                  onMouseOut={(e) => e.currentTarget.style.background = '#E0E0E0'}
                 >
-                  <X size={24} color="var(--ink-600)" />
+                  <i className="ph ph-pencil-simple" style={{ fontSize: '16px', color: '#5F5F5F' }}></i>
+                  <span style={{ 
+                    color: '#5F5F5F', 
+                    fontSize: '16px', 
+                    fontFamily: 'Raleway', 
+                    fontWeight: 500, 
+                    lineHeight: '25.6px' 
+                  }}>
+                    Editar Perfil
+                  </span>
                 </button>
               </div>
 
-              {/* Campo de busca */}
-              <input
-                type="text"
-                placeholder="Buscar esportes..."
-                value={searchSport}
-                onChange={(e) => setSearchSport(e.target.value)}
-                style={{
-                  width: '100%',
+              {/* Badge de Acessibilidade Ativa */}
+              {accessibilityModeEnabled && (
+                <div className="accessibility-badge-mobile" style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '10px',
                   padding: '12px 16px',
-                  borderRadius: '12px',
-                  border: '1px solid #E5E5E5',
-                  fontSize: '14px',
-                  marginBottom: '24px'
-                }}
-              />
+                  background: '#B2E8FF',
+                  borderRadius: '12px'
+                }}>
+                  <i className="ph ph-seal-check" style={{ fontSize: '28px', color: '#1D1D1D' }}></i>
+                  <span style={{ 
+                    color: '#1D1D1D', 
+                    fontSize: '18px', 
+                    fontFamily: 'Raleway', 
+                    fontWeight: 600, 
+                    lineHeight: '34px' 
+                  }}>
+                    Acessibilidade Ativa
+                  </span>
+                </div>
+              )}
+            </div>
+          </div>
 
-              {/* Lista de esportes por categoria */}
+          {/* Info Grid */}
+          <div className="profile-info-grid" style={{ 
+            display: 'grid', 
+            gridTemplateColumns: 'repeat(3, 1fr)', 
+            gap: '24px',
+            marginBottom: '48px'
+          }}>
+            {/* Condicionamento físico */}
+            <div style={{
+              background: '#F7F7F7',
+              borderRadius: '16px',
+              padding: '24px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '16px'
+            }}>
               <div style={{
-                flex: 1,
-                overflowY: 'auto',
-                marginBottom: '24px'
-              }}>
-                {Object.entries(sportsByCategory).map(([category, sports]) => (
-                  <div key={category} style={{ marginBottom: '24px' }}>
-                    <h3 style={{
-                      fontSize: '14px',
-                      fontWeight: 600,
-                      color: 'var(--ink-600)',
-                      marginBottom: '12px',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.5px'
-                    }}>
-                      {category}
-                    </h3>
-                    <div style={{
-                      display: 'flex',
-                      flexWrap: 'wrap',
-                      gap: '8px'
-                    }}>
-                      {sports.map(sport => (
-                        <button
-                          key={sport.id}
-                          onClick={() => toggleSport(sport.id)}
-                          style={{
-                            padding: '8px 16px',
-                            borderRadius: '20px',
-                            border: selectedSports.includes(sport.id)
-                              ? '2px solid var(--green-700)'
-                              : '1px solid var(--neutral-300)',
-                            backgroundColor: selectedSports.includes(sport.id)
-                              ? 'var(--green-700)'
-                              : 'white',
-                            color: selectedSports.includes(sport.id)
-                              ? 'white'
-                              : 'var(--ink-700)',
-                            fontSize: '14px',
-                            cursor: 'pointer',
-                            transition: 'all 0.2s'
-                          }}
-                        >
-                          {sport.name}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Botões de ação */}
-              <div style={{
+                background: '#ECECEC',
+                borderRadius: '85.71px',
+                padding: '10.29px',
                 display: 'flex',
-                gap: '12px',
-                paddingTop: '24px',
-                borderTop: '1px solid var(--neutral-300)'
+                alignItems: 'center',
+                justifyContent: 'center'
               }}>
-                <Button
-                  onClick={() => {
-                    setShowSportsModal(false)
-                    setSelectedSports(userSports.map(s => s.id))
-                  }}
-                  className="flex-1 bg-neutral-200 text-neutral-800 hover:bg-neutral-300"
-                >
-                  Cancelar
-                </Button>
-                <Button
-                  onClick={handleSaveSports}
-                  className="flex-1 bg-green-900 hover:bg-green-950"
-                >
-                  Salvar {selectedSports.length > 0 && `(${selectedSports.length})`}
-                </Button>
+                <i className="ph ph-heartbeat" style={{ fontSize: '28px', color: '#758A25' }}></i>
+              </div>
+              <div style={{ flex: 1 }}>
+                <div style={{ 
+                  color: '#5F5F5F', 
+                  fontSize: '16px', 
+                  fontFamily: 'Raleway', 
+                  fontWeight: 500, 
+                  lineHeight: '22.4px',
+                  marginBottom: '8px'
+                }}>
+                  Condicionamento físico
+                </div>
+                <div style={{ 
+                  color: '#3B3B3B', 
+                  fontSize: '20px', 
+                  fontFamily: 'Raleway', 
+                  fontWeight: 500, 
+                  lineHeight: '24px' 
+                }}>
+                  {userProfile?.fitness_level || 'Não informado'}
+                </div>
+              </div>
+            </div>
+
+            {/* Mora em */}
+            <div style={{
+              background: '#F7F7F7',
+              borderRadius: '16px',
+              padding: '24px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '16px'
+            }}>
+              <div style={{
+                background: '#ECECEC',
+                borderRadius: '85.71px',
+                padding: '10.29px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}>
+                <i className="ph ph-map-pin" style={{ fontSize: '28px', color: '#758A25' }}></i>
+              </div>
+              <div style={{ flex: 1 }}>
+                <div style={{ 
+                  color: '#5F5F5F', 
+                  fontSize: '16px', 
+                  fontFamily: 'Raleway', 
+                  fontWeight: 500, 
+                  lineHeight: '22.4px',
+                  marginBottom: '8px'
+                }}>
+                  Mora em
+                </div>
+                <div style={{ 
+                  color: '#3B3B3B', 
+                  fontSize: '20px', 
+                  fontFamily: 'Raleway', 
+                  fontWeight: 500, 
+                  lineHeight: '24px' 
+                }}>
+                  {userProfile?.city || 'Não informado'}
+                </div>
+              </div>
+            </div>
+
+            {/* Data de nascimento */}
+            <div style={{
+              background: '#F7F7F7',
+              borderRadius: '16px',
+              padding: '24px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '16px'
+            }}>
+              <div style={{
+                background: '#ECECEC',
+                borderRadius: '85.71px',
+                padding: '10.29px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}>
+                <i className="ph ph-calendar" style={{ fontSize: '28px', color: '#758A25' }}></i>
+              </div>
+              <div style={{ flex: 1 }}>
+                <div style={{ 
+                  color: '#5F5F5F', 
+                  fontSize: '16px', 
+                  fontFamily: 'Raleway', 
+                  fontWeight: 500, 
+                  lineHeight: '22.4px',
+                  marginBottom: '8px'
+                }}>
+                  Data de nascimento
+                </div>
+                <div style={{ 
+                  color: '#3B3B3B', 
+                  fontSize: '20px', 
+                  fontFamily: 'Raleway', 
+                  fontWeight: 500, 
+                  lineHeight: '24px' 
+                }}>
+                  {userProfile?.birth_date ? new Date(userProfile.birth_date).toLocaleDateString('pt-BR') : 'Não informado'}
+                </div>
               </div>
             </div>
           </div>
-        )}
+
+          {/* Esportes Grid */}
+          <div className="profile-sports-grid" style={{ 
+            display: 'grid', 
+            gridTemplateColumns: 'repeat(2, 1fr)', 
+            gap: '24px',
+            marginBottom: '48px'
+          }}>
+            {/* Esportes de interesse */}
+            <div>
+              <h3 style={{ 
+                fontSize: '16px', 
+                fontWeight: 600, 
+                color: '#3B3B3B',
+                marginBottom: '16px',
+                fontFamily: 'Raleway'
+              }}>
+                Esportes de interesse
+              </h3>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
+                {userInterestSports.length > 0 ? (
+                  userInterestSports.map((sport) => (
+                    <div 
+                      key={sport.id}
+                      style={{
+                        padding: '8px 12px',
+                        background: '#758A25',
+                        borderRadius: '8px',
+                        color: '#FCFCFC',
+                        fontSize: '14px',
+                        fontFamily: 'Raleway',
+                        fontWeight: 500
+                      }}
+                    >
+                      {sport.name}
+                    </div>
+                  ))
+                ) : (
+                  <span style={{ 
+                    color: '#5F5F5F', 
+                    fontSize: '14px',
+                    fontFamily: 'Raleway'
+                  }}>
+                    Nenhum esporte selecionado
+                  </span>
+                )}
+              </div>
+            </div>
+
+            {/* Esportes praticados anteriormente */}
+            <div>
+              <h3 style={{ 
+                fontSize: '16px', 
+                fontWeight: 600, 
+                color: '#3B3B3B',
+                marginBottom: '16px',
+                fontFamily: 'Raleway'
+              }}>
+                Esportes praticados anteriormente
+              </h3>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
+                {userPracticedSports.length > 0 ? (
+                  userPracticedSports.map((sport) => (
+                    <div 
+                      key={sport.id}
+                      style={{
+                        padding: '8px 12px',
+                        background: '#E0E0E0',
+                        borderRadius: '8px',
+                        color: '#4C5E18',
+                        fontSize: '14px',
+                        fontFamily: 'Raleway',
+                        fontWeight: 500
+                      }}
+                    >
+                      {sport.name}
+                    </div>
+                  ))
+                ) : (
+                  <span style={{ 
+                    color: '#5F5F5F', 
+                    fontSize: '14px',
+                    fontFamily: 'Raleway'
+                  }}>
+                    Nenhum esporte praticado anteriormente
+                  </span>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Card de Informações de Acessibilidade */}
+          {accessibilityModeEnabled && disabilityCondition && (
+            <div style={{
+              background: '#FFFFFF',
+              borderRadius: '16px',
+              padding: '24px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '32px',
+              marginBottom: '48px'
+            }}>
+              {/* Header */}
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '16px'
+              }}>
+                <div style={{
+                  background: '#ECECEC',
+                  borderRadius: '85.71px',
+                  padding: '10.29px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}>
+                  <i className="ph ph-info" style={{ fontSize: '28px', color: '#006FCA' }}></i>
+                </div>
+                <h3 style={{ 
+                  color: '#006FCA', 
+                  fontSize: '18px', 
+                  fontFamily: 'Raleway', 
+                  fontWeight: 600, 
+                  lineHeight: '25.2px' 
+                }}>
+                  Informações de Acessibilidade
+                </h3>
+              </div>
+
+              {/* Condição e informação adicional */}
+              <div style={{
+                display: 'flex',
+                gap: '40px'
+              }}>
+                <div>
+                  <h4 style={{ 
+                    color: '#3B3B3B', 
+                    fontSize: '14px', 
+                    fontFamily: 'Raleway', 
+                    fontWeight: 600, 
+                    lineHeight: '19.6px',
+                    marginBottom: '4px'
+                  }}>
+                    Condição de Deficiência
+                  </h4>
+                  <div style={{ opacity: 0.8 }}>
+                    <span style={{ 
+                      color: 'black', 
+                      fontSize: '16px', 
+                      fontFamily: 'Raleway', 
+                      fontWeight: 400, 
+                      lineHeight: '22.4px' 
+                    }}>
+                      {disabilityCondition}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Recursos desejados nos locais */}
+              {localResources.length > 0 && (
+                <div>
+                  <h4 style={{ 
+                    color: '#3B3B3B', 
+                    fontSize: '14px', 
+                    fontFamily: 'Raleway', 
+                    fontWeight: 600, 
+                    lineHeight: '19.6px',
+                    marginBottom: '16px'
+                  }}>
+                    Recursos desejados nos locais
+                  </h4>
+                  <div style={{ 
+                    display: 'flex', 
+                    flexWrap: 'wrap', 
+                    gap: '12px' 
+                  }}>
+                    {localResources.map((resource, idx) => (
+                      <div 
+                        key={idx}
+                        style={{
+                          padding: '8px 12px',
+                          background: '#ECECEC',
+                          borderRadius: '8px',
+                          color: '#5F5F5F',
+                          fontSize: '14px',
+                          fontFamily: 'Raleway',
+                          fontWeight: 500
+                        }}
+                      >
+                        {resource}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* O que os professores devem oferecer */}
+              {coachOfferings.length > 0 && (
+                <div>
+                  <h4 style={{ 
+                    color: '#3B3B3B', 
+                    fontSize: '14px', 
+                    fontFamily: 'Raleway', 
+                    fontWeight: 600, 
+                    lineHeight: '19.6px',
+                    marginBottom: '16px'
+                  }}>
+                    O que os professores devem oferecer
+                  </h4>
+                  <div style={{ 
+                    display: 'flex', 
+                    flexWrap: 'wrap', 
+                    gap: '12px' 
+                  }}>
+                    {coachOfferings.map((offering, idx) => (
+                      <div 
+                        key={idx}
+                        style={{
+                          padding: '8px 12px',
+                          background: '#ECECEC',
+                          borderRadius: '8px',
+                          color: '#5F5F5F',
+                          fontSize: '14px',
+                          fontFamily: 'Raleway',
+                          fontWeight: 500
+                        }}
+                      >
+                        {offering}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Divisória */}
+          <div style={{
+            width: '100%',
+            height: '1px',
+            backgroundColor: '#E0E0E0',
+            marginTop: '16px',
+            marginBottom: '32px'
+          }}></div>
+
+          {/* Restrição de saúde */}
+          <div className="health-restriction-section">
+            <h3 style={{ 
+              fontSize: '16px', 
+              fontWeight: 600, 
+              color: '#000',
+              marginBottom: '16px',
+              fontFamily: 'Raleway'
+            }}>
+              Possui alguma restrição de saúde ou lesão?
+            </h3>
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              opacity: 0.8
+            }}>
+              <i className="ph ph-x-square" style={{ fontSize: '24px', color: '#5F5F5F' }}></i>
+              <span style={{ 
+                color: '#758A25', 
+                fontSize: '16px', 
+                fontFamily: 'Raleway', 
+                fontWeight: 400, 
+                lineHeight: '22.4px' 
+              }}>
+                Não
+              </span>
+            </div>
+          </div>
+        </div>
       </main>
     </div>
   )

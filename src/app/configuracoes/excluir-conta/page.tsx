@@ -182,11 +182,11 @@ export default function ExcluirContaPage() {
                 </div>
               </div>
 
-              <div style={{ display: 'flex', gap: '12px' }}>
-                <PrimaryButton onClick={() => router.push('/configuracoes')} fullWidth>
+              <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-start' }}>
+                <PrimaryButton onClick={() => router.push('/configuracoes')}>
                   Manter minha conta
                 </PrimaryButton>
-                <SecondaryButton onClick={() => setShowConfirmation(true)} fullWidth>
+                <SecondaryButton onClick={() => setShowConfirmation(true)}>
                   Continuar com exclusão
                 </SecondaryButton>
               </div>

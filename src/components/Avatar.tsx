@@ -3,7 +3,7 @@
 interface AvatarProps {
   name?: string
   email?: string
-  size?: 'sm' | 'md' | 'lg' | 'xl'
+  size?: 'sm' | 'md' | 'lg' | 'xl' | 'xxl'
   className?: string
   avatarUrl?: string | null
 }
@@ -25,7 +25,8 @@ export default function Avatar({ name, email, size = 'md', className = '', avata
     sm: 'w-8 h-8 text-sm',
     md: 'w-12 h-12 text-base',
     lg: 'w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 text-lg sm:text-xl md:text-2xl',
-    xl: 'w-24 h-24 text-2xl'
+    xl: 'w-24 h-24 text-2xl',
+    xxl: 'w-32 h-32 text-4xl'
   }
 
   // Se tem URL da imagem, mostrar a imagem
@@ -36,12 +37,21 @@ export default function Avatar({ name, email, size = 'md', className = '', avata
         ${sizeClasses[size]}
         rounded-full 
         overflow-hidden
+        bg-neutral-200
         ${className}
-      `}>
+      `} style={{ position: 'relative' }}>
         <img
           src={avatarUrl}
           alt={name || 'Avatar'}
           className="w-full h-full object-cover"
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover'
+          }}
           onError={(e) => {
             console.error('Erro ao carregar avatar:', avatarUrl)
             e.currentTarget.style.display = 'none'

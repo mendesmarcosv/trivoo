@@ -1,0 +1,189 @@
+/* ================================================
+   RESPONSIVIDADE PARA PÁGINAS DE PERFIL
+   Professor, Centro de Treinamento, Evento
+   ================================================ */
+
+/* Mobile: até 768px */
+@media (max-width: 768px) {
+  
+  /* ===== LAYOUT GERAL ===== */
+  
+  /* Título da página menor */
+  .page-content h1 {
+    font-size: 22px !important;
+  }
+
+  /* Card principal com menos padding */
+  main.page-content > div {
+    padding: 16px !important;
+  }
+
+  
+  /* ===== HEADER DO PERFIL (usando classe) ===== */
+  
+  /* Header com classe profile-header */
+  .profile-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 24px !important;
+  }
+
+  /* Avatar reduzido */
+  div[style*="width: 144px"][style*="height: 144px"][style*="borderRadius: 600px"],
+  div[style*="width: 144px"][style*="height: 144px"] img {
+    width: 100px !important;
+    height: 100px !important;
+  }
+
+  /* Nome do perfil menor */
+  div[style*="fontSize: 40px"][style*="lineHeight: 52px"],
+  div[style*="font-size: 40px"][style*="line-height: 52px"] {
+    font-size: 28px !important;
+    line-height: 36px !important;
+  }
+
+  /* Imagem grande - largura total */
+  div[style*="width: 448px"][style*="height: 252px"] {
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 16/9 !important;
+  }
+
+  
+  /* ===== BOTÕES DE AÇÃO ===== */
+  
+  /* Botões em coluna */
+  div[style*="gap: 16px"]:has(button[style*="Agendar aula"]),
+  div[style*="gap: 16px"]:has(button[style*="background: #B5D539"]) {
+    flex-direction: column !important;
+    width: 100% !important;
+  }
+
+  /* Botões ocupam largura total */
+  div[style*="gap: 16px"]:has(button[style*="Agendar aula"]) button,
+  div[style*="gap: 16px"]:has(button[style*="background: #B5D539"]) button {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+
+  
+  /* ===== CARDS E SEÇÕES ===== */
+  
+  /* Grid 3 colunas -> 1 coluna */
+  div[style*="gridTemplateColumns: 'repeat(3, 1fr')"],
+  div[style*="grid-template-columns: repeat(3, 1fr)"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Grid 2 colunas -> 1 coluna */
+  div[style*="gridTemplateColumns: 'repeat(2, 1fr')"],
+  div[style*="grid-template-columns: repeat(2, 1fr)"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Cards de informação - padding reduzido */
+  div[style*="background: #F7F7F7"][style*="padding: 24px"] {
+    padding: 16px !important;
+  }
+
+  
+  /* ===== BADGES ===== */
+  
+  /* Badges menores */
+  div[style*="background: #FFE097"] div,
+  div[style*="background: #B2E8FF"] div {
+    font-size: 14px !important;
+    line-height: 20px !important;
+  }
+
+  
+  /* ===== BANNER STICKY (EVENTO) ===== */
+  
+  /* Banner de inscrição - não sticky em mobile */
+  div[style*="position: sticky"][style*="width: 345px"] {
+    position: relative !important;
+    top: auto !important;
+    width: 100% !important;
+    order: -1;
+    margin-bottom: 24px !important;
+  }
+
+  /* Container de descrição - em coluna */
+  div[style*="gap: 60px"][style*="inline-flex"]:has(div[style*="Descrição do evento"]) {
+    flex-direction: column-reverse !important;
+    gap: 24px !important;
+  }
+
+  
+  /* ===== ESPORTES E TAGS ===== */
+  
+  /* Seção de esportes - em coluna */
+  div[style*="Esportes oferecidos"] {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+
+  /* Tags de esportes menores */
+  div[style*="background: #758A25"] div {
+    font-size: 14px !important;
+  }
+
+  
+  /* ===== HORÁRIO DE FUNCIONAMENTO ===== */
+  
+  /* Horário - em coluna */
+  div[style*="Horário de funcionamento"] ~ div div[style*="gap: 12px"] {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+
+  /* Esconder separadores (bolinhas) em mobile */
+  div[style*="width: 5px"][style*="height: 5px"][style*="borderRadius: 9999px"],
+  div[style*="width: 5px"][style*="height: 5px"][style*="border-radius: 9999px"] {
+    display: none !important;
+  }
+
+  
+  /* ===== TEXTOS ===== */
+  
+  /* Descrições e textos longos */
+  div[style*="fontSize: 16px"][style*="lineHeight: 25.6px"],
+  div[style*="font-size: 16px"][style*="line-height: 25.6px"] {
+    font-size: 15px !important;
+    line-height: 24px !important;
+  }
+
+  /* Títulos de seção menores */
+  div[style*="fontSize: 24px"],
+  div[style*="font-size: 24px"] {
+    font-size: 20px !important;
+  }
+
+  div[style*="fontSize: 18px"][style*="fontWeight: 600"],
+  div[style*="font-size: 18px"][style*="font-weight: 600"] {
+    font-size: 16px !important;
+  }
+}
+
+/* Tablet: 769px até 1024px */
+@media (min-width: 769px) and (max-width: 1024px) {
+  
+  /* Imagem um pouco menor */
+  div[style*="width: 448px"][style*="height: 252px"] {
+    width: 350px !important;
+    height: 197px !important;
+  }
+
+  /* Banner sticky - largura menor */
+  div[style*="position: sticky"][style*="width: 345px"] {
+    width: 280px !important;
+  }
+
+  /* Nome um pouco menor */
+  div[style*="fontSize: 40px"][style*="lineHeight: 52px"],
+  div[style*="font-size: 40px"][style*="line-height: 52px"] {
+    font-size: 34px !important;
+    line-height: 44px !important;
+  }
+}
+

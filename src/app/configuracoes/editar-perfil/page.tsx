@@ -8,6 +8,8 @@ import PrimaryButton from '@/components/PrimaryButton'
 import SecondaryButton from '@/components/SecondaryButton'
 import Avatar from '@/components/Avatar'
 import ImageCropModal from '@/components/ImageCropModal'
+import SelectableTag from '@/components/SelectableTag'
+import Loading from '@/components/Loading'
 import { supabase } from '@/lib/supabase'
 import { toast } from 'react-hot-toast'
 
@@ -22,12 +24,35 @@ export default function EditarPerfilPage() {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [allDisabilityConditions, setAllDisabilityConditions] = useState<Array<{id: number, label_pt: string}>>([])
   const [userDisabilityConditions, setUserDisabilityConditions] = useState<number[]>([])
+  const [originalDisabilityConditions, setOriginalDisabilityConditions] = useState<number[]>([])
+  
+  // Recursos de locais
+  const [allLocationResources, setAllLocationResources] = useState<Array<{id: number, label_pt: string}>>([])
+  const [selectedLocationResources, setSelectedLocationResources] = useState<number[]>([])
+  const [originalLocationResources, setOriginalLocationResources] = useState<number[]>([])
+  
+  // Ofertas de professores
+  const [allCoachOfferings, setAllCoachOfferings] = useState<Array<{id: number, label_pt: string}>>([])
+  const [selectedCoachOfferings, setSelectedCoachOfferings] = useState<number[]>([])
+  const [originalCoachOfferings, setOriginalCoachOfferings] = useState<number[]>([])
+  
+  // Esportes de interesse
+  const [allSportsInterest, setAllSportsInterest] = useState<Array<{id: number, name: string}>>([])
+  const [selectedSportsInterest, setSelectedSportsInterest] = useState<number[]>([])
+  const [originalSportsInterest, setOriginalSportsInterest] = useState<number[]>([])
+  
+  // Esportes praticados anteriormente
+  const [allSportsPracticed, setAllSportsPracticed] = useState<Array<{id: number, label_pt: string}>>([])
+  const [selectedSportsPracticed, setSelectedSportsPracticed] = useState<number[]>([])
+  const [originalSportsPracticed, setOriginalSportsPracticed] = useState<number[]>([])
   
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
-    bio: '',
+    city: '',
+    birthDate: '',
+    fitnessLevel: '',
     location: '',
     hasDisability: false,
     accessibilityModeEnabled: false
@@ -37,7 +62,9 @@ export default function EditarPerfilPage() {
     name: '',
     email: '',
     phone: '',
-    bio: '',
+    city: '',
+    birthDate: '',
+    fitnessLevel: '',
     location: '',
     hasDisability: false,
     accessibilityModeEnabled: false
@@ -60,7 +87,10 @@ export default function EditarPerfilPage() {
   // Carregar dados do usuário
   useEffect(() => {
     if (!loading && !user) {
-      router.push('/auth/login')
+      const timer = setTimeout(() => {
+        router.push('/auth/login')
+      }, 100)
+      return () => clearTimeout(timer)
     }
   }, [user, loading, router])
 
@@ -92,14 +122,192 @@ export default function EditarPerfilPage() {
         .eq('user_id', user.id)
       
       if (data) {
-        setUserDisabilityConditions(data.map(item => item.condition_id))
+        const conditions = data.map(item => item.condition_id)
+        setUserDisabilityConditions(conditions)
+        setOriginalDisabilityConditions(conditions)
+      } else {
+        setUserDisabilityConditions([])
+        setOriginalDisabilityConditions([])
       }
     }
 
     if (formData.hasDisability) {
       fetchUserConditions()
+    } else {
+      setUserDisabilityConditions([])
+      setOriginalDisabilityConditions([])
     }
   }, [user?.id, formData.hasDisability])
+
+  // Buscar recursos de locais disponíveis
+  useEffect(() => {
+    const fetchLocationResources = async () => {
+      const { data } = await supabase
+        .from('accessibility_location_resources')
+        .select('id, label_pt')
+        .eq('active', true)
+        .order('sort_order')
+      
+      if (data) {
+        setAllLocationResources(data)
+      }
+    }
+
+    fetchLocationResources()
+  }, [])
+
+  // Buscar recursos de locais selecionados pelo usuário
+  useEffect(() => {
+    const fetchUserLocationResources = async () => {
+      if (!user?.id) return
+
+      const { data } = await supabase
+        .from('user_desired_location_resources')
+        .select('resource_id')
+        .eq('user_id', user.id)
+      
+      if (data) {
+        const resources = data.map(item => item.resource_id)
+        setSelectedLocationResources(resources)
+        setOriginalLocationResources(resources)
+      } else {
+        setSelectedLocationResources([])
+        setOriginalLocationResources([])
+      }
+    }
+
+    if (formData.accessibilityModeEnabled) {
+      fetchUserLocationResources()
+    } else {
+      setSelectedLocationResources([])
+      setOriginalLocationResources([])
+    }
+  }, [user?.id, formData.accessibilityModeEnabled])
+
+  // Buscar ofertas de professores disponíveis
+  useEffect(() => {
+    const fetchCoachOfferings = async () => {
+      const { data } = await supabase
+        .from('coach_accessibility_offerings')
+        .select('id, label_pt')
+        .eq('active', true)
+        .order('sort_order')
+      
+      if (data) {
+        setAllCoachOfferings(data)
+      }
+    }
+
+    fetchCoachOfferings()
+  }, [])
+
+  // Buscar ofertas de professores selecionadas pelo usuário
+  useEffect(() => {
+    const fetchUserCoachOfferings = async () => {
+      if (!user?.id) return
+
+      const { data } = await supabase
+        .from('user_desired_coach_offerings')
+        .select('offering_id')
+        .eq('user_id', user.id)
+      
+      if (data) {
+        const offerings = data.map(item => item.offering_id)
+        setSelectedCoachOfferings(offerings)
+        setOriginalCoachOfferings(offerings)
+      } else {
+        setSelectedCoachOfferings([])
+        setOriginalCoachOfferings([])
+      }
+    }
+
+    if (formData.accessibilityModeEnabled) {
+      fetchUserCoachOfferings()
+    } else {
+      setSelectedCoachOfferings([])
+      setOriginalCoachOfferings([])
+    }
+  }, [user?.id, formData.accessibilityModeEnabled])
+
+  // Buscar esportes de interesse disponíveis
+  useEffect(() => {
+    const fetchSportsInterest = async () => {
+      const { data } = await supabase
+        .from('sports')
+        .select('id, name')
+        .eq('is_active', true)
+        .order('name')
+      
+      if (data) {
+        setAllSportsInterest(data)
+      }
+    }
+
+    fetchSportsInterest()
+  }, [])
+
+  // Buscar esportes de interesse selecionados pelo usuário
+  useEffect(() => {
+    const fetchUserSportsInterest = async () => {
+      if (!user?.id) return
+
+      const { data } = await supabase
+        .from('user_sports')
+        .select('sport_id')
+        .eq('user_id', user.id)
+      
+      if (data) {
+        const sports = data.map(item => item.sport_id)
+        setSelectedSportsInterest(sports)
+        setOriginalSportsInterest(sports)
+      } else {
+        setSelectedSportsInterest([])
+        setOriginalSportsInterest([])
+      }
+    }
+
+    fetchUserSportsInterest()
+  }, [user?.id])
+
+  // Buscar esportes praticados disponíveis
+  useEffect(() => {
+    const fetchSportsPracticed = async () => {
+      const { data } = await supabase
+        .from('sports_general')
+        .select('id, label_pt')
+        .eq('active', true)
+        .order('sort_order')
+      
+      if (data) {
+        setAllSportsPracticed(data)
+      }
+    }
+
+    fetchSportsPracticed()
+  }, [])
+
+  // Buscar esportes praticados selecionados pelo usuário
+  useEffect(() => {
+    const fetchUserSportsPracticed = async () => {
+      if (!user?.id) return
+
+      const { data } = await supabase
+        .from('user_sports_practiced')
+        .select('sport_id')
+        .eq('user_id', user.id)
+      
+      if (data) {
+        const sports = data.map(item => item.sport_id)
+        setSelectedSportsPracticed(sports)
+        setOriginalSportsPracticed(sports)
+      } else {
+        setSelectedSportsPracticed([])
+        setOriginalSportsPracticed([])
+      }
+    }
+
+    fetchUserSportsPracticed()
+  }, [user?.id])
 
   useEffect(() => {
     if (user && userProfile) {
@@ -107,7 +315,9 @@ export default function EditarPerfilPage() {
         name: userProfile.name || user.user_metadata?.name || '',
         email: user.email || '',
         phone: userProfile.phone || user.user_metadata?.phone || '',
-        bio: userProfile.bio || '',
+        city: userProfile.city || '',
+        birthDate: userProfile.birth_date || '',
+        fitnessLevel: userProfile.fitness_level || '',
         location: userProfile.location || 'Niterói',
         hasDisability: userProfile.has_disability || false,
         accessibilityModeEnabled: userProfile.accessibility_mode_enabled || false
@@ -120,9 +330,15 @@ export default function EditarPerfilPage() {
 
   // Verificar mudanças
   useEffect(() => {
-    const hasChanged = JSON.stringify(formData) !== JSON.stringify(originalData)
+    const formChanged = JSON.stringify(formData) !== JSON.stringify(originalData)
+    const conditionsChanged = JSON.stringify(userDisabilityConditions.sort()) !== JSON.stringify(originalDisabilityConditions.sort())
+    const locationResourcesChanged = JSON.stringify(selectedLocationResources.sort()) !== JSON.stringify(originalLocationResources.sort())
+    const coachOfferingsChanged = JSON.stringify(selectedCoachOfferings.sort()) !== JSON.stringify(originalCoachOfferings.sort())
+    const sportsInterestChanged = JSON.stringify(selectedSportsInterest.sort()) !== JSON.stringify(originalSportsInterest.sort())
+    const sportsPracticedChanged = JSON.stringify(selectedSportsPracticed.sort()) !== JSON.stringify(originalSportsPracticed.sort())
+    const hasChanged = formChanged || conditionsChanged || locationResourcesChanged || coachOfferingsChanged || sportsInterestChanged || sportsPracticedChanged
     setHasChanges(hasChanged)
-  }, [formData, originalData])
+  }, [formData, originalData, userDisabilityConditions, originalDisabilityConditions, selectedLocationResources, originalLocationResources, selectedCoachOfferings, originalCoachOfferings, selectedSportsInterest, originalSportsInterest, selectedSportsPracticed, originalSportsPracticed])
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({
@@ -136,13 +352,14 @@ export default function EditarPerfilPage() {
 
     setIsSaving(true)
     try {
-      // Atualizar perfil
       const { error } = await supabase
         .from('profiles')
         .update({
           name: formData.name,
           phone: formData.phone,
-          bio: formData.bio,
+          city: formData.city,
+          birth_date: formData.birthDate,
+          fitness_level: formData.fitnessLevel,
           location: formData.location,
           has_disability: formData.hasDisability,
           accessibility_mode_enabled: formData.accessibilityModeEnabled,
@@ -152,7 +369,7 @@ export default function EditarPerfilPage() {
 
       if (error) throw error
 
-      // Atualizar condições de deficiência
+      // Atualizar condição de deficiência selecionada
       if (formData.hasDisability) {
         // Remover condições antigas
         await supabase
@@ -177,11 +394,104 @@ export default function EditarPerfilPage() {
           .eq('user_id', user.id)
       }
 
+      // Atualizar recursos de locais
+      if (formData.accessibilityModeEnabled) {
+        // Remover seleções antigas
+        await supabase
+          .from('user_desired_location_resources')
+          .delete()
+          .eq('user_id', user.id)
+
+        // Inserir novas seleções
+        if (selectedLocationResources.length > 0) {
+          const itemsToInsert = selectedLocationResources.map(resourceId => ({
+            user_id: user.id,
+            resource_id: resourceId
+          }))
+          await supabase
+            .from('user_desired_location_resources')
+            .insert(itemsToInsert)
+        }
+      } else {
+        // Se acessibilidade desativada, remover todos os recursos
+        await supabase
+          .from('user_desired_location_resources')
+          .delete()
+          .eq('user_id', user.id)
+      }
+
+      // Atualizar ofertas de professores
+      if (formData.accessibilityModeEnabled) {
+        // Remover seleções antigas
+        await supabase
+          .from('user_desired_coach_offerings')
+          .delete()
+          .eq('user_id', user.id)
+
+        // Inserir novas seleções
+        if (selectedCoachOfferings.length > 0) {
+          const itemsToInsert = selectedCoachOfferings.map(offeringId => ({
+            user_id: user.id,
+            offering_id: offeringId
+          }))
+          await supabase
+            .from('user_desired_coach_offerings')
+            .insert(itemsToInsert)
+        }
+      } else {
+        // Se acessibilidade desativada, remover todas as ofertas
+        await supabase
+          .from('user_desired_coach_offerings')
+          .delete()
+          .eq('user_id', user.id)
+      }
+
+      // Atualizar esportes de interesse
+      // Remover seleções antigas
+      await supabase
+        .from('user_sports')
+        .delete()
+        .eq('user_id', user.id)
+
+      // Inserir novas seleções
+      if (selectedSportsInterest.length > 0) {
+        const itemsToInsert = selectedSportsInterest.map(sportId => ({
+          user_id: user.id,
+          sport_id: sportId
+        }))
+        await supabase
+          .from('user_sports')
+          .insert(itemsToInsert)
+      }
+
+      // Atualizar esportes praticados anteriormente
+      // Remover seleções antigas
+      await supabase
+        .from('user_sports_practiced')
+        .delete()
+        .eq('user_id', user.id)
+
+      // Inserir novas seleções
+      if (selectedSportsPracticed.length > 0) {
+        const itemsToInsert = selectedSportsPracticed.map(sportId => ({
+          user_id: user.id,
+          sport_id: sportId
+        }))
+        await supabase
+          .from('user_sports_practiced')
+          .insert(itemsToInsert)
+      }
+
       // Atualizar perfil no contexto
       await fetchUserProfile()
       
       // Atualizar dados originais
       setOriginalData(formData)
+      setOriginalDisabilityConditions(userDisabilityConditions)
+      setOriginalLocationResources(selectedLocationResources)
+      setOriginalCoachOfferings(selectedCoachOfferings)
+      setOriginalSportsInterest(selectedSportsInterest)
+      setOriginalSportsPracticed(selectedSportsPracticed)
       setHasChanges(false)
 
       toast.success('Perfil atualizado com sucesso!')
@@ -195,6 +505,11 @@ export default function EditarPerfilPage() {
 
   const handleDiscard = () => {
     setFormData(originalData)
+    setUserDisabilityConditions(originalDisabilityConditions)
+    setSelectedLocationResources(originalLocationResources)
+    setSelectedCoachOfferings(originalCoachOfferings)
+    setSelectedSportsInterest(originalSportsInterest)
+    setSelectedSportsPracticed(originalSportsPracticed)
     setHasChanges(false)
     toast.success('Alterações descartadas')
   }
@@ -313,21 +628,11 @@ export default function EditarPerfilPage() {
     }
   }
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-neutral-100 flex items-center justify-center">
-        <div className="w-8 h-8 border-4 border-green-900 border-t-transparent rounded-full animate-spin"></div>
-      </div>
-    )
-  }
-
-  if (!user) return null
-
   return (
     <div className="layout">
       <Sidebar />
       
-      <main className="config-content">
+      <main className="config-content edit-profile-page-mobile">
         {/* Header */}
         <div className="config-header" style={{ marginBottom: '32px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
@@ -350,13 +655,13 @@ export default function EditarPerfilPage() {
                   Editar perfil
                 </h1>
                 <p style={{ fontSize: '14px', color: 'var(--ink-600)' }}>
-                  Última edição em {new Date(userProfile?.updated_at || user.created_at).toLocaleDateString('pt-BR')}
+                  Última edição em {new Date(userProfile?.updated_at || user?.created_at || Date.now()).toLocaleDateString('pt-BR')}
                 </p>
               </div>
             </div>
             
             {/* Action Buttons */}
-            <div style={{ display: 'flex', gap: '12px' }}>
+            <div className="edit-profile-header-actions" style={{ display: 'flex', gap: '12px' }}>
               <SecondaryButton onClick={handleDiscard} disabled={!hasChanges}>
                 Descartar
               </SecondaryButton>
@@ -368,7 +673,7 @@ export default function EditarPerfilPage() {
         </div>
 
         {/* Content */}
-        <div style={{ maxWidth: '60%' }}>
+        <div className="edit-profile-container" style={{ maxWidth: '60%' }}>
           {/* Profile Picture Section */}
           <div className="config-section">
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px' }}>
@@ -553,12 +858,13 @@ export default function EditarPerfilPage() {
                   fontSize: '14px',
                   fontWeight: 500
                 }}>
-                  Localização
+                  Mora em
                 </label>
                 <input
                   type="text"
-                  value={formData.location}
-                  onChange={(e) => handleInputChange('location', e.target.value)}
+                  value={formData.city}
+                  onChange={(e) => handleInputChange('city', e.target.value)}
+                  placeholder="Cidade"
                   style={{
                     width: '100%',
                     padding: '12px 16px',
@@ -573,49 +879,157 @@ export default function EditarPerfilPage() {
                   onBlur={(e) => e.target.style.backgroundColor = 'var(--neutral-200)'}
                 />
               </div>
-            </div>
 
-            {/* Bio - Full Width */}
-            <div style={{ marginTop: '20px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+              <div>
                 <label style={{ 
+                  display: 'block', 
+                  marginBottom: '8px', 
                   color: 'var(--ink-700)', 
                   fontSize: '14px',
                   fontWeight: 500
                 }}>
-                  Biografia
+                  Data de nascimento
                 </label>
-                <span style={{ 
-                  color: 'var(--ink-600)', 
-                  fontSize: '12px'
-                }}>
-                  {formData.bio.length}/500
-                </span>
+                <input
+                  type="date"
+                  value={formData.birthDate}
+                  onChange={(e) => handleInputChange('birthDate', e.target.value)}
+                  style={{
+                    width: '100%',
+                    padding: '12px 16px',
+                    borderRadius: '12px',
+                    border: 'none',
+                    backgroundColor: 'var(--neutral-200)',
+                    fontSize: '16px',
+                    color: 'var(--ink-800)',
+                    transition: 'background-color 0.2s'
+                  }}
+                  onFocus={(e) => e.target.style.backgroundColor = 'white'}
+                  onBlur={(e) => e.target.style.backgroundColor = 'var(--neutral-200)'}
+                />
               </div>
-              <textarea
-                value={formData.bio}
-                onChange={(e) => {
-                  if (e.target.value.length <= 500) {
-                    handleInputChange('bio', e.target.value)
-                  }
-                }}
-                placeholder="Conte um pouco sobre você..."
-                rows={4}
-                maxLength={500}
-                style={{
-                  width: '100%',
-                  padding: '12px 16px',
-                  borderRadius: '12px',
-                  border: 'none',
-                  backgroundColor: 'var(--neutral-200)',
-                  fontSize: '16px',
-                  color: 'var(--ink-800)',
-                  resize: 'vertical',
-                  transition: 'background-color 0.2s'
-                }}
-                onFocus={(e) => e.target.style.backgroundColor = 'white'}
-                onBlur={(e) => e.target.style.backgroundColor = 'var(--neutral-200)'}
-              />
+
+              <div>
+                <label style={{ 
+                  display: 'block', 
+                  marginBottom: '8px', 
+                  color: 'var(--ink-700)', 
+                  fontSize: '14px',
+                  fontWeight: 500
+                }}>
+                  Condicionamento físico
+                </label>
+                <select
+                  value={formData.fitnessLevel}
+                  onChange={(e) => handleInputChange('fitnessLevel', e.target.value)}
+                  style={{
+                    width: '100%',
+                    padding: '12px 16px',
+                    borderRadius: '12px',
+                    border: 'none',
+                    backgroundColor: 'var(--neutral-200)',
+                    fontSize: '16px',
+                    color: 'var(--ink-800)',
+                    transition: 'background-color 0.2s',
+                    cursor: 'pointer'
+                  }}
+                  onFocus={(e) => e.target.style.backgroundColor = 'white'}
+                  onBlur={(e) => e.target.style.backgroundColor = 'var(--neutral-200)'}
+                >
+                  <option value="">Selecione...</option>
+                  <option value="Sedentário">Sedentário</option>
+                  <option value="Iniciante">Iniciante</option>
+                  <option value="Praticante">Praticante</option>
+                  <option value="Avançado">Avançado</option>
+                  <option value="Atleta">Atleta</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          {/* Esportes Section */}
+          <div className="config-section">
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px' }}>
+              <i className="ph ph-basketball" style={{ fontSize: '24px', color: 'var(--green-700)' }}></i>
+              <h2 style={{ fontSize: '22px', fontWeight: 600, color: 'var(--neutral-700)' }}>
+                Esportes
+              </h2>
+            </div>
+
+            {/* Esportes de interesse */}
+            <div style={{ marginBottom: '32px' }}>
+              <label style={{ 
+                display: 'block', 
+                marginBottom: '16px', 
+                color: 'var(--ink-700)', 
+                fontSize: '16px',
+                fontWeight: 600
+              }}>
+                Esportes de interesse
+              </label>
+              <p style={{ 
+                fontSize: '14px', 
+                color: 'var(--ink-600)', 
+                marginBottom: '16px' 
+              }}>
+                Selecione os esportes que você tem interesse em praticar ou conhecer mais.
+              </p>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
+                {allSportsInterest.map(sport => (
+                  <SelectableTag
+                    key={sport.id}
+                    label={sport.name}
+                    selected={selectedSportsInterest.includes(sport.id)}
+                    onClick={() => {
+                      setSelectedSportsInterest(prev => {
+                        if (prev.includes(sport.id)) {
+                          return prev.filter(id => id !== sport.id)
+                        } else {
+                          return [...prev, sport.id]
+                        }
+                      })
+                    }}
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* Esportes praticados anteriormente */}
+            <div>
+              <label style={{ 
+                display: 'block', 
+                marginBottom: '16px', 
+                color: 'var(--ink-700)', 
+                fontSize: '16px',
+                fontWeight: 600
+              }}>
+                Esportes praticados anteriormente
+              </label>
+              <p style={{ 
+                fontSize: '14px', 
+                color: 'var(--ink-600)', 
+                marginBottom: '16px' 
+              }}>
+                Selecione todos os esportes que você já praticou, mesmo que tenha sido apenas uma vez.
+              </p>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
+                {allSportsPracticed.map(sport => (
+                  <SelectableTag
+                    key={sport.id}
+                    label={sport.label_pt}
+                    selected={selectedSportsPracticed.includes(sport.id)}
+                    onClick={() => {
+                      setSelectedSportsPracticed(prev => {
+                        if (prev.includes(sport.id)) {
+                          return prev.filter(id => id !== sport.id)
+                        } else {
+                          return [...prev, sport.id]
+                        }
+                      })
+                    }}
+                  />
+                ))}
+              </div>
             </div>
           </div>
 
@@ -649,7 +1063,7 @@ export default function EditarPerfilPage() {
                     padding: '10px 24px',
                     borderRadius: '24px',
                     border: formData.hasDisability ? 'none' : '1.5px solid var(--neutral-400)',
-                    backgroundColor: formData.hasDisability ? '#006FCA' : 'transparent',
+                    backgroundColor: formData.hasDisability ? 'var(--green-800)' : 'transparent',
                     color: formData.hasDisability ? 'white' : 'var(--ink-700)',
                     fontSize: '14px',
                     fontWeight: 500,
@@ -662,14 +1076,13 @@ export default function EditarPerfilPage() {
                 <button
                   type="button"
                   onClick={() => {
-                    setFormData(prev => ({ ...prev, hasDisability: false, selectedDisabilityCondition: null }))
-                    setUserDisabilityConditions([])
+                    setFormData(prev => ({ ...prev, hasDisability: false }))
                   }}
                   style={{
                     padding: '10px 24px',
                     borderRadius: '24px',
                     border: !formData.hasDisability ? 'none' : '1.5px solid var(--neutral-400)',
-                    backgroundColor: !formData.hasDisability ? '#006FCA' : 'transparent',
+                    backgroundColor: !formData.hasDisability ? 'var(--green-800)' : 'transparent',
                     color: !formData.hasDisability ? 'white' : 'var(--ink-700)',
                     fontSize: '14px',
                     fontWeight: 500,
@@ -682,7 +1095,7 @@ export default function EditarPerfilPage() {
               </div>
             </div>
 
-            {/* Dropdown de condições de deficiência se "Sim" */}
+            {/* Dropdown de condição de deficiência se "Sim" */}
             {formData.hasDisability && (
               <div style={{ marginBottom: '24px' }}>
                 <label style={{ 
@@ -703,13 +1116,19 @@ export default function EditarPerfilPage() {
                   style={{
                     width: '100%',
                     padding: '12px 16px',
+                    paddingRight: '40px',
                     borderRadius: '12px',
                     border: 'none',
                     backgroundColor: 'var(--neutral-200)',
                     fontSize: '14px',
                     color: 'var(--ink-800)',
                     cursor: 'pointer',
-                    transition: 'background-color 0.2s'
+                    transition: 'background-color 0.2s',
+                    appearance: 'none',
+                    backgroundImage: 'url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3e%3cpolyline points=\'6 9 12 15 18 9\'%3e%3c/polyline%3e%3c/svg%3e")',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'right 12px center',
+                    backgroundSize: '20px'
                   }}
                   onFocus={(e) => e.target.style.backgroundColor = 'white'}
                   onBlur={(e) => e.target.style.backgroundColor = 'var(--neutral-200)'}
@@ -728,14 +1147,18 @@ export default function EditarPerfilPage() {
             <div style={{ 
               display: 'flex', 
               justifyContent: 'space-between', 
-              alignItems: 'center'
+              alignItems: 'center',
+              marginTop: '32px'
             }}>
-              <div>
-                <div style={{ fontSize: '14px', fontWeight: 500, color: 'var(--ink-800)', marginBottom: '4px' }}>
-                  Modo de acessibilidade ativado
-                </div>
-                <div style={{ fontSize: '13px', color: 'var(--ink-600)' }}>
-                  Personaliza recomendações e buscas para usuários com deficiência
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <i className="ph ph-user-focus" style={{ fontSize: '28px', color: '#006FCA' }}></i>
+                <div>
+                  <div style={{ fontSize: '18px', fontWeight: 600, color: '#006FCA', marginBottom: '4px' }}>
+                    Modo de acessibilidade
+                  </div>
+                  <div style={{ fontSize: '13px', color: 'var(--ink-600)' }}>
+                    Personaliza recomendações e buscas para usuários com deficiência
+                  </div>
                 </div>
               </div>
               <button
@@ -768,6 +1191,97 @@ export default function EditarPerfilPage() {
                 }}></div>
               </button>
             </div>
+
+            {/* Recursos de Acessibilidade - só aparecem se modo ativo */}
+            {formData.accessibilityModeEnabled && (
+              <>
+                {/* Recursos desejados nos locais */}
+                <div style={{ marginTop: '32px' }}>
+                  <label style={{ 
+                    display: 'block', 
+                    marginBottom: '16px', 
+                    color: 'var(--ink-700)', 
+                    fontSize: '16px',
+                    fontWeight: 600
+                  }}>
+                    Recursos desejados nos locais
+                  </label>
+                  <p style={{ 
+                    fontSize: '14px', 
+                    color: 'var(--ink-600)', 
+                    marginBottom: '16px' 
+                  }}>
+                    Selecione os recursos de acessibilidade que você considera importantes nos locais de prática esportiva.
+                  </p>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
+                    {allLocationResources.map(resource => (
+                      <SelectableTag
+                        key={resource.id}
+                        label={resource.label_pt}
+                        selected={selectedLocationResources.includes(resource.id)}
+                        onClick={() => {
+                          setSelectedLocationResources(prev => {
+                            if (prev.includes(resource.id)) {
+                              return prev.filter(id => id !== resource.id)
+                            } else {
+                              return [...prev, resource.id]
+                            }
+                          })
+                        }}
+                      />
+                    ))}
+                  </div>
+                </div>
+
+                {/* O que os professores devem oferecer */}
+                <div style={{ marginTop: '32px' }}>
+                  <label style={{ 
+                    display: 'block', 
+                    marginBottom: '16px', 
+                    color: 'var(--ink-700)', 
+                    fontSize: '16px',
+                    fontWeight: 600
+                  }}>
+                    O que os professores devem oferecer
+                  </label>
+                  <p style={{ 
+                    fontSize: '14px', 
+                    color: 'var(--ink-600)', 
+                    marginBottom: '16px' 
+                  }}>
+                    Selecione as características e ofertas que você considera importantes nos professores e instrutores.
+                  </p>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
+                    {allCoachOfferings.map(offering => (
+                      <SelectableTag
+                        key={offering.id}
+                        label={offering.label_pt}
+                        selected={selectedCoachOfferings.includes(offering.id)}
+                        onClick={() => {
+                          setSelectedCoachOfferings(prev => {
+                            if (prev.includes(offering.id)) {
+                              return prev.filter(id => id !== offering.id)
+                            } else {
+                              return [...prev, offering.id]
+                            }
+                          })
+                        }}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+
+          {/* Action Buttons - Mobile Only (no final) */}
+          <div className="edit-profile-footer-actions" style={{ display: 'none', flexDirection: 'column', gap: '12px', marginTop: '32px', width: '100%' }}>
+            <SecondaryButton onClick={handleDiscard} disabled={!hasChanges}>
+              Descartar
+            </SecondaryButton>
+            <PrimaryButton onClick={handleSave} disabled={!hasChanges || isSaving}>
+              {isSaving ? 'Salvando...' : 'Salvar'}
+            </PrimaryButton>
           </div>
         </div>
       </main>

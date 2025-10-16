@@ -26,7 +26,7 @@ export default function PrimaryButton({
         padding: '10px 24px',
         borderRadius: '24px',
         border: 'none',
-        backgroundColor: 'var(--green-700)',
+        backgroundColor: 'var(--green-800)',
         color: 'white',
         fontSize: '14px',
         fontWeight: 600,
@@ -36,8 +36,8 @@ export default function PrimaryButton({
         width: fullWidth ? '100%' : 'auto',
         whiteSpace: 'nowrap'
       }}
-      onMouseEnter={e => !disabled && (e.currentTarget.style.backgroundColor = 'var(--green-800)')}
-      onMouseLeave={e => !disabled && (e.currentTarget.style.backgroundColor = 'var(--green-700)')}
+      onMouseEnter={e => !disabled && (e.currentTarget.style.backgroundColor = 'var(--green-900)')}
+      onMouseLeave={e => !disabled && (e.currentTarget.style.backgroundColor = 'var(--green-800)')}
     >
       {children}
     </button>

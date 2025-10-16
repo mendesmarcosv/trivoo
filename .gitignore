@@ -51,3 +51,16 @@ Thumbs.db
 
 # Backup original
 backup-original/
+
+# Supabase SQL scripts
+supabase/
+
+# Scripts de setup/população
+scripts/
+
+# Arquivos Markdown de documentação (exceto README e arquivos de deploy)
+*.md
+!README.md
+!README*.md
+!DEPLOY*.md
+!CHECKLIST*.md

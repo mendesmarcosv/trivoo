@@ -7,6 +7,7 @@
 
 @import './styles.css';
 @import './responsive.css';
+@import './profiles-responsive.css';
 
 /* Design tokens: cores principais e paletas */
 :root {
@@ -39,6 +40,22 @@
   --neutral-800: #3B3B3B;
   --neutral-900: #1D1D1D;
   --neutral-950: #0E0E0E;
+}
+
+/* Melhorar qualidade das imagens */
+img {
+  image-rendering: auto;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  -webkit-font-smoothing: subpixel-antialiased;
+}
+
+/* Suavização específica para imagens de perfil pequenas */
+img[alt*="profile"], 
+img[src*="/images/teachers/"] {
+  -webkit-filter: contrast(1.05) saturate(1.1);
+  filter: contrast(1.05) saturate(1.1);
 }
 
 /* Utilidades compatíveis com as classes existentes (não altera o visual atual) */
@@ -94,3 +111,1038 @@ input:focus, button:focus, textarea:focus, select:focus {
   box-shadow: none;
 }
 
+/* Estilo para input de data */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  filter: invert(50%);
+  opacity: 0.6;
+}
+
+input[type="date"] {
+  color-scheme: light;
+}
+
+input[type="date"]::-webkit-datetime-edit-text,
+input[type="date"]::-webkit-datetime-edit-month-field,
+input[type="date"]::-webkit-datetime-edit-day-field,
+input[type="date"]::-webkit-datetime-edit-year-field {
+  color: #7A7E8B;
+}
+
+input[type="date"]:focus::-webkit-datetime-edit-text,
+input[type="date"]:focus::-webkit-datetime-edit-month-field,
+input[type="date"]:focus::-webkit-datetime-edit-day-field,
+input[type="date"]:focus::-webkit-datetime-edit-year-field {
+  color: #1A1A1A;
+}
+
+input[type="date"]:valid::-webkit-datetime-edit-text,
+input[type="date"]:valid::-webkit-datetime-edit-month-field,
+input[type="date"]:valid::-webkit-datetime-edit-day-field,
+input[type="date"]:valid::-webkit-datetime-edit-year-field {
+  color: #1A1A1A;
+}
+
+/* Sidebar transparente e fixa (para página do Assistente IA) */
+.sidebar-transparent .sidebar {
+  background: transparent !important;
+  position: sticky !important;
+  top: 0 !important;
+  height: 100vh !important;
+  overflow-y: auto !important;
+}
+
+/* Esconder scrollbar mas manter funcionalidade de scroll */
+.chat-messages-area {
+  scrollbar-width: none !important; /* Firefox */
+  -ms-overflow-style: none !important; /* IE and Edge */
+}
+
+.chat-messages-area::-webkit-scrollbar {
+  display: none !important; /* Chrome, Safari, Opera */
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* Garantir que mensagens quebram texto corretamente */
+.message-bubble {
+  overflow: visible !important;
+  word-break: break-word !important;
+}
+
+.message-bubble * {
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
+}
+
+/* Animações do Chat */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+@keyframes bounce {
+  0%, 80%, 100% {
+    transform: scale(0);
+    opacity: 0.5;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes floatBlur1 {
+  0% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(30%, 20%);
+  }
+  50% {
+    transform: translate(50%, 50%);
+  }
+  75% {
+    transform: translate(20%, 30%);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes floatBlur2 {
+  0% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(-30%, -20%);
+  }
+  50% {
+    transform: translate(-50%, -40%);
+  }
+  75% {
+    transform: translate(-20%, -25%);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+/* ================================================
+   CARDS DO SWIPER - APENAS ESTRUTURA FLEXBOX
+   ================================================ */
+
+/* Articles com flexbox para layout interno */
+.swiper-slide article {
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+
+/* ================================================
+   RESPONSIVIDADE PARA PÁGINAS DE PERFIL
+   ================================================ */
+
+@media (max-width: 768px) {
+  /* Header de título da página */
+  .page-content h1 {
+    font-size: 24px !important;
+  }
+
+  /* Container principal do card */
+  .page-content > div {
+    padding: 16px !important;
+  }
+}
+
+/* ================================================
+   BANNER RESPONSIVO PARA MOBILE
+   ================================================ */
+
+@media (max-width: 768px) {
+  /* Esconder descrição do banner no mobile */
+  .banner-description {
+    display: none !important;
+  }
+
+  /* Promo-card como row com centralização vertical */
+  .promo-card {
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    position: relative !important;
+    padding: 24px !important;
+    gap: 16px !important;
+  }
+
+  /* Texto do banner - esquerda, menor */
+  .banner-content {
+    width: auto !important;
+    max-width: 55% !important;
+    text-align: left !important;
+    z-index: 2 !important;
+    position: relative !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* Imagem do banner - maior na direita, centralizada verticalmente */
+  .banner-image {
+    position: relative !important;
+    right: auto !important;
+    top: auto !important;
+    bottom: auto !important;
+    transform: none !important;
+    z-index: 1 !important;
+    max-width: 40% !important;
+    width: 40% !important;
+    height: auto !important;
+    align-self: center !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* Título menor no mobile */
+  .banner-title {
+    font-size: 20px !important;
+    line-height: 1.3 !important;
+    margin-bottom: 0 !important;
+  }
+
+  /* Aumentar espaço entre esportes e banner */
+  .interests {
+    margin-bottom: 40px !important;
+  }
+
+  /* Dots mais próximos do banner */
+  .banner-dots {
+    margin-top: 12px !important;
+  }
+}
+
+/* ================================================
+   SKELETON AVATAR RESPONSIVO
+   ================================================ */
+
+/* Avatar skeleton responsivo igual ao componente Avatar lg */
+.avatar-skeleton {
+  width: 4rem !important;  /* 64px */
+  height: 4rem !important; /* 64px */
+}
+
+@media (min-width: 640px) {
+  .avatar-skeleton {
+    width: 5rem !important;  /* 80px */
+    height: 5rem !important; /* 80px */
+  }
+}
+
+@media (min-width: 768px) {
+  .avatar-skeleton {
+    width: 6rem !important;  /* 96px */
+    height: 6rem !important; /* 96px */
+  }
+}
+
+/* ================================================
+   EXPLORAR - TABS/DROPDOWN RESPONSIVO
+   ================================================ */
+
+/* Desktop: Mostrar tabs, esconder dropdown */
+.explorar-tabs-desktop {
+  display: flex !important;
+}
+
+.explorar-dropdown-mobile {
+  display: none !important;
+}
+
+@media (max-width: 768px) {
+  /* Mobile: Esconder tabs, mostrar dropdown */
+  .explorar-tabs-desktop {
+    display: none !important;
+  }
+
+  .explorar-dropdown-mobile {
+    display: block !important;
+  }
+}
+
+/* ================================================
+   EXPLORAR - HEADER RESPONSIVO
+   ================================================ */
+
+@media (max-width: 768px) {
+  /* Header com tabs/dropdown e filtros em coluna */
+  .explorar-header-controls {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 16px !important;
+  }
+
+  /* Dropdown full-width */
+  .explorar-dropdown-mobile {
+    width: 100% !important;
+  }
+
+  /* Ajustar grid no mobile */
+  .page-section > div:nth-child(2) > div {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ================================================
+   EXPLORAR - PADDING BOTTOM MOBILE
+   ================================================ */
+
+@media (max-width: 768px) {
+  /* Padding bottom para não cortar com bottom bar */
+  .explorar-page-mobile {
+    padding-bottom: 140px !important;
+  }
+
+  /* Grid do explorar */
+  .explorar-page-mobile .page-section {
+    margin-bottom: 0 !important;
+  }
+}
+
+/* ================================================
+   BOTTOM BAR - NAVEGAÇÃO MOBILE
+   ================================================ */
+
+/* Desktop: Esconder bottom bar */
+.bottom-bar-mobile {
+  display: none !important;
+}
+
+/* Mobile: Mostrar bottom bar */
+@media (max-width: 768px) {
+  .bottom-bar-mobile {
+    display: block !important;
+  }
+
+  /* Esconder sidebar no mobile */
+  .sidebar {
+    display: none !important;
+  }
+
+  /* Ajustar layout para não ter sidebar */
+  .layout {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Content sem margin left */
+  .content {
+    margin-left: 0 !important;
+  }
+}
+
+/* ================================================
+   BOTÃO VER MEU PERFIL - MOBILE ONLY
+   ================================================ */
+
+/* Desktop: Esconder botão */
+.view-profile-btn-mobile {
+  display: none !important;
+}
+
+/* Mobile: Mostrar botão */
+@media (max-width: 768px) {
+  .view-profile-btn-mobile {
+    display: inline-flex !important;
+  }
+}
+
+/* ================================================
+   ORB FLOATING ANIMATION - BOTTOM BAR
+   ================================================ */
+
+@keyframes orbFloat {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.orb-float-animation {
+  animation: orbFloat 3s ease-in-out infinite;
+}
+
+/* ================================================
+   PADDING BOTTOM GLOBAL - MOBILE (BOTTOM BAR)
+   ================================================ */
+
+@media (max-width: 768px) {
+  /* Todas as páginas com padding bottom para bottom bar */
+  .page-content,
+  main {
+    padding-bottom: 140px !important;
+  }
+
+  /* Páginas específicas já com classe */
+  .explorar-page-mobile {
+    padding-bottom: 160px !important;
+  }
+
+  .profile-page-mobile,
+  .event-page-mobile {
+    padding-bottom: 160px !important;
+  }
+
+  /* Layout geral */
+  .layout main {
+    padding-bottom: 140px !important;
+  }
+}
+
+/* ================================================
+   CONFIGURAÇÕES - MOBILE
+   ================================================ */
+
+@media (max-width: 768px) {
+  /* Container de configurações ocupar 100% da largura */
+  .config-content-wrapper {
+    max-width: 100% !important;
+    width: 100% !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  /* Config content com padding nas laterais */
+  .config-content {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+
+  /* Cards de configurações full-width */
+  .settings-card,
+  .config-card {
+    width: 100% !important;
+    border-radius: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  /* Config sections com padding */
+  .config-section {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  /* Config items mantém padding interno */
+  .config-content-wrapper button {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+}
+
+/* ================================================
+   PÁGINAS INTERNAS DE CONFIGURAÇÕES - MOBILE
+   ================================================ */
+
+@media (max-width: 768px) {
+  /* Todas as sub-páginas de configurações */
+  .config-content,
+  .settings-content,
+  .page-content {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  /* Containers internos */
+  .config-content > div,
+  .settings-content > div,
+  .page-content > div {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  /* Forms e campos */
+  .config-form,
+  .settings-form {
+    max-width: 100% !important;
+    width: 100% !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+
+  /* Cards internos */
+  .config-card,
+  .settings-card {
+    max-width: 100% !important;
+    width: 100% !important;
+    border-radius: 12px !important;
+  }
+}
+
+/* ================================================
+   EDITAR PERFIL - MOBILE
+   ================================================ */
+
+@media (max-width: 768px) {
+  /* Container principal de editar perfil */
+  .edit-profile-container {
+    max-width: 100% !important;
+    width: 100% !important;
+    padding: 20px !important;
+  }
+
+  /* Forms e sections */
+  .edit-profile-section {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* Campos de input */
+  .edit-profile-field {
+    width: 100% !important;
+  }
+
+  /* Tags selecionáveis */
+  .edit-profile-tags {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+  }
+
+  .edit-profile-tags > * {
+    width: 100% !important;
+  }
+
+  /* Avatar section */
+  .edit-profile-avatar {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    margin-bottom: 24px !important;
+  }
+
+  /* Botões de ação */
+  .edit-profile-actions {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+    width: 100% !important;
+    position: sticky !important;
+    bottom: 20px !important;
+    background: white !important;
+    padding: 16px 0 !important;
+    z-index: 10 !important;
+  }
+
+  .edit-profile-actions button {
+    width: 100% !important;
+  }
+}
+
+/* ================================================
+   EDITAR PERFIL - RESPONSIVO MOBILE
+   ================================================ */
+
+@media (max-width: 768px) {
+  /* Container principal */
+  .edit-profile-container {
+    max-width: 100% !important;
+    width: 100% !important;
+    padding: 0 !important;
+  }
+
+  /* Config sections */
+  .edit-profile-page-mobile .config-section {
+    margin-bottom: 32px !important;
+    padding: 0 !important;
+  }
+
+  /* Section headers */
+  .edit-profile-page-mobile .config-section h2 {
+    font-size: 18px !important;
+    margin-bottom: 16px !important;
+  }
+
+  /* Tags container */
+  .edit-profile-page-mobile .flex.flex-wrap {
+    gap: 10px !important;
+  }
+
+  /* Input fields */
+  .edit-profile-page-mobile input,
+  .edit-profile-page-mobile select,
+  .edit-profile-page-mobile textarea {
+    width: 100% !important;
+  }
+
+  /* Avatar section centralizada */
+  .edit-profile-page-mobile .config-section:first-of-type > div {
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+  }
+
+  /* Header não fixo */
+  .edit-profile-page-mobile .config-header {
+    position: relative !important;
+    margin-bottom: 24px !important;
+  }
+
+  /* Esconder botões do header no mobile */
+  .edit-profile-page-mobile .edit-profile-header-actions {
+    display: none !important;
+  }
+
+  /* Mostrar botões do footer no mobile */
+  .edit-profile-page-mobile .edit-profile-footer-actions {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+    width: 100% !important;
+    margin-top: 32px !important;
+    margin-bottom: 40px !important;
+  }
+
+  .edit-profile-footer-actions button {
+    width: 100% !important;
+  }
+
+  /* Padding bottom normal */
+  .edit-profile-page-mobile {
+    padding-bottom: 140px !important;
+  }
+
+  /* Grid de esportes e inputs em coluna */
+  .edit-profile-page-mobile .grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+
+  /* Section headers com ícone centralizado */
+  .edit-profile-page-mobile .config-section > div:first-child {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+  }
+
+  .edit-profile-page-mobile .config-section h2 {
+    margin: 0 !important;
+  }
+
+  /* Mover botões para o final */
+  .edit-profile-container {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  .edit-profile-page-mobile .config-header {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+}
+
+/* ================================================
+   TOGGLE E SWITCHES - MOBILE
+   ================================================ */
+
+@media (max-width: 768px) {
+  /* Container de toggle/switch */
+  .toggle-container,
+  .switch-container {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: flex-start !important;
+    gap: 16px !important;
+    width: 100% !important;
+  }
+
+  /* Texto do toggle com largura máxima */
+  .toggle-container > div:first-child,
+  .switch-container > div:first-child {
+    flex: 1 !important;
+    max-width: calc(100% - 80px) !important;
+    padding-right: 16px !important;
+  }
+
+  /* Toggle/switch fixo */
+  .toggle-container > div:last-child,
+  .switch-container > div:last-child,
+  .toggle-container > label:last-child,
+  .switch-container > label:last-child {
+    flex-shrink: 0 !important;
+    min-width: 60px !important;
+  }
+
+  /* Input checkbox toggle */
+  input[type="checkbox"].toggle-switch {
+    min-width: 52px !important;
+    width: 52px !important;
+    flex-shrink: 0 !important;
+  }
+}
+
+/* ================================================
+   PÁGINAS DE AUTENTICAÇÃO - MOBILE
+   ================================================ */
+
+@media (max-width: 768px) {
+  /* Login/Signup - Layout */
+  .auth-page-mobile {
+    display: flex !important;
+    flex-direction: column !important;
+    padding: 20px !important;
+    padding-bottom: 40px !important;
+  }
+
+  /* Esconder imagem lateral no mobile */
+  .auth-image-side {
+    display: none !important;
+  }
+
+  /* Form side ocupa 100% */
+  .auth-form-side {
+    width: 100% !important;
+    padding: 0 !important;
+  }
+
+  /* Logo mobile centralizado no topo */
+  .auth-logo-mobile {
+    display: flex !important;
+    justify-content: center !important;
+    margin-bottom: 32px !important;
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+
+  .auth-logo-mobile img {
+    height: auto !important;
+    width: auto !important;
+    max-height: 60px !important;
+    max-width: 200px !important;
+    object-fit: contain !important;
+  }
+
+  /* Páginas de auth com padding top e altura auto */
+  .auth-page-mobile {
+    padding-top: 60px !important;
+    height: auto !important;
+    min-height: 100vh !important;
+  }
+
+  .auth-form-side {
+    padding-top: 20px !important;
+    height: auto !important;
+  }
+
+  /* Sobrescrever h-screen no mobile */
+  .auth-page-mobile.h-screen {
+    height: auto !important;
+    min-height: 100vh !important;
+  }
+
+  /* Container do form */
+  .auth-form-side > div {
+    max-width: 100% !important;
+    width: 100% !important;
+    padding: 0 !important;
+  }
+
+  /* Títulos menores */
+  .auth-page-mobile h1 {
+    font-size: 24px !important;
+  }
+
+  .auth-page-mobile p {
+    font-size: 14px !important;
+  }
+
+  /* Cards */
+  .auth-page-mobile .bg-white {
+    padding: 20px !important;
+  }
+
+  /* Botões full-width */
+  .auth-page-mobile button {
+    width: 100% !important;
+  }
+}
+
+/* ================================================
+   HOME - GREETING MOBILE
+   ================================================ */
+
+@media (max-width: 768px) {
+  /* Hello section - lado a lado no mobile */
+  .hello {
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 16px !important;
+  }
+
+  /* Título no mobile */
+  .hello-title {
+    font-size: 28px !important;
+    line-height: 1.2 !important;
+  }
+
+  /* Avatar no mobile */
+  .hello .avatar-skeleton {
+    width: 72px !important;
+    height: 72px !important;
+  }
+
+  /* Avatar component no mobile */
+  .hello > div:first-child {
+    width: 72px !important;
+    height: 72px !important;
+  }
+
+  .hello > div:first-child > div {
+    width: 72px !important;
+    height: 72px !important;
+  }
+}
+
+/* ================================================
+   VER MEU PERFIL - MOBILE AJUSTADO
+   ================================================ */
+
+@media (max-width: 768px) {
+  /* Botão Ver meu perfil fora do hello, embaixo */
+  .greeting .view-profile-btn-mobile {
+    display: flex !important;
+    width: fit-content !important;
+    margin-top: 24px !important;
+    margin-bottom: 0 !important;
+  }
+
+  /* Garantir que greeting seja coluna para botão ficar embaixo */
+  .greeting {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  /* ConfigItem clicável */
+  .config-content button,
+  .config-content-wrapper button {
+    pointer-events: auto !important;
+    cursor: pointer !important;
+  }
+}
+
+/* ================================================
+   FRASE MOTIVACIONAL - MOBILE
+   ================================================ */
+
+@media (max-width: 768px) {
+  /* Frase motivacional responsiva */
+  .motivational-phrase {
+    padding: 16px 20px !important;
+    margin-top: 16px !important;
+  }
+
+  .motivational-phrase p {
+    font-size: 15px !important;
+    line-height: 1.5 !important;
+  }
+
+  /* Ajustar espaçamento da greeting */
+  .greeting {
+    margin-bottom: 32px !important;
+  }
+}
+
+/* ================================================
+   ASSISTENTE IA - MOBILE RESPONSIVO
+   ================================================ */
+
+@media (max-width: 768px) {
+  /* Página do assistente - altura auto */
+  .assistente-page {
+    height: auto !important;
+    min-height: 100vh !important;
+  }
+
+  .assistente-page .page-content {
+    height: auto !important;
+    min-height: calc(100vh - 100px) !important;
+    padding-bottom: 200px !important;
+  }
+
+  /* Container principal do chat - altura auto no mobile */
+  .chat-interface-container {
+    height: auto !important;
+    min-height: calc(100vh - 180px) !important;
+    padding-bottom: 180px !important;
+    overflow: visible !important;
+  }
+
+  /* Área de mensagens - ajustes mobile */
+  .chat-messages-area {
+    padding: 20px 16px !important;
+    padding-bottom: 140px !important;
+    min-height: auto !important;
+  }
+
+  /* Tela inicial (empty state) - ajustes */
+  .chat-messages-area > div:first-child {
+    margin-top: 20px !important;
+    padding: 0 16px !important;
+  }
+
+  /* Orb animada - menor no mobile */
+  .chat-messages-area img[alt="Assistente IA"] {
+    width: 100px !important;
+    height: auto !important;
+  }
+
+  /* Título "Como posso te ajudar hoje?" */
+  .chat-messages-area h2 {
+    font-size: 24px !important;
+    line-height: 1.3 !important;
+    text-align: center !important;
+  }
+
+  /* Subtítulo */
+  .chat-messages-area > div:first-child > div:nth-child(2) > p {
+    font-size: 15px !important;
+    line-height: 1.4 !important;
+    text-align: center !important;
+  }
+
+  /* Cards de sugestão - empilhar verticalmente */
+  .chat-messages-area > div:first-child > div:last-child > div {
+    flex-direction: column !important;
+    width: 100% !important;
+  }
+
+  /* Cada card de sugestão - largura total */
+  .chat-messages-area button {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* Conversas recentes - ajustes */
+  .chat-messages-area > div:first-child > div:nth-last-child(2) {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+  }
+
+  /* Input area - reposicionar no mobile */
+  .chat-interface-container > div:last-child {
+    position: fixed !important;
+    bottom: 80px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: calc(100% - 32px) !important;
+    max-width: calc(100% - 32px) !important;
+    padding: 0 16px !important;
+    z-index: 1000 !important;
+  }
+
+  /* Input interno - ajustes */
+  .chat-interface-container > div:last-child form > div {
+    padding: 8px 12px 8px 20px !important;
+  }
+
+  .chat-interface-container > div:last-child input {
+    font-size: 15px !important;
+  }
+
+  /* Mensagens do chat - ajustes de largura */
+  .message-bubble {
+    max-width: 85% !important;
+  }
+
+  /* Header do chat (quando há mensagens) - ajustes */
+  .config-header {
+    margin-bottom: 16px !important;
+    padding: 0 16px !important;
+  }
+
+  .config-header h1 {
+    font-size: 24px !important;
+  }
+
+  /* Avatar da IA nas mensagens - menor no mobile */
+  .message-bubble + div img,
+  div + .message-bubble img {
+    width: 32px !important;
+    height: 32px !important;
+  }
+
+  /* Ajustar gap entre mensagens */
+  .chat-messages-area {
+    gap: 12px !important;
+  }
+
+  /* Cards de recomendação dentro do chat - responsivos */
+  .message-bubble > div {
+    max-width: 100% !important;
+  }
+
+  /* Garantir que o gradient mask funcione no mobile */
+  .chat-messages-area {
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 40px, black 100%) !important;
+    mask-image: linear-gradient(to bottom, transparent 0%, black 40px, black 100%) !important;
+  }
+
+  /* Padding extra para evitar corte pelo bottom bar */
+  .chat-interface-container {
+    padding-bottom: 200px !important;
+  }
+
+  /* Cards de professores/clubes/eventos dentro do chat */
+  .chat-messages-area article {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* Grid de cards - forçar coluna única */
+  .message-bubble > div > div[style*="display: grid"] {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+
+  /* Ajustar fonte dos títulos nos cards do chat */
+  .message-bubble article h3 {
+    font-size: 16px !important;
+  }
+
+  .message-bubble article p,
+  .message-bubble article span {
+    font-size: 14px !important;
+  }
+
+  /* Blurs animados no fundo - ajustar no mobile */
+  .assistente-page > div:first-child > div {
+    width: 400px !important;
+    height: 400px !important;
+    filter: blur(150px) !important;
+  }
+}
+
+/* ================================================
+   BOTÕES AUTH - MOBILE
+   ================================================ */
+
+@media (max-width: 768px) {
+  /* Botão de cadastre-se maior */
+  .auth-page-mobile a[href*="signup"],
+  .auth-page-mobile button[type="submit"],
+  .auth-page-mobile .primary-button {
+    padding: 14px 24px !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+  }
+
+  /* Link de cadastre-se */
+  .auth-page-mobile .text-center a {
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    padding: 12px 24px !important;
+    display: inline-block !important;
+  }
+}

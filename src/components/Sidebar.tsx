@@ -21,6 +21,7 @@ export default function Sidebar({ onAuthClick }: SidebarProps) {
   }
 
   return (
+    <>
     <aside className="sidebar">
       <div className="sidebar-inner">
         <div className="sidebar-top">
@@ -45,10 +46,14 @@ export default function Sidebar({ onAuthClick }: SidebarProps) {
               <span>Swipe</span>
               {pathname === '/swipe' && <span className="active-pill" aria-hidden="true"></span>}
             </Link>
-            <a className="menu-item" href="#explorar">
+            <Link 
+              href="/explorar" 
+              className={`menu-item ${pathname === '/explorar' ? 'is-active' : ''}`}
+            >
               <i className="ph ph-magnifying-glass"></i>
               <span>Explorar</span>
-            </a>
+              {pathname === '/explorar' && <span className="active-pill" aria-hidden="true"></span>}
+            </Link>
             <Link 
               href="/profile" 
               className={`menu-item ${pathname === '/profile' ? 'is-active' : ''}`}
@@ -57,10 +62,14 @@ export default function Sidebar({ onAuthClick }: SidebarProps) {
               <span>Meu Perfil</span>
               {pathname === '/profile' && <span className="active-pill" aria-hidden="true"></span>}
             </Link>
-            <a className="menu-item mobile-hidden" href="#assistente">
+            <Link 
+              href="/assistente" 
+              className={`menu-item mobile-hidden ${pathname === '/assistente' ? 'is-active' : ''}`}
+            >
               <i className="ph ph-sparkle"></i>
               <span>Assistente IA</span>
-            </a>
+              {pathname === '/assistente' && <span className="active-pill" aria-hidden="true"></span>}
+            </Link>
             <Link 
               href="/configuracoes" 
               className={`menu-item mobile-hidden ${pathname === '/configuracoes' ? 'is-active' : ''}`}
@@ -81,12 +90,13 @@ export default function Sidebar({ onAuthClick }: SidebarProps) {
         </div>
 
       </div>
-      
-      <LogoutModal 
-        isOpen={showLogoutModal} 
-        onClose={() => setShowLogoutModal(false)} 
-      />
     </aside>
+    
+    <LogoutModal 
+      isOpen={showLogoutModal} 
+      onClose={() => setShowLogoutModal(false)} 
+    />
+    </>
   )
 }
 

@@ -68,12 +68,6 @@ export default function RecursosAcessibilidadePage() {
 
             <div className="flex flex-col" style={{ gap: '16px' }}>
               <ConfigItem 
-                icon="ph-identification-badge" 
-                label="Minhas condições de deficiência"
-                description="Informe suas necessidades específicas"
-                onClick={() => router.push('/configuracoes/condicoes-deficiencia')}
-              />
-              <ConfigItem 
                 icon="ph-buildings" 
                 label="Recursos que os locais devem ter"
                 description="Selecione recursos de acessibilidade desejados"

@@ -1,7 +1,9 @@
 import type { Metadata } from 'next'
 import Script from 'next/script'
 import '../styles/globals.css'
+import '../styles/profile-responsive.css'
 import PageTransition from '@/components/PageTransition'
+import BottomBar from '@/components/BottomBar'
 import { Toaster } from 'react-hot-toast'
 
 export const metadata: Metadata = {
@@ -81,6 +83,7 @@ export default function RootLayout({
         <PageTransition>
           {children}
         </PageTransition>
+        <BottomBar />
       </body>
     </html>
   )

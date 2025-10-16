@@ -1,8 +1,10 @@
 'use client'
 
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import { useAuth } from '@/lib/hooks/useAuth'
 import Sidebar from '@/components/Sidebar'
+import LogoutModal from '@/components/LogoutModal'
 
 interface ConfigItemProps {
   icon: string
@@ -27,6 +29,7 @@ const ConfigItem: React.FC<ConfigItemProps> = ({ icon, label, onClick }) => {
 
 export default function ConfiguracoesPage() {
   const router = useRouter()
+  const [showLogoutModal, setShowLogoutModal] = useState(false)
 
   const handleNavigation = (path: string) => {
     router.push(path)
@@ -45,42 +48,7 @@ export default function ConfiguracoesPage() {
         </div>
 
         {/* Content */}
-        <div style={{ maxWidth: '60%' }}>
-          {/* Meu perfil */}
-          <div className="config-section">
-            <h2 style={{ 
-              fontSize: '22px', 
-              fontWeight: 600, 
-              color: 'var(--neutral-700)',
-              marginBottom: '24px',
-              textTransform: 'none'
-            }}>
-              Meu perfil
-            </h2>
-            <div className="flex flex-col" style={{ gap: '16px' }}>
-              <ConfigItem 
-                icon="ph-note-pencil" 
-                label="Editar perfil"
-                onClick={() => router.push('/configuracoes/editar-perfil')}
-              />
-              <ConfigItem 
-                icon="ph-soccer-ball" 
-                label="Meus esportes de interesse"
-                onClick={() => router.push('/profile')}
-              />
-                  <ConfigItem 
-                    icon="ph-list-bullets" 
-                    label="Esportes que já pratiquei"
-                    onClick={() => router.push('/configuracoes/esportes-praticados')}
-                  />
-              <ConfigItem 
-                icon="ph-wheelchair" 
-                label="Recursos de acessibilidade que desejo"
-                onClick={() => handleNavigation('/configuracoes/recursos-acessibilidade')}
-              />
-            </div>
-          </div>
-
+        <div className="config-content-wrapper" style={{ maxWidth: '60%' }}>
           {/* Preferências */}
           <div className="config-section">
             <h2 style={{ 
@@ -193,10 +161,20 @@ export default function ConfiguracoesPage() {
                 label="Excluir conta"
                 onClick={() => handleNavigation('/configuracoes/excluir-conta')}
               />
+              <ConfigItem 
+                icon="ph-sign-out" 
+                label="Sair"
+                onClick={() => setShowLogoutModal(true)}
+              />
             </div>
           </div>
         </div>
       </main>
+
+      {/* Logout Modal */}
+      {showLogoutModal && (
+        <LogoutModal onClose={() => setShowLogoutModal(false)} />
+      )}
     </div>
   )
 }

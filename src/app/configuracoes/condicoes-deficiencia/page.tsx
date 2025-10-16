@@ -6,6 +6,7 @@ import { useAuth } from '@/lib/hooks/useAuth'
 import Sidebar from '@/components/Sidebar'
 import PrimaryButton from '@/components/PrimaryButton'
 import SelectableTag from '@/components/SelectableTag'
+import Loading from '@/components/Loading'
 import { supabase } from '@/lib/supabase'
 import { toast } from 'react-hot-toast'
 
@@ -135,14 +136,12 @@ export default function CondicoesDeficienciaPage() {
   }
 
   if (loading) {
-    return (
-      <div className="min-h-screen bg-neutral-100 flex items-center justify-center">
-        <div className="w-8 h-8 border-4 border-green-900 border-t-transparent rounded-full animate-spin"></div>
-      </div>
-    )
+    return <Loading fullScreen message="Carregando..." />
   }
 
-  if (!user) return null
+  if (!user) {
+    return <Loading fullScreen message="Redirecionando..." />
+  }
 
   return (
     <div className="layout">
