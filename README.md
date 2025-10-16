@@ -16,6 +16,16 @@
 
 ---
 
+## 🎥 Demonstração
+
+**📺 Assista ao vídeo de apresentação do projeto:**
+
+[![Vídeo Demonstração Trivoo](https://img.shields.io/badge/▶️_Assistir_Vídeo-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://youtu.be/kngHAg6belI)
+
+🔗 **Link direto:** https://youtu.be/kngHAg6belI
+
+---
+
 ## 📖 Sobre o Projeto
 
 O **Trivoo** é uma plataforma digital que conecta pessoas, instrutores e centros esportivos, com foco em **esportes invisibilizados e inclusivos**. Nosso objetivo é dar visibilidade a modalidades pouco divulgadas, promover inclusão e facilitar o acesso ao esporte de forma simples, personalizada e acessível.
