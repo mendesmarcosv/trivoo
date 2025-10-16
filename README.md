@@ -24,6 +24,15 @@
 
 🔗 **Link direto:** https://trivoo-fiap.vercel.app/
 
+#### 👤 Credenciais de Teste
+
+Para testar a aplicação, use o seguinte usuário já cadastrado:
+
+```
+Email: trivoo-testfiap@gmail.com
+Senha: @TesteFiap1234
+```
+
 ### 📺 Vídeo de Apresentação
 
 [![Vídeo Demonstração Trivoo](https://img.shields.io/badge/▶️_Assistir_Vídeo-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://youtu.be/kngHAg6belI)
