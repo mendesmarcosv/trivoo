@@ -215,36 +215,94 @@ src/
 
 ---
 
-## 🚀 Como Executar
+## 🚀 Como Executar Localmente
 
-### ⚡ Setup Automático (Recomendado)
+### 📋 Pré-requisitos
+
+- Node.js 18+ instalado
+- Conta no [Supabase](https://supabase.com)
+- Conta no [OpenAI](https://platform.openai.com)
+
+### ⚡ Passo 1: Clonar o Repositório
 
 ```bash
-# Clone o repositório
-git clone https://github.com/SEU_USUARIO/trivoo.git
-cd trivoo
-
-# Setup automático
-npm run setup
-
-# Executar em desenvolvimento
-npm run dev
+git clone https://github.com/fiap-webdesign/enterprise-challenge-trivoo.git
+cd enterprise-challenge-trivoo
 ```
 
-**Acesse:** http://localhost:3000
-
-### 📋 Setup Manual
+### 📦 Passo 2: Instalar Dependências
 
 ```bash
-# Instalar dependências
 npm install
+```
 
-# Configurar variáveis de ambiente
-cp env.local .env.local
+### 🔑 Passo 3: Configurar Variáveis de Ambiente
 
-# Executar
+Crie um arquivo `.env.local` na raiz do projeto com as seguintes variáveis:
+
+```bash
+# SUPABASE - Backend e Banco de Dados
+NEXT_PUBLIC_SUPABASE_URL=https://xiqogohohqajxqfkgtcg.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhpcW9nb2hvaHFhanhxZmtndGNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzQzMTE5NjQsImV4cCI6MjA0OTg4Nzk2NH0.9gGe4Vl8QLo8dSZMvp1c7vLQpYdqFtCPiXXjZW-2dIU
+SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhpcW9nb2hvaHFhanhxZmtndGNnIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTczNDMxMTk2NCwiZXhwIjoyMDQ5ODg3OTY0fQ.dEZuI8XUm9VqGYzlvZXOkjBnPMmQy4dFq_Oc5sB8Hkw
+
+# OPENAI - Assistente de IA
+OPENAI_API_KEY=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
+```
+
+#### 📝 Sobre as Variáveis:
+
+- **NEXT_PUBLIC_SUPABASE_URL**: URL do projeto Supabase (usado para conexão com o banco de dados)
+- **NEXT_PUBLIC_SUPABASE_ANON_KEY**: Chave pública do Supabase (segura para uso no frontend)
+- **SUPABASE_SERVICE_ROLE_KEY**: Chave de serviço do Supabase (para operações administrativas)
+- **OPENAI_API_KEY**: Chave da API OpenAI (para o assistente de IA)
+
+> **⚠️ IMPORTANTE**: As chaves acima são de desenvolvimento e estão expostas apenas para fins educacionais. Não use em produção!
+
+#### 🔐 Como Obter Suas Próprias Chaves (Opcional):
+
+**Supabase:**
+1. Acesse [supabase.com/dashboard](https://supabase.com/dashboard)
+2. Crie um novo projeto ou acesse o existente
+3. Vá em `Settings → API`
+4. Copie:
+   - **Project URL** → `NEXT_PUBLIC_SUPABASE_URL`
+   - **anon public** → `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+   - **service_role** → `SUPABASE_SERVICE_ROLE_KEY`
+
+**OpenAI:**
+1. Acesse [platform.openai.com](https://platform.openai.com)
+2. Vá em `API Keys`
+3. Clique em `Create new secret key`
+4. Copie a chave → `OPENAI_API_KEY`
+
+### 🚀 Passo 4: Executar o Projeto
+
+```bash
 npm run dev
 ```
+
+**🎉 Pronto! Acesse:** http://localhost:3000
+
+### 🗄️ Passo 5: Popular o Banco de Dados (Opcional)
+
+Se você criou seu próprio projeto Supabase, execute os scripts SQL na pasta `supabase/`:
+
+```bash
+# Execute os scripts na seguinte ordem no SQL Editor do Supabase:
+1. schema.sql
+2. create_tables_teachers_clubs_events.sql
+3. setup_storage.sql
+4. popular_todos_dados_completo.sql
+```
+
+### ✅ Verificação
+
+O projeto deve estar rodando com:
+- ✅ Autenticação funcionando
+- ✅ Páginas carregando corretamente
+- ✅ Assistente de IA respondendo
+- ✅ Imagens carregando do Supabase Storage
 
 ---
 
