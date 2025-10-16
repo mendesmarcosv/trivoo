@@ -472,7 +472,7 @@ html {
 .chevron { color: var(--ink-600); }
 
 /* Greeting + Promo */
-.greeting-and-promo { display: grid; grid-template-columns: 1fr 590px; gap: 80px; padding: 32px 40px !important; }
+.greeting-and-promo { display: grid; grid-template-columns: 1fr 590px; gap: 80px; padding: 32px 40px !important; align-items: center; }
 .hello { display: flex; align-items: center; gap: 12px; }
 /* Remover CSS fixo do avatar - agora usa tamanhos do componente Avatar */
 .hello-title { font-size: 36px; font-weight: 600; color: #758A25; }
@@ -579,7 +579,8 @@ html, body { overflow-x: visible; }
 @media (max-width: 1200px) {
   .greeting-and-promo { 
     grid-template-columns: 1fr; 
-    gap: 24px; 
+    gap: 24px;
+    align-items: center;
   }
   .promo-figure { 
     right: -40px; 
@@ -764,6 +765,7 @@ html, body { overflow-x: visible; }
     padding-right: 0 !important;
     gap: 20px !important;
     margin-bottom: 24px !important;
+    align-items: center !important;
   }
   
   /* Banner carousel */

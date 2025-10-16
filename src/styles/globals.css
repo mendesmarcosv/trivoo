@@ -932,21 +932,10 @@ input[type="date"]:valid::-webkit-datetime-edit-year-field {
 }
 
 /* ================================================
-   FRASE MOTIVACIONAL - MOBILE
+   GREETING - MOBILE
    ================================================ */
 
 @media (max-width: 768px) {
-  /* Frase motivacional responsiva */
-  .motivational-phrase {
-    padding: 16px 20px !important;
-    margin-top: 16px !important;
-  }
-
-  .motivational-phrase p {
-    font-size: 15px !important;
-    line-height: 1.5 !important;
-  }
-
   /* Ajustar espaçamento da greeting */
   .greeting {
     margin-bottom: 32px !important;
@@ -980,7 +969,7 @@ input[type="date"]:valid::-webkit-datetime-edit-year-field {
 
   /* Área de mensagens - ajustes mobile */
   .chat-messages-area {
-    padding: 20px 16px !important;
+    padding: 0 16px !important;
     padding-bottom: 140px !important;
     min-height: auto !important;
   }
@@ -1030,10 +1019,15 @@ input[type="date"]:valid::-webkit-datetime-edit-year-field {
     padding: 0 !important;
   }
 
+  /* Cards de sugestão - remover padding */
+  .chat-messages-area > div:first-child > div:last-child {
+    padding: 0 !important;
+  }
+
   /* Input area - reposicionar no mobile */
   .chat-interface-container > div:last-child {
     position: fixed !important;
-    bottom: 80px !important;
+    bottom: 130px !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
     width: calc(100% - 32px) !important;
@@ -1053,7 +1047,12 @@ input[type="date"]:valid::-webkit-datetime-edit-year-field {
 
   /* Mensagens do chat - ajustes de largura */
   .message-bubble {
-    max-width: 85% !important;
+    max-width: 95% !important;
+  }
+
+  /* Mensagens da IA - largura total sem avatar */
+  .chat-messages-area > div[style*="flexDirection: 'row'"] > .message-bubble {
+    max-width: 100% !important;
   }
 
   /* Header do chat (quando há mensagens) - ajustes */
@@ -1066,16 +1065,70 @@ input[type="date"]:valid::-webkit-datetime-edit-year-field {
     font-size: 24px !important;
   }
 
-  /* Avatar da IA nas mensagens - menor no mobile */
-  .message-bubble + div img,
-  div + .message-bubble img {
-    width: 32px !important;
-    height: 32px !important;
+  /* Avatar da IA nas mensagens - ocultar no mobile */
+  .chat-messages-area img[src*="ia-orb-trivoo"],
+  .chat-messages-area img[alt="IA"] {
+    display: none !important;
+  }
+
+  /* Ocultar container do avatar da IA - apenas para mensagens da IA */
+  .chat-messages-area > div[style*="flexDirection: 'row'"] > div:first-child {
+    display: none !important;
+  }
+
+  .chat-messages-area div[style*="width: '40px'"] {
+    display: none !important;
+  }
+
+  .chat-messages-area div[style*="width: 40px"] {
+    display: none !important;
+  }
+
+  /* Mensagens da IA ocupam toda a largura */
+  .chat-messages-area > div[style*="flexDirection: 'row'"] {
+    justify-content: flex-start !important;
+  }
+
+  .chat-messages-area > div[style*="flexDirection: 'row'"] > div:last-child {
+    max-width: 100% !important;
+    margin-left: 0 !important;
+  }
+
+  /* Garantir que mensagens da IA não tenham margin-left */
+  .chat-messages-area > div[style*="flexDirection: 'row'"] > .message-bubble {
+    margin-left: 0 !important;
+  }
+
+  /* Mensagens do usuário também ocupam mais largura */
+  .chat-messages-area > div[style*="flexDirection: 'row-reverse'"] > .message-bubble {
+    max-width: 95% !important;
+  }
+
+  /* Garantir que mensagens do usuário sejam exibidas */
+  .chat-messages-area > div[style*="flexDirection: 'row-reverse'"] {
+    display: flex !important;
+  }
+
+  .chat-messages-area > div[style*="flexDirection: 'row-reverse'"] > .message-bubble {
+    display: block !important;
+    visibility: visible !important;
+  }
+
+  /* Ajustar gap das mensagens sem avatar */
+  .chat-messages-area > div {
+    gap: 8px !important;
+  }
+
+  /* Garantir que todas as mensagens sejam exibidas */
+  .chat-messages-area .message-bubble {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
   }
 
   /* Ajustar gap entre mensagens */
   .chat-messages-area {
-    gap: 12px !important;
+    gap: 8px !important;
   }
 
   /* Cards de recomendação dentro do chat - responsivos */

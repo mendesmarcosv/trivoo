@@ -106,25 +106,6 @@ export default function GreetingSection() {
             </button>
           )}
 
-          {/* Frase Inspiradora */}
-          <div className="motivational-phrase" style={{
-            marginTop: '16px',
-            padding: '20px 24px',
-            background: 'linear-gradient(135deg, rgba(117, 138, 37, 0.08) 0%, rgba(181, 213, 57, 0.08) 100%)',
-            borderRadius: '16px',
-            borderLeft: '4px solid var(--green-700)'
-          }}>
-            <p style={{
-              fontSize: '17px',
-              lineHeight: '1.6',
-              color: '#3B3B3B',
-              fontFamily: 'Raleway',
-              fontWeight: 500,
-              margin: 0
-            }}>
-              Descubra novos esportes, conecte-se com professores incríveis e participe de eventos perto de você. Sua próxima aventura esportiva começa aqui! 🚀
-            </p>
-          </div>
         </div>
 
         {/* Banner Carousel */}
